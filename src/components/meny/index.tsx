@@ -1,5 +1,5 @@
-import { FC, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { FC, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   AdditionalLinks,
   ArrowRolled,
@@ -15,7 +15,7 @@ import { menuSlice } from '../../store/reducers/menu-reducer';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { arrow } from '../../constants/svg';
 import { BurgerMenu } from './burger-menu';
-import { bookSlice } from '../../store/reducers/book-reducer';
+import { fetchAllBooks } from '../../store/reducers/books-reducer';
 
 export const Meny: FC = () => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
@@ -23,11 +23,11 @@ export const Meny: FC = () => {
   const { toggleMenu } = menuSlice.actions;
   const dispatch = useAppDispatch();
   const { bookId } = useAppSelector((state) => state.BookReducer);
-  const { setBookId } = bookSlice.actions;
 
   const [isRolled, setIsRolled] = useState(false);
   const [activeLink, setActiveLink] = useState('books');
   const [activeCategory, setActiveCategory] = useState('');
+  const { books, status } = useAppSelector((state) => state.AllBooksReducer);
 
   const onArrowRolledClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
@@ -47,6 +47,23 @@ export const Meny: FC = () => {
     dispatch(toggleMenu(!isMenuOpen));
     console.log(bookId);
   };
+
+  useEffect(() => {
+    let ignore = false;
+    async function startFetching() {
+      dispatch(fetchAllBooks());
+
+      if (!ignore) {
+        console.log('------------BOOKS------------');
+        console.log('STATUS');
+      }
+    }
+    startFetching();
+
+    return () => {
+      ignore = true;
+    };
+  }, [dispatch]);
 
   return (
     <>

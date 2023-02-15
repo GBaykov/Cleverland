@@ -110,3 +110,7 @@ export interface BookError {
     };
   };
 }
+
+export interface GetAllBooksRequest {
+  books: AllBooksSuccess | BookError;
+}

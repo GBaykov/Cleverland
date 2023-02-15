@@ -4,13 +4,6 @@ import bookphoto from '../assets/images/bookphoto.png';
 import emptybook from '../assets/images/emptybook.png';
 
 export const categories = [
-  // {
-  //   id: 0,
-  //   link: 'all',
-  //   content: 'Все книги',
-  //   count: null,
-  //   isActive: false,
-  // },
   {
     id: 1,
     link: 'busines',
