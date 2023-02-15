@@ -12,10 +12,26 @@ export const initialState: CategoriesState = {
   status: 'idle',
 };
 
-export const fetchCategories = createAsyncThunk('categories/fetchAllBooks', async () => {
-  const response = await axios.get<ICategories>(`${HOST}/api/categories`);
-  return response.data;
-});
+export const fetchCategories = createAsyncThunk(
+  'categories/fetchAllBooks',
+  async () => {
+    const response = await axios.get<ICategories>(`${HOST}/api/categories`);
+    return response.data;
+  },
+  {
+    condition: (obj, { getState }) => {
+      const categories = getState() as CategoriesState;
+      const fetchStatus = categories.status;
+
+      if (fetchStatus === 'idle' || fetchStatus === 'loading') {
+        // Already fetched or in progress, don't need to re-fetch
+        return false;
+      }
+      return undefined;
+    },
+    dispatchConditionRejection: true,
+  }
+);
 
 export const categoriesSlice = createSlice({
   name: 'categories',

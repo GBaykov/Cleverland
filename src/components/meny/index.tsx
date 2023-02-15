@@ -63,7 +63,6 @@ export const Meny: FC = () => {
       ignore = true;
     };
   }, [dispatch]);
-  console.log(categories[8]);
 
   return (
     <>

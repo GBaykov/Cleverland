@@ -30,6 +30,7 @@ export const fetchAllBooks = createAsyncThunk(
       }
       return undefined;
     },
+    dispatchConditionRejection: true,
   }
 );
 
