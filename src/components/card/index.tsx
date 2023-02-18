@@ -36,6 +36,7 @@ export const Card = ({ book, isList }: CardProps) => {
   };
   const navigate = useNavigate();
   const location = useLocation();
+
   const onBookClick = () => {
     navigate(`${location.pathname}/${book.id}`);
     dispatch(setBookId(book.id));
@@ -48,7 +49,6 @@ export const Card = ({ book, isList }: CardProps) => {
     return (
       <CardContent data-test-id='card' onClick={() => onBookClick()} isList={isList}>
         {bookphoto ? <CardPhoto isList={isList} src={bookphoto} alt='bookphoto' /> : <PhotoContainer isList={isList} />}
-        {/* <PhotoContainer bookphoto={`${HOST}${book?.image?.url}`} isList={isList}/> */}
 
         <CardItem isList={isList}>
           {isList ? null : <CardRating>{ratingStars(book.rating)}</CardRating>}

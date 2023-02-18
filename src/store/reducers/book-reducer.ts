@@ -16,18 +16,21 @@ const initialState: CurrenBookState = {
   currentBookStatus: 'idle',
 };
 
-export const fetchOneBook = createAsyncThunk('books/fetchOneBook', async (bookId, thunkAPI) => {
-  try {
-    const response = await axios.get<ChosenBookSuccess>(`${HOST}/api/books/${bookId}`);
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const message = (error.response && error.response.data) || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+export const fetchOneBook = createAsyncThunk(
+  'books/fetchOneBook',
+  async (bookId: CurrenBookState['bookId'], thunkAPI) => {
+    try {
+      const response = await axios.get<ChosenBookSuccess>(`${HOST}/api/books/${bookId}`);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const message = (error.response && error.response.data) || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
+      return error;
     }
-    return error;
   }
-});
+);
 
 export const bookSlice = createSlice({
   name: 'book',

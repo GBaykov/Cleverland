@@ -22,6 +22,7 @@ export const BurgerMenu: FC = () => {
   const [isRolled, setIsRolled] = useState(false);
   const [activeLink, setActiveLink] = useState('books');
   const [activeCategory, setActiveCategory] = useState('');
+  const { categories } = useAppSelector((state) => state.CategoriesReducer);
 
   const onArrowRolledClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
@@ -66,15 +67,16 @@ export const BurgerMenu: FC = () => {
 
           {categories.map((category) => (
             <BurgerBooksLink
-              onClick={() => onBookCategoryClick(category.link)}
+              onClick={() => onBookCategoryClick(category.path)}
               key={category.id}
               className={isRolled ? 'rolled' : ''}
             >
               <Link
-                to={`/books/${category.link}`}
-                className={activeCategory === category.link && activeLink === 'books' ? 'activeCat' : ''}
+                to={`/books/${category.path}`}
+                className={activeCategory === category.path && activeLink === 'books' ? 'activeCat' : ''}
               >
-                {category.content} <span>{category.count}</span>
+                {category.name}
+                {/* <span>{category.count}</span> */}
               </Link>
             </BurgerBooksLink>
           ))}

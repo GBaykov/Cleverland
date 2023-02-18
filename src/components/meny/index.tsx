@@ -49,21 +49,6 @@ export const Meny: FC = () => {
     console.log(bookId);
   };
 
-  useEffect(() => {
-    let ignore = false;
-
-    function startFetching() {
-      if (!ignore) {
-        dispatch(fetchCategories());
-      }
-    }
-    startFetching();
-
-    return () => {
-      ignore = true;
-    };
-  }, [dispatch]);
-
   return (
     <>
       <MenyContent bookId={bookId} onClick={() => onMenuClick()} className={isMenuOpen ? 'active' : ''}>

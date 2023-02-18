@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button } from '../../components/button';
 import { Stars } from '../../components/stars';
@@ -32,45 +32,50 @@ import { Slider } from '../../components/slider';
 import { BurgerMenu } from '../../components/meny/burger-menu';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { menuSlice } from '../../store/reducers/menu-reducer';
-
-const book = MockBooks[1];
+import { fetchOneBook } from '../../store/reducers/book-reducer';
 
 export const BookPage = () => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
+  const { currentBook } = useAppSelector((state) => state.BookReducer);
   const { toggleMenu } = menuSlice.actions;
   const dispatch = useAppDispatch();
   const [isRolled, setIsRolled] = useState(false);
   const location = useLocation();
-  const book = MockBooks[+location.pathname.split('/').reverse()[0]];
+  const bookId = +location.pathname.split('/').reverse()[0];
+
+  useEffect(() => {
+    dispatch(fetchOneBook(bookId));
+  }, [dispatch, bookId]);
+
   return (
     <RelativeBook>
       <BurgerMenu />
       <BookPageContainer onClick={() => dispatch(toggleMenu(false))}>
         <BookPageAddress>
-          <span>Бизнес книги / Грокаем алгоритмы. Иллюстрированное пособие для программистов и любопытсвующих </span>
+          <span>Бизнес книги / {currentBook?.title} </span>
         </BookPageAddress>
         <BookPageContent>
           <BookMainBlock>
             {/* <BookPhoto bookphoto={book.photo} /> */}
-            <Slider images={book.photo} />
+            <Slider images={currentBook?.images} />
             <BookMainInfo>
-              <BookTitle>{book.name}</BookTitle>
-              <BookAuthor>{book.author}</BookAuthor>
+              <BookTitle>{currentBook?.title}</BookTitle>
+              <BookAuthor>{currentBook?.authors}</BookAuthor>
               <BookMainButton>
                 <Button isPrimary={true} height={40} text='Забронировать' />
               </BookMainButton>
             </BookMainInfo>
             <BookMainDiscription>
               <p>О книге</p>
-              <div>{book.description}</div>
+              <div>{currentBook?.description}</div>
             </BookMainDiscription>
           </BookMainBlock>
           <BookRatingBlock>
             <p>Рейтинг</p>
             <div>
-              {book.rating ? <Stars rating={book.rating} /> : <EmptyStars />}
+              {currentBook?.rating ? <Stars rating={currentBook?.rating} /> : <EmptyStars />}
 
-              {book.rating ? <span>{book.rating}</span> : <p>ещё нет оценок</p>}
+              {currentBook?.rating ? <span>{currentBook?.rating}</span> : <p>ещё нет оценок</p>}
             </div>
           </BookRatingBlock>
           <BookDetailsContainer>
@@ -86,11 +91,11 @@ export const BookPage = () => {
                 </div>
 
                 <div>
-                  <span>{book.details.publishing}</span>
-                  <span>{book.details.year}</span>
-                  <span>{book.details.pages}</span>
-                  <span>{book.details.binding}</span>
-                  <span>{book.details.format}</span>
+                  <span>{currentBook?.publish}</span>
+                  <span>{currentBook?.issueYear}</span>
+                  <span>{currentBook?.pages}</span>
+                  <span>{currentBook?.cover}</span>
+                  <span>{currentBook?.format}</span>
                 </div>
               </div>
 
@@ -103,17 +108,17 @@ export const BookPage = () => {
                   <p>Изготовитель</p>
                 </div>
                 <div>
-                  <span>{book.details.genre}</span>
-                  <span>{book.details.weight} г</span>
-                  <span>{book.details.ISBN}</span>
-                  <span>{book.details.manufacturer}</span>
+                  <span>{currentBook?.categories}</span>
+                  <span>{currentBook?.weight} г</span>
+                  <span>{currentBook?.ISBN}</span>
+                  <span>{currentBook?.producer}</span>
                 </div>
               </div>
             </BookDetailsInfo>
           </BookDetailsContainer>
           <FeedbackContainer>
             <FeedbackTitle>
-              <span>Отзывы {book.reviews ? book.reviews.length : 0}</span>
+              <span>Отзывы {currentBook?.comments ? currentBook?.comments.length : 0}</span>
               <ArrowRolled
                 data-test-id='button-hide-reviews'
                 isRolled={isRolled}
@@ -123,17 +128,19 @@ export const BookPage = () => {
               </ArrowRolled>
             </FeedbackTitle>
             <Feedbacks isRolled={isRolled}>
-              {book.reviews?.map((review) => (
-                <Feedback key={review.username}>
+              {currentBook?.comments?.map((comment) => (
+                <Feedback key={comment.id}>
                   <div>
-                    <img src={profile} alt='' />
+                    <img src={comment.user.avatarUrl} alt='' />
                     <p>
-                      <span>{review.username}</span>
-                      <span>{review.date}</span>
+                      <span>
+                        {comment.user.firstName} {comment.user.lastName}
+                      </span>
+                      <span>{comment.createdAt}</span>
                     </p>
                   </div>
-                  <Stars rating={review.rating} />
-                  <p>{review.comment}</p>
+                  <Stars rating={comment.rating} />
+                  <p>{comment.text}</p>
                 </Feedback>
               ))}
             </Feedbacks>
