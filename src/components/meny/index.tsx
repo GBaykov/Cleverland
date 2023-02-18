@@ -28,7 +28,7 @@ export const Meny: FC = () => {
   const [isRolled, setIsRolled] = useState(false);
   const [activeLink, setActiveLink] = useState('books');
   const [activeCategory, setActiveCategory] = useState('');
-  const { categories, status } = useAppSelector((state) => state.CategoriesReducer);
+  const { categories, categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
 
   const onArrowRolledClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
@@ -52,7 +52,7 @@ export const Meny: FC = () => {
   useEffect(() => {
     let ignore = false;
 
-    async function startFetching() {
+    function startFetching() {
       if (!ignore) {
         dispatch(fetchCategories());
       }

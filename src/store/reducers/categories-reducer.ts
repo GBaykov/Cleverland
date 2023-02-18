@@ -5,11 +5,11 @@ import { Category, ICategories } from '../../types/categories';
 
 export interface CategoriesState {
   categories: Category[] | [];
-  status: 'loading' | 'idle' | 'faild';
+  categoryStatus: 'loading' | 'idle' | 'faild';
 }
 export const initialState: CategoriesState = {
   categories: [],
-  status: 'idle',
+  categoryStatus: 'idle',
 };
 
 export const fetchCategories = createAsyncThunk(
@@ -21,13 +21,13 @@ export const fetchCategories = createAsyncThunk(
   {
     condition: (obj, { getState }) => {
       const categories = getState() as CategoriesState;
-      const fetchStatus = categories.status;
+      const fetchStatus = categories.categoryStatus;
 
-      if (fetchStatus === 'idle' || fetchStatus === 'loading') {
+      if (fetchStatus !== 'idle' && fetchStatus !== 'loading') {
         // Already fetched or in progress, don't need to re-fetch
-        return false;
+        return true;
       }
-      return undefined;
+      return false;
     },
     dispatchConditionRejection: true,
   }
@@ -39,14 +39,14 @@ export const categoriesSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchCategories.pending.toString()]: (state) => {
-      state.status = 'loading';
+      state.categoryStatus = 'loading';
     },
     [fetchCategories.fulfilled.toString()]: (state, action) => {
-      state.status = 'idle';
+      state.categoryStatus = 'idle';
       state.categories = action.payload;
     },
     [fetchCategories.rejected.toString()]: (state, action) => {
-      state.status = 'faild';
+      state.categoryStatus = 'faild';
     },
   },
 });

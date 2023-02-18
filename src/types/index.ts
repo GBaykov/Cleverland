@@ -1,3 +1,5 @@
+import { BookAmongAllBooks } from './books';
+
 export interface BookReviews {
   username: string;
   date: string;
@@ -29,6 +31,6 @@ export interface IBook {
 }
 
 export interface CardProps {
-  book: IBook;
+  book: BookAmongAllBooks;
   isList: boolean;
 }

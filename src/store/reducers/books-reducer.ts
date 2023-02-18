@@ -5,12 +5,12 @@ import { AllBooksSuccess, GetAllBooksRequest } from '../../types/books';
 
 interface BooksState {
   books: AllBooksSuccess | [];
-  status: 'loading' | 'idle' | 'faild';
+  booksStatus: 'loading' | 'idle' | 'faild';
 }
 
 const initialState: BooksState = {
   books: [],
-  status: 'idle',
+  booksStatus: 'idle',
 };
 
 export const fetchAllBooks = createAsyncThunk(
@@ -22,7 +22,7 @@ export const fetchAllBooks = createAsyncThunk(
   {
     condition: (obj, { getState, extra }) => {
       const state = getState() as BooksState;
-      const fetchStatus = state.status;
+      const fetchStatus = state.booksStatus;
 
       if (fetchStatus === 'idle' || fetchStatus === 'loading') {
         // Already fetched or in progress, don't need to re-fetch
@@ -43,15 +43,15 @@ export const allBooksSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchAllBooks.pending.toString()]: (state, action) => {
-      state.status = 'loading';
+    [fetchAllBooks.pending.toString()]: (state) => {
+      state.booksStatus = 'loading';
     },
     [fetchAllBooks.fulfilled.toString()]: (state, action) => {
-      state.status = 'idle';
+      state.booksStatus = 'idle';
       state.books = action.payload;
     },
     [fetchAllBooks.rejected.toString()]: (state, action) => {
-      state.status = 'faild';
+      state.booksStatus = 'faild';
     },
   },
 });
