@@ -12,6 +12,7 @@ import { Terms } from './pages/terms';
 import { setupStore } from './store/store';
 import { Slider } from './components/slider';
 import { MockBook2 } from './constants/constants';
+import { Loader } from './components/loader';
 
 const store = setupStore();
 
@@ -28,7 +29,7 @@ root.render(
               <Route path='/books/:category' element={<MainPage />} />
               <Route path='/terms' element={<Terms contentView='terms' />} />
               <Route path='/contract' element={<Terms contentView='contract' />} />
-              <Route path='/profile' element={<Slider images={MockBook2.photo} />} />
+              <Route path='/profile' element={<Loader />} />
             </Route>
             <Route path='/books/:category/:bookId' element={<BookPage />} />
           </Route>

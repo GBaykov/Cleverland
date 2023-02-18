@@ -2,7 +2,7 @@ import { FC, ReactNode, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
-import { Meny } from '../../components/meny';
+import { Loader } from '../../components/loader';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchAllBooks } from '../../store/reducers/books-reducer';
 import { fetchCategories } from '../../store/reducers/categories-reducer';
@@ -36,11 +36,14 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
   }, [dispatch]);
 
   return (
-    <App className={isMenuOpen ? 'menuOpen' : ''}>
-      <Header />
-      <Outlet />
-      {children}
-      <Footer />
-    </App>
+    <>
+      {/* <Loader /> */}
+      <App className={isMenuOpen ? 'menuOpen' : ''}>
+        <Header />
+        <Outlet />
+        {children}
+        <Footer />
+      </App>
+    </>
   );
 };

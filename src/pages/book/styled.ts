@@ -431,7 +431,7 @@ export const Feedback = styled.div`
     gap: 24px;
     align-items: center;
     img {
-      width: 32;
+      width: 32px;
       height: 32px;
     }
     p {
