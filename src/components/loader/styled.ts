@@ -11,8 +11,8 @@ export const LoaderContainer = styled.div`
   scroll: none;
   z-index: 12;
 
-  //   opacity: 0.5;
-  backdrop-filter: blur(6px);
+  background: rgba(54, 54, 54, 0.3);
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
