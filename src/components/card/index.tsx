@@ -7,6 +7,7 @@ import {
   CardButtonWrapper,
   CardContent,
   CardItem,
+  CardPhoto,
   CardRating,
   CardTitle,
   PhotoContainer,
@@ -43,9 +44,12 @@ export const Card = ({ book, isList }: CardProps) => {
 
   // const photo = book.photo ? book.photo[0] : '';
   if (book) {
+    const bookphoto = `${HOST}${book?.image?.url}`;
     return (
       <CardContent data-test-id='card' onClick={() => onBookClick()} isList={isList}>
-        <PhotoContainer bookphoto={`${HOST}${book?.image?.url}`} isList={isList} />
+        {bookphoto ? <CardPhoto isList={isList} src={bookphoto} alt='bookphoto' /> : <PhotoContainer isList={isList} />}
+        {/* <PhotoContainer bookphoto={`${HOST}${book?.image?.url}`} isList={isList}/> */}
+
         <CardItem isList={isList}>
           {isList ? null : <CardRating>{ratingStars(book.rating)}</CardRating>}
           <CardTitle isList={isList}>{book.title}</CardTitle>

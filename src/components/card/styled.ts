@@ -54,6 +54,25 @@ interface PhotoContainerProps {
   isList: boolean;
 }
 
+export const CardPhoto = styled.img<PhotoContainerProps>`
+  border: 1px solid #a7a7a7;
+  border-radius: 10px;
+  flex-shrink: 0;
+  align-self: center;
+  ${({ isList }) =>
+    isList
+      ? `  width: 120px;
+    height: 170px;
+    @media(max-width: 400px){
+      width: 70px;
+    height: 100px;
+    }
+    `
+      : `  width: 174px;
+    height: 242px;
+    `};
+`;
+
 export const PhotoContainer = styled.p<PhotoContainerProps>`
   border: 1px solid #a7a7a7;
   border-radius: 10px;
@@ -73,11 +92,22 @@ export const PhotoContainer = styled.p<PhotoContainerProps>`
     height: 242px;
     `};
 
-  ${({ bookphoto }) =>
-    bookphoto
-      ? `background: no-repeat  url(${bookphoto}); background-size: 100% 100%;`
-      : `background: ${BLACK5}  no-repeat center url(${cat}) `};
+  background: ${BLACK5}  no-repeat center url(${cat};;
 `;
+// img {
+//   ${({ isList }) =>
+//     isList
+//       ? `  width: 120px;
+//   height: 170px;
+//   @media(max-width: 400px){
+//     width: 70px;
+//   height: 100px;
+//   }
+//   `
+//       : `  width: 174px;
+//   height: 242px;
+//   `};
+// }
 
 export const CardItem = styled.div<CardContentProps>`
   display: flex;
