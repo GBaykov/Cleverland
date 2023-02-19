@@ -27,7 +27,7 @@ export const Meny: FC = () => {
 
   const [isRolled, setIsRolled] = useState(false);
   const [activeLink, setActiveLink] = useState('books');
-  const [activeCategory, setActiveCategory] = useState('');
+  const [activeCategory, setActiveCategory] = useState('all');
   const { categories, categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
   const { currentBook, currentBookStatus } = useAppSelector((state) => state.BookReducer);
   const { booksStatus } = useAppSelector((state) => state.AllBooksReducer);

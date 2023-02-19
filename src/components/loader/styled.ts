@@ -3,12 +3,12 @@ import styled from 'styled-components';
 export const LoaderContainer = styled.div`
   top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
+  // bottom: 0;
+  // right: 0;
   position: fixed;
   width: 100%;
-  min-height: 100%;
-  scroll: none;
+  height: 100%;
+
   z-index: 12;
 
   background: rgba(54, 54, 54, 0.3);
