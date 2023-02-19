@@ -24,7 +24,6 @@ export const fetchCategories = createAsyncThunk(
       const fetchStatus = categories.categoryStatus;
 
       if (fetchStatus !== 'idle' && fetchStatus !== 'loading') {
-        // Already fetched or in progress, don't need to re-fetch
         return true;
       }
       return false;

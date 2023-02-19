@@ -25,7 +25,6 @@ export const fetchAllBooks = createAsyncThunk(
       const fetchStatus = state.booksStatus;
 
       if (fetchStatus === 'idle' || fetchStatus === 'loading') {
-        // Already fetched or in progress, don't need to re-fetch
         return false;
       }
       return undefined;

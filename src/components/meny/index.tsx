@@ -10,7 +10,7 @@ import {
   MenyContent,
   StyledLink,
 } from './styled';
-// import { categories } from '../../constants/constants';
+
 import { menuSlice } from '../../store/reducers/menu-reducer';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { arrow } from '../../constants/svg';

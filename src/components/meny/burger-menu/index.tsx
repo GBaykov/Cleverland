@@ -22,7 +22,10 @@ export const BurgerMenu: FC = () => {
   const [isRolled, setIsRolled] = useState(false);
   const [activeLink, setActiveLink] = useState('books');
   const [activeCategory, setActiveCategory] = useState('');
-  const { categories } = useAppSelector((state) => state.CategoriesReducer);
+
+  const { categories, categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
+  const { currentBook, currentBookStatus } = useAppSelector((state) => state.BookReducer);
+  const { booksStatus } = useAppSelector((state) => state.AllBooksReducer);
 
   const onArrowRolledClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
@@ -51,35 +54,42 @@ export const BurgerMenu: FC = () => {
             className={activeLink === 'books' ? 'activeLink' : ''}
           >
             <span>Витрина книг</span>
-            <ArrowRolled isRolled={isRolled}>{arrow} </ArrowRolled>
+            {categoryStatus === 'idle' && booksStatus === 'idle' && currentBookStatus === 'idle' && (
+              <ArrowRolled isRolled={isRolled}>{arrow} </ArrowRolled>
+            )}
           </BurgerBookListHead>
-
-          <BurgerBooksLink
-            data-test-id='burger-books'
-            onClick={() => onBookCategoryClick('all')}
-            key={0}
-            className={isRolled ? 'rolled' : ''}
-          >
-            <Link to='/books/all' className={activeCategory === 'all' && activeLink === 'books' ? 'activeCat' : ''}>
-              Все книги
-            </Link>
-          </BurgerBooksLink>
-
-          {categories.map((category) => (
+          {categoryStatus === 'idle' && booksStatus === 'idle' && currentBookStatus === 'idle' && (
             <BurgerBooksLink
-              onClick={() => onBookCategoryClick(category.path)}
-              key={category.id}
+              data-test-id='burger-books'
+              onClick={() => onBookCategoryClick('all')}
+              key={0}
               className={isRolled ? 'rolled' : ''}
             >
-              <Link
-                to={`/books/${category.path}`}
-                className={activeCategory === category.path && activeLink === 'books' ? 'activeCat' : ''}
-              >
-                {category.name}
-                {/* <span>{category.count}</span> */}
+              <Link to='/books/all' className={activeCategory === 'all' && activeLink === 'books' ? 'activeCat' : ''}>
+                Все книги
               </Link>
             </BurgerBooksLink>
-          ))}
+          )}
+
+          {categoryStatus === 'idle' &&
+            booksStatus === 'idle' &&
+            currentBookStatus === 'idle' &&
+            categories &&
+            categories.map((category) => (
+              <BurgerBooksLink
+                onClick={() => onBookCategoryClick(category.path)}
+                key={category.id}
+                className={isRolled ? 'rolled' : ''}
+              >
+                <Link
+                  to={`/books/${category.path}`}
+                  className={activeCategory === category.path && activeLink === 'books' ? 'activeCat' : ''}
+                >
+                  {category.name}
+                  {/* <span>{category.count}</span> */}
+                </Link>
+              </BurgerBooksLink>
+            ))}
         </BurgerBooklist>
       </BurgerBooksContent>
 

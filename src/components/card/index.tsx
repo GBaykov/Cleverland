@@ -43,7 +43,6 @@ export const Card = ({ book, isList }: CardProps) => {
     dispatch(toggleMenu(false));
   };
 
-  // const photo = book.photo ? book.photo[0] : '';
   if (book) {
     const bookphoto = `${HOST}${book?.image?.url}`;
     return (
