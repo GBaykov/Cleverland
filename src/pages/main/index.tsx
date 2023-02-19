@@ -66,7 +66,8 @@ export const MainPage = () => {
       {(categoryStatus === 'loading' || booksStatus === 'loading') &&
         booksStatus !== 'faild' &&
         categoryStatus !== 'faild' && <Loader />}
-      {categoryStatus === 'faild' || booksStatus === 'faild' ? (
+      {(categoryStatus === 'faild' || booksStatus === 'faild') &&
+      (categoryStatus !== 'loading' || booksStatus !== 'loading') ? (
         <NotificationError text='Что-то пошло не так. Обновите страницу через некоторое время.' />
       ) : (
         <MainPageContainer>
