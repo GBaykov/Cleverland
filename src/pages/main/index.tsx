@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../../components/button';
 import { CardsField } from '../../components/cards-field';
 import search from '../../assets/icons/search.svg';
@@ -17,11 +17,18 @@ import {
   ViewButtonsContainer,
   StyledInput,
 } from './styled';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { menuSlice } from '../../store/reducers/menu-reducer';
+import { fetchCategories } from '../../store/reducers/categories-reducer';
+import { fetchAllBooks } from '../../store/reducers/books-reducer';
 
 export const MainPage = () => {
   const [isList, setuseList] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const dispatch = useAppDispatch();
+  // const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
+  // const { toggleMenu } = menuSlice.actions;
 
   const onInputFocus = () => {
     setInputFocused(true);
@@ -37,6 +44,19 @@ export const MainPage = () => {
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
+  useEffect(() => {
+    let ignore = false;
+    function startFetching() {
+      if (!ignore) {
+        dispatch(fetchCategories());
+        dispatch(fetchAllBooks());
+      }
+    }
+    startFetching();
+    return () => {
+      ignore = true;
+    };
+  }, [dispatch]);
 
   return (
     <MainPageContainer>

@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
 import { Loader } from '../../components/loader';
-import { NotificationError } from '../../components/notifications/notification-error';
+import { NotificationError } from '../../components/utils/notification-error';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchAllBooks } from '../../store/reducers/books-reducer';
 import { fetchCategories } from '../../store/reducers/categories-reducer';

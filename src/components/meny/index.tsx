@@ -29,6 +29,8 @@ export const Meny: FC = () => {
   const [activeLink, setActiveLink] = useState('books');
   const [activeCategory, setActiveCategory] = useState('');
   const { categories, categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
+  const { currentBook, currentBookStatus } = useAppSelector((state) => state.BookReducer);
+  const { booksStatus } = useAppSelector((state) => state.AllBooksReducer);
 
   const onArrowRolledClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
@@ -60,21 +62,27 @@ export const Meny: FC = () => {
               className={activeLink === 'books' ? 'activeLink' : ''}
             >
               <span>Витрина книг</span>
-              <ArrowRolled isRolled={isRolled}>{arrow} </ArrowRolled>
+              {categoryStatus === 'idle' && booksStatus === 'idle' && currentBookStatus === 'idle' && (
+                <ArrowRolled isRolled={isRolled}>{arrow} </ArrowRolled>
+              )}
             </BookListHead>
+            {categoryStatus === 'idle' && booksStatus === 'idle' && currentBookStatus === 'idle' && (
+              <BooksLink
+                data-test-id='navigation-books'
+                onClick={() => onBookCategoryClick('all')}
+                key={0}
+                className={isRolled ? 'rolled' : ''}
+              >
+                <Link to='/books/all' className={activeCategory === 'all' && activeLink === 'books' ? 'activeCat' : ''}>
+                  Все книги
+                </Link>
+              </BooksLink>
+            )}
 
-            <BooksLink
-              data-test-id='navigation-books'
-              onClick={() => onBookCategoryClick('all')}
-              key={0}
-              className={isRolled ? 'rolled' : ''}
-            >
-              <Link to='/books/all' className={activeCategory === 'all' && activeLink === 'books' ? 'activeCat' : ''}>
-                Все книги
-              </Link>
-            </BooksLink>
-
-            {categories &&
+            {categoryStatus === 'idle' &&
+              booksStatus === 'idle' &&
+              currentBookStatus === 'idle' &&
+              categories &&
               categories.map((category) => (
                 <BooksLink
                   onClick={() => onBookCategoryClick(category.path)}

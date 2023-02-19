@@ -37,6 +37,8 @@ import { fetchOneBook } from '../../store/reducers/book-reducer';
 export const BookPage = () => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
   const { currentBook, currentBookStatus } = useAppSelector((state) => state.BookReducer);
+  const { booksStatus } = useAppSelector((state) => state.AllBooksReducer);
+  const { categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
   const { toggleMenu } = menuSlice.actions;
   const dispatch = useAppDispatch();
   const [isRolled, setIsRolled] = useState(false);
@@ -55,7 +57,7 @@ export const BookPage = () => {
           <span>Бизнес книги / {currentBook?.title} </span>
         </BookPageAddress>
 
-        {currentBookStatus !== 'faild' && currentBookStatus !== 'loading' && (
+        {categoryStatus === 'idle' && booksStatus === 'idle' && currentBookStatus === 'idle' && (
           <BookPageContent>
             <BookMainBlock>
               {/* <BookPhoto bookphoto={book.photo} /> */}
