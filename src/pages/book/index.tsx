@@ -33,6 +33,8 @@ import { BurgerMenu } from '../../components/meny/burger-menu';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { menuSlice } from '../../store/reducers/menu-reducer';
 import { fetchOneBook } from '../../store/reducers/book-reducer';
+import { Loader } from '../../components/loader';
+import { NotificationError } from '../../components/utils/notification-error';
 
 export const BookPage = () => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
@@ -56,11 +58,13 @@ export const BookPage = () => {
         <BookPageAddress>
           <span>Бизнес книги / {currentBook?.title} </span>
         </BookPageAddress>
+        {currentBookStatus === 'loading' && <Loader />}
 
-        {categoryStatus === 'idle' && booksStatus === 'idle' && currentBookStatus === 'idle' && (
+        {currentBookStatus === 'faild' ? (
+          <NotificationError text='Что-то пошло не так. Обновите страницу через некоторое время.' />
+        ) : (
           <BookPageContent>
             <BookMainBlock>
-              {/* <BookPhoto bookphoto={book.photo} /> */}
               <Slider images={currentBook?.images} />
               <BookMainInfo>
                 <BookTitle>{currentBook?.title}</BookTitle>
@@ -154,6 +158,8 @@ export const BookPage = () => {
             </FeedbackContainer>
           </BookPageContent>
         )}
+
+        {/* {categoryStatus === 'idle' && } */}
       </BookPageContainer>
     </RelativeBook>
   );

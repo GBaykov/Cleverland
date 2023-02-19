@@ -18,9 +18,6 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
   const dispatch = useAppDispatch();
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
   const { toggleMenu } = menuSlice.actions;
-  const { booksStatus } = useAppSelector((store) => store.AllBooksReducer);
-  const { categoryStatus } = useAppSelector((store) => store.CategoriesReducer);
-  const { currentBookStatus } = useAppSelector((store) => store.BookReducer);
 
   useEffect(() => {
     let ignore = false;
@@ -37,18 +34,11 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
   }, [dispatch]);
 
   return (
-    <>
-      {(categoryStatus === 'loading' || booksStatus === 'loading' || currentBookStatus === 'loading') && <Loader />}
-      {(categoryStatus === 'faild' || booksStatus === 'faild' || currentBookStatus === 'faild') && (
-        <NotificationError text='Что-то пошло не так. Обновите страницу через некоторое время.' />
-      )}
-
-      <App className={isMenuOpen ? 'menuOpen' : ''}>
-        <Header />
-        <Outlet />
-        {children}
-        <Footer />
-      </App>
-    </>
+    <App className={isMenuOpen ? 'menuOpen' : ''}>
+      <Header />
+      <Outlet />
+      {children}
+      <Footer />
+    </App>
   );
 };
