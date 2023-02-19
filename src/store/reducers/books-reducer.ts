@@ -41,6 +41,9 @@ export const allBooksSlice = createSlice({
     setBookId(state, action: PayloadAction<AllBooksSuccess>) {
       state.books = action.payload;
     },
+    cleanBooksError(state) {
+      state.booksStatus = 'idle';
+    },
   },
   extraReducers: {
     [fetchAllBooks.pending.toString()]: (state) => {

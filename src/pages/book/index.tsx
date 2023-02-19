@@ -36,7 +36,7 @@ import { fetchOneBook } from '../../store/reducers/book-reducer';
 
 export const BookPage = () => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
-  const { currentBook } = useAppSelector((state) => state.BookReducer);
+  const { currentBook, currentBookStatus } = useAppSelector((state) => state.BookReducer);
   const { toggleMenu } = menuSlice.actions;
   const dispatch = useAppDispatch();
   const [isRolled, setIsRolled] = useState(false);
@@ -54,101 +54,104 @@ export const BookPage = () => {
         <BookPageAddress>
           <span>Бизнес книги / {currentBook?.title} </span>
         </BookPageAddress>
-        <BookPageContent>
-          <BookMainBlock>
-            {/* <BookPhoto bookphoto={book.photo} /> */}
-            <Slider images={currentBook?.images} />
-            <BookMainInfo>
-              <BookTitle>{currentBook?.title}</BookTitle>
-              <BookAuthor>{currentBook?.authors}</BookAuthor>
-              <BookMainButton>
-                <Button isPrimary={true} height={40} text='Забронировать' />
-              </BookMainButton>
-            </BookMainInfo>
-            <BookMainDiscription>
-              <p>О книге</p>
-              <div>{currentBook?.description}</div>
-            </BookMainDiscription>
-          </BookMainBlock>
-          <BookRatingBlock>
-            <p>Рейтинг</p>
-            <div>
-              {currentBook?.rating ? <Stars rating={currentBook?.rating} /> : <EmptyStars />}
 
-              {currentBook?.rating ? <span>{currentBook?.rating}</span> : <p>ещё нет оценок</p>}
-            </div>
-          </BookRatingBlock>
-          <BookDetailsContainer>
-            <p>Подробная информация</p>
-            <BookDetailsInfo>
+        {currentBookStatus !== 'faild' && currentBookStatus !== 'loading' && (
+          <BookPageContent>
+            <BookMainBlock>
+              {/* <BookPhoto bookphoto={book.photo} /> */}
+              <Slider images={currentBook?.images} />
+              <BookMainInfo>
+                <BookTitle>{currentBook?.title}</BookTitle>
+                <BookAuthor>{currentBook?.authors}</BookAuthor>
+                <BookMainButton>
+                  <Button isPrimary={true} height={40} text='Забронировать' />
+                </BookMainButton>
+              </BookMainInfo>
+              <BookMainDiscription>
+                <p>О книге</p>
+                <div>{currentBook?.description}</div>
+              </BookMainDiscription>
+            </BookMainBlock>
+            <BookRatingBlock>
+              <p>Рейтинг</p>
               <div>
-                <div>
-                  <p>Издательство</p>
-                  <p>Год издания</p>
-                  <p>Страниц</p>
-                  <p>Переплет</p>
-                  <p>Формат</p>
-                </div>
+                {currentBook?.rating ? <Stars rating={currentBook?.rating} /> : <EmptyStars />}
 
-                <div>
-                  <span>{currentBook?.publish}</span>
-                  <span>{currentBook?.issueYear}</span>
-                  <span>{currentBook?.pages}</span>
-                  <span>{currentBook?.cover}</span>
-                  <span>{currentBook?.format}</span>
-                </div>
+                {currentBook?.rating ? <span>{currentBook?.rating}</span> : <p>ещё нет оценок</p>}
               </div>
-
-              <div>
-                {' '}
+            </BookRatingBlock>
+            <BookDetailsContainer>
+              <p>Подробная информация</p>
+              <BookDetailsInfo>
                 <div>
-                  <p>Жанр</p>
-                  <p>Вес</p>
-                  <p>ISBN</p>
-                  <p>Изготовитель</p>
-                </div>
-                <div>
-                  <span>{currentBook?.categories}</span>
-                  <span>{currentBook?.weight} г</span>
-                  <span>{currentBook?.ISBN}</span>
-                  <span>{currentBook?.producer}</span>
-                </div>
-              </div>
-            </BookDetailsInfo>
-          </BookDetailsContainer>
-          <FeedbackContainer>
-            <FeedbackTitle>
-              <span>Отзывы {currentBook?.comments ? currentBook?.comments.length : 0}</span>
-              <ArrowRolled
-                data-test-id='button-hide-reviews'
-                isRolled={isRolled}
-                onClick={() => setIsRolled(!isRolled)}
-              >
-                {arrow}{' '}
-              </ArrowRolled>
-            </FeedbackTitle>
-            <Feedbacks isRolled={isRolled}>
-              {currentBook?.comments?.map((comment) => (
-                <Feedback key={comment.id}>
                   <div>
-                    <img src={comment.user.avatarUrl} alt='' />
-                    <p>
-                      <span>
-                        {comment.user.firstName} {comment.user.lastName}
-                      </span>
-                      <span>{comment.createdAt}</span>
-                    </p>
+                    <p>Издательство</p>
+                    <p>Год издания</p>
+                    <p>Страниц</p>
+                    <p>Переплет</p>
+                    <p>Формат</p>
                   </div>
-                  <Stars rating={comment.rating} />
-                  <p>{comment.text}</p>
-                </Feedback>
-              ))}
-            </Feedbacks>
-            <ReviewButton>
-              <Button data-test-id='button-rating' isPrimary={true} text='Оценить книгу' />
-            </ReviewButton>
-          </FeedbackContainer>
-        </BookPageContent>
+
+                  <div>
+                    <span>{currentBook?.publish}</span>
+                    <span>{currentBook?.issueYear}</span>
+                    <span>{currentBook?.pages}</span>
+                    <span>{currentBook?.cover}</span>
+                    <span>{currentBook?.format}</span>
+                  </div>
+                </div>
+
+                <div>
+                  {' '}
+                  <div>
+                    <p>Жанр</p>
+                    <p>Вес</p>
+                    <p>ISBN</p>
+                    <p>Изготовитель</p>
+                  </div>
+                  <div>
+                    <span>{currentBook?.categories}</span>
+                    <span>{currentBook?.weight} г</span>
+                    <span>{currentBook?.ISBN}</span>
+                    <span>{currentBook?.producer}</span>
+                  </div>
+                </div>
+              </BookDetailsInfo>
+            </BookDetailsContainer>
+            <FeedbackContainer>
+              <FeedbackTitle>
+                <span>Отзывы {currentBook?.comments ? currentBook?.comments.length : 0}</span>
+                <ArrowRolled
+                  data-test-id='button-hide-reviews'
+                  isRolled={isRolled}
+                  onClick={() => setIsRolled(!isRolled)}
+                >
+                  {arrow}{' '}
+                </ArrowRolled>
+              </FeedbackTitle>
+              <Feedbacks isRolled={isRolled}>
+                {currentBook?.comments?.map((comment) => (
+                  <Feedback key={comment.id}>
+                    <div>
+                      <img src={comment.user.avatarUrl} alt='' />
+                      <p>
+                        <span>
+                          {comment.user.firstName} {comment.user.lastName}
+                        </span>
+                        <span>{comment.createdAt}</span>
+                      </p>
+                    </div>
+                    <Stars rating={comment.rating} />
+                    <p>{comment.text}</p>
+                  </Feedback>
+                ))}
+              </Feedbacks>
+              <ReviewButton>
+                <Button data-test-id='button-rating' isPrimary={true} text='Оценить книгу' />
+              </ReviewButton>
+            </FeedbackContainer>
+          </BookPageContent>
+        )}
       </BookPageContainer>
     </RelativeBook>
   );

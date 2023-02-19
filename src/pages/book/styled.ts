@@ -4,6 +4,14 @@ import cat from '../../assets/icons/cat.svg';
 
 export const RelativeBook = styled.main`
   position: relative;
+  flex: 1 0 auto;
+  margin-top: 27px;
+  @madia (max-width: 768px) {
+    margin-top: 22px;
+  }
+  @madia (max-width: 400px) {
+    margin-top: 8px;
+  }
 `;
 
 export const BookPageContainer = styled.section`
@@ -14,6 +22,7 @@ export const BookPageContainer = styled.section`
 `;
 
 export const BookPageAddress = styled.p`
+  display: flex;
   width: 100%;
   margin-bottom: 42px;
   text-align: center;

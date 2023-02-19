@@ -36,7 +36,11 @@ export const fetchCategories = createAsyncThunk(
 export const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
-  reducers: {},
+  reducers: {
+    cleanategoryError(state) {
+      state.categoryStatus = 'idle';
+    },
+  },
   extraReducers: {
     [fetchCategories.pending.toString()]: (state) => {
       state.categoryStatus = 'loading';

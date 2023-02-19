@@ -8,7 +8,7 @@ export interface NotificationProps {
 }
 
 export const NotificationError = ({ text }: NotificationProps) => (
-  <NotificationContainer>
+  <NotificationContainer data-test-id='error'>
     {/* <img src={fail} alt='fail' /> */}
     <NotiIco>!</NotiIco>
     <span>{text}</span>

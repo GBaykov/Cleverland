@@ -39,6 +39,9 @@ export const bookSlice = createSlice({
     setBookId(state, action: PayloadAction<number>) {
       state.bookId = action.payload;
     },
+    cleanBookError(state) {
+      state.currentBookStatus = 'idle';
+    },
   },
   extraReducers(builder) {
     builder

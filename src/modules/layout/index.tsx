@@ -15,14 +15,15 @@ type LayoutProps = {
 };
 
 export const Layout: FC<LayoutProps> = ({ children }) => {
-  const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
-
   const dispatch = useAppDispatch();
+  const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
   const { toggleMenu } = menuSlice.actions;
+  const { booksStatus } = useAppSelector((store) => store.AllBooksReducer);
+  const { categoryStatus } = useAppSelector((store) => store.CategoriesReducer);
+  const { currentBookStatus } = useAppSelector((store) => store.BookReducer);
 
   useEffect(() => {
     let ignore = false;
-
     function startFetching() {
       if (!ignore) {
         dispatch(fetchCategories());
@@ -30,7 +31,6 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
       }
     }
     startFetching();
-
     return () => {
       ignore = true;
     };
@@ -38,8 +38,11 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
 
   return (
     <>
-      {/* <Loader /> */}
-      <NotificationError text='Что-то пошло не так. Обновите страницу через некоторое время.' />
+      {(categoryStatus === 'loading' || booksStatus === 'loading' || currentBookStatus === 'loading') && <Loader />}
+      {(categoryStatus === 'faild' || booksStatus === 'faild' || currentBookStatus === 'faild') && (
+        <NotificationError text='Что-то пошло не так. Обновите страницу через некоторое время.' />
+      )}
+
       <App className={isMenuOpen ? 'menuOpen' : ''}>
         <Header />
         <Outlet />
