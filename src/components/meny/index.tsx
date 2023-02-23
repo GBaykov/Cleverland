@@ -15,31 +15,31 @@ import { menuSlice } from '../../store/reducers/menu-reducer';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { arrow } from '../../constants/svg';
 import { BurgerMenu } from './burger-menu';
-import { Category } from '../../types/categories';
-import { fetchCategories } from '../../store/reducers/categories-reducer';
+import { allBooksSlice } from '../../store/reducers/books-reducer';
+import { BookAmongAllBooks } from '../../types/books';
 
 export const Meny: FC = () => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
-
+  const { setActiveCategory, setActiveName } = allBooksSlice.actions;
   const { toggleMenu } = menuSlice.actions;
   const dispatch = useAppDispatch();
   const { bookId } = useAppSelector((state) => state.BookReducer);
 
   const [isRolled, setIsRolled] = useState(false);
   const [activeLink, setActiveLink] = useState('books');
-  const [activeCategory, setActiveCategory] = useState('all');
   const { categories, categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
   const { currentBook, currentBookStatus } = useAppSelector((state) => state.BookReducer);
-  const { booksStatus } = useAppSelector((state) => state.AllBooksReducer);
+  const { books, booksStatus, activeCategory } = useAppSelector((state) => state.AllBooksReducer);
 
   const onArrowRolledClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
     setIsRolled(!isRolled);
     setActiveLink('books');
   };
-  const onBookCategoryClick = (category: string) => {
+  const onBookCategoryClick = (category: string, categoryname: string) => {
     setActiveLink('books');
-    setActiveCategory(category);
+    dispatch(setActiveCategory(category));
+    dispatch(setActiveName(categoryname));
   };
   const onLinckClick = (str: string) => {
     setActiveLink(str);
@@ -69,7 +69,7 @@ export const Meny: FC = () => {
             {categoryStatus === 'idle' && booksStatus === 'idle' && currentBookStatus === 'idle' && (
               <BooksLink
                 data-test-id='navigation-books'
-                onClick={() => onBookCategoryClick('all')}
+                onClick={() => onBookCategoryClick('all', '')}
                 key={0}
                 className={isRolled ? 'rolled' : ''}
               >
@@ -83,21 +83,27 @@ export const Meny: FC = () => {
               booksStatus === 'idle' &&
               currentBookStatus === 'idle' &&
               categories &&
-              categories.map((category) => (
-                <BooksLink
-                  onClick={() => onBookCategoryClick(category.path)}
-                  key={category.id}
-                  className={isRolled ? 'rolled' : ''}
-                >
-                  <Link
-                    to={`/books/${category.path}`}
-                    className={activeCategory === category.path && activeLink === 'books' ? 'activeCat' : ''}
+              categories.map((category) => {
+                // const a = books.reduce(function(accumulator, item) {
+                //   // ...
+                // }, [0])
+                const booksInCategory = books.filter((item, index) => item.categories.includes(category.name)).length;
+                // const booksInCategory = filterd.length;
+                return (
+                  <BooksLink
+                    onClick={() => onBookCategoryClick(category.path, category.name)}
+                    key={category.id}
+                    className={isRolled ? 'rolled' : ''}
                   >
-                    {category.name}
-                    {/* <span>{category.count}</span> */}
-                  </Link>
-                </BooksLink>
-              ))}
+                    <Link
+                      to={`/books/${category.path}`}
+                      className={activeCategory === category.path && activeLink === 'books' ? 'activeCat' : ''}
+                    >
+                      {category.name} <span>{booksInCategory}</span>
+                    </Link>
+                  </BooksLink>
+                );
+              })}
           </Booklist>
         </BooksContent>
 

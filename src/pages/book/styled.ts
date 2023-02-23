@@ -92,7 +92,7 @@ export const BookMainBlock = styled.section`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: 760px;
+  max-height: 860px;
   flex-wrap: wrap;
   gap: 30px;
 

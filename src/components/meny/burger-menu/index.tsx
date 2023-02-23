@@ -14,27 +14,30 @@ import { categories } from '../../../constants/constants';
 import { menuSlice } from '../../../store/reducers/menu-reducer';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { arrow } from '../../../constants/svg';
+import { allBooksSlice } from '../../../store/reducers/books-reducer';
 
 export const BurgerMenu: FC = () => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
   const dispatch = useAppDispatch();
   const { toggleMenu } = menuSlice.actions;
+  const { setActiveCategory, setActiveName } = allBooksSlice.actions;
   const [isRolled, setIsRolled] = useState(false);
   const [activeLink, setActiveLink] = useState('books');
-  const [activeCategory, setActiveCategory] = useState('');
+  // const [activeCategory, setActiveCategory] = useState('');
 
   const { categories, categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
   const { currentBook, currentBookStatus } = useAppSelector((state) => state.BookReducer);
-  const { booksStatus } = useAppSelector((state) => state.AllBooksReducer);
+  const { booksStatus, activeCategory } = useAppSelector((state) => state.AllBooksReducer);
 
   const onArrowRolledClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
     setIsRolled(!isRolled);
     setActiveLink('books');
   };
-  const onBookCategoryClick = (category: string) => {
+  const onBookCategoryClick = (category: string, categoryname: string) => {
     setActiveLink('books');
-    setActiveCategory(category);
+    dispatch(setActiveCategory(category));
+    dispatch(setActiveName(categoryname));
   };
   const onLinckClick = (str: string) => {
     setActiveLink(str);
@@ -61,7 +64,7 @@ export const BurgerMenu: FC = () => {
           {categoryStatus === 'idle' && booksStatus === 'idle' && currentBookStatus === 'idle' && (
             <BurgerBooksLink
               data-test-id='burger-books'
-              onClick={() => onBookCategoryClick('all')}
+              onClick={() => onBookCategoryClick('all', '')}
               key={0}
               className={isRolled ? 'rolled' : ''}
             >
@@ -77,7 +80,7 @@ export const BurgerMenu: FC = () => {
             categories &&
             categories.map((category) => (
               <BurgerBooksLink
-                onClick={() => onBookCategoryClick(category.path)}
+                onClick={() => onBookCategoryClick(category.path, category.name)}
                 key={category.id}
                 className={isRolled ? 'rolled' : ''}
               >

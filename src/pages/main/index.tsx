@@ -46,19 +46,19 @@ export const MainPage = () => {
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
-  useEffect(() => {
-    let ignore = false;
-    function startFetching() {
-      if (!ignore) {
-        dispatch(fetchCategories());
-        dispatch(fetchAllBooks());
-      }
-    }
-    startFetching();
-    return () => {
-      ignore = true;
-    };
-  }, [dispatch]);
+  // useEffect(() => {
+  //   let ignore = false;
+  //   function startFetching() {
+  //     if (!ignore) {
+  //       dispatch(fetchCategories());
+  //       dispatch(fetchAllBooks());
+  //     }
+  //   }
+  //   startFetching();
+  //   return () => {
+  //     ignore = true;
+  //   };
+  // }, [dispatch]);
 
   return (
     <>

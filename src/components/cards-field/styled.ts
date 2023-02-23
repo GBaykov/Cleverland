@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BLACK40 } from '../../constants/styles';
 
 type CardsContainerProps = {
   isList: boolean;
@@ -32,4 +33,26 @@ export const CardsContainer = styled.section<CardsContainerProps>`
       justify-content: center;
     }
   }`};
+`;
+
+export const Emptymessage = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  p {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 40px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    color: ${BLACK40};
+    @media (max-width: 600px) {
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
 `;

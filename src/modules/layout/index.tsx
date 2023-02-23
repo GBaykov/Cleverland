@@ -1,13 +1,10 @@
-import { FC, ReactNode, useEffect } from 'react';
+import { FC, ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
-import { Loader } from '../../components/loader';
-import { NotificationError } from '../../components/utils/notification-error';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { fetchAllBooks } from '../../store/reducers/books-reducer';
-import { fetchCategories } from '../../store/reducers/categories-reducer';
-import { menuSlice } from '../../store/reducers/menu-reducer';
+
+import { useAppSelector } from '../../hooks/redux';
+
 import { App } from './styled';
 
 type LayoutProps = {
@@ -15,23 +12,7 @@ type LayoutProps = {
 };
 
 export const Layout: FC<LayoutProps> = ({ children }) => {
-  const dispatch = useAppDispatch();
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
-  const { toggleMenu } = menuSlice.actions;
-
-  useEffect(() => {
-    let ignore = false;
-    function startFetching() {
-      if (!ignore) {
-        dispatch(fetchCategories());
-        dispatch(fetchAllBooks());
-      }
-    }
-    startFetching();
-    return () => {
-      ignore = true;
-    };
-  }, [dispatch]);
 
   return (
     <App className={isMenuOpen ? 'menuOpen' : ''}>
