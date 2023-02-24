@@ -11,14 +11,14 @@ import { CardsContainer, Emptymessage } from './styled';
 
 interface CardsFieldProps {
   isList: boolean;
+  inputValue: string;
 }
 
-export const CardsField = ({ isList }: CardsFieldProps) => {
-  const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
+export const CardsField = ({ isList, inputValue }: CardsFieldProps) => {
+  // const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
   const { filteredBooks, books, activeName, isDESC } = useAppSelector((state) => state.AllBooksReducer);
   const dispatch = useAppDispatch();
   const { toggleMenu } = menuSlice.actions;
-  // const [isDESC, setIsDESC] = useState(true);
   const [sortedBooks, setSortedBooks] = useState(books);
 
   useEffect(() => {
@@ -61,10 +61,14 @@ export const CardsField = ({ isList }: CardsFieldProps) => {
     }
   }, [booksSet, isDESC]);
 
-  const allBooks = sortedBooks ? sortedBooks.map((book) => <Card book={book} isList={isList} key={book.id} />) : null;
+  const requiredBooks = sortedBooks.filter((book) => book.title.toLowerCase().includes(inputValue.toLocaleLowerCase()));
+
+  const allBooks = requiredBooks
+    ? requiredBooks.map((book) => <Card book={book} isList={isList} key={book.id} />)
+    : null;
 
   const outlinedSortedBooks =
-    filteredBooks.length === 0 && activeName !== '' ? (
+    (filteredBooks.length === 0 && activeName !== '') || requiredBooks.length < 1 ? (
       <Emptymessage>
         <p>По запросу ничего не найдено</p>
       </Emptymessage>

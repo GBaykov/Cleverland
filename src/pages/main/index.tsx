@@ -111,7 +111,7 @@ export const MainPage = () => {
             </ViewButtonsContainer>
           </MainPageHeader>
 
-          <CardsField isList={isList} />
+          <CardsField inputValue={inputValue} isList={isList} />
         </MainPageContainer>
       )}
     </>

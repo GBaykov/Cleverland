@@ -7,7 +7,7 @@ type CardsContainerProps = {
 
 export const CardsContainer = styled.section<CardsContainerProps>`
   width: 100%;
-  height: 100%;
+  // height: 100%;
 
   //   width: 825px;
   display: flex;
