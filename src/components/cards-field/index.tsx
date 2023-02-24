@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { HOST } from '../../constants';
 import { MockBooks } from '../../constants/constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchAllBooks } from '../../store/reducers/books-reducer';
 import { fetchCategories } from '../../store/reducers/categories-reducer';
 import { menuSlice } from '../../store/reducers/menu-reducer';
+import { AllBooksSuccess } from '../../types/books';
 import { Card } from '../card';
 import { CardsContainer, Emptymessage } from './styled';
 
@@ -14,9 +15,11 @@ interface CardsFieldProps {
 
 export const CardsField = ({ isList }: CardsFieldProps) => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
-  const { filteredBooks, books, activeName } = useAppSelector((state) => state.AllBooksReducer);
+  const { filteredBooks, books, activeName, isDESC } = useAppSelector((state) => state.AllBooksReducer);
   const dispatch = useAppDispatch();
   const { toggleMenu } = menuSlice.actions;
+  // const [isDESC, setIsDESC] = useState(true);
+  const [sortedBooks, setSortedBooks] = useState(books);
 
   useEffect(() => {
     let ignore = false;
@@ -33,10 +36,35 @@ export const CardsField = ({ isList }: CardsFieldProps) => {
   }, [dispatch, activeName]);
 
   const booksSet = activeName === '' ? books : filteredBooks;
-  const allBooks = booksSet ? booksSet.map((book) => <Card book={book} isList={isList} key={book.id} />) : null;
+
+  useEffect(() => {
+    let sorted: AllBooksSuccess = [...booksSet];
+    if (sorted.length >= 1) {
+      sorted = sorted.sort((a, b) => {
+        if (a.rating > b.rating) {
+          return 1;
+        }
+        if (a.rating < b.rating) {
+          return -1;
+        }
+        if (a.rating === 0) {
+          return 1;
+        }
+        if (a.rating === null) {
+          return -1;
+        }
+
+        return 0;
+      });
+      sorted = isDESC ? sorted.reverse() : sorted;
+      setSortedBooks(sorted);
+    }
+  }, [booksSet, isDESC]);
+
+  const allBooks = sortedBooks ? sortedBooks.map((book) => <Card book={book} isList={isList} key={book.id} />) : null;
 
   const outlinedSortedBooks =
-    filteredBooks.length === 0 ? (
+    filteredBooks.length === 0 && activeName !== '' ? (
       <Emptymessage>
         <p>По запросу ничего не найдено</p>
       </Emptymessage>

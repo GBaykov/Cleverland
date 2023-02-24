@@ -20,7 +20,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { menuSlice } from '../../store/reducers/menu-reducer';
 import { fetchCategories } from '../../store/reducers/categories-reducer';
-import { fetchAllBooks } from '../../store/reducers/books-reducer';
+import { allBooksSlice, fetchAllBooks } from '../../store/reducers/books-reducer';
 import { Loader } from '../../components/loader';
 import { NotificationError } from '../../components/utils/notification-error';
 
@@ -29,8 +29,9 @@ export const MainPage = () => {
   const [isInputFocused, setInputFocused] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const dispatch = useAppDispatch();
-  const { booksStatus } = useAppSelector((store) => store.AllBooksReducer);
+  const { booksStatus, isDESC } = useAppSelector((store) => store.AllBooksReducer);
   const { categoryStatus } = useAppSelector((store) => store.CategoriesReducer);
+  const { setIsDESC } = allBooksSlice.actions;
 
   const onInputFocus = () => {
     setInputFocused(true);
@@ -46,19 +47,10 @@ export const MainPage = () => {
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
-  // useEffect(() => {
-  //   let ignore = false;
-  //   function startFetching() {
-  //     if (!ignore) {
-  //       dispatch(fetchCategories());
-  //       dispatch(fetchAllBooks());
-  //     }
-  //   }
-  //   startFetching();
-  //   return () => {
-  //     ignore = true;
-  //   };
-  // }, [dispatch]);
+
+  const BookSortClick = () => {
+    dispatch(setIsDESC(!isDESC));
+  };
 
   return (
     <>
@@ -96,7 +88,7 @@ export const MainPage = () => {
                   <img data-test-id='button-search-close' src={cross} alt='cross' />
                 </SvgWrapper>
               </SearchBar>
-              <BookSort isInputFocused={isInputFocused}>
+              <BookSort onClick={BookSortClick} isInputFocused={isInputFocused}>
                 <img src={sort} alt='sort' />
                 <span>По рейтингу</span>
               </BookSort>

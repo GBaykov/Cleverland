@@ -135,6 +135,7 @@ export const SvgWrapper = styled.span<SearchBarProps>`
 `;
 
 export const BookSort = styled.div<SearchBarProps>`
+  cursor: pointer;
   @media (max-width: 600px) {
     ${({ isInputFocused }) => (isInputFocused ? 'display: none;' : '')}
   }
