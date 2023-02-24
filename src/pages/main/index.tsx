@@ -88,7 +88,7 @@ export const MainPage = () => {
                   <img data-test-id='button-search-close' src={cross} alt='cross' />
                 </SvgWrapper>
               </SearchBar>
-              <BookSort onClick={BookSortClick} isInputFocused={isInputFocused}>
+              <BookSort isDESC={isDESC} onClick={BookSortClick} isInputFocused={isInputFocused}>
                 <img src={sort} alt='sort' />
                 <span>По рейтингу</span>
               </BookSort>

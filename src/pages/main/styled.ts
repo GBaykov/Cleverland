@@ -35,6 +35,7 @@ export const SeacrSortContainer = styled.div`
 
 interface SearchBarProps {
   isInputFocused: boolean;
+  isDESC?: boolean;
 }
 
 export const SearchBar = styled.div<SearchBarProps>`
@@ -118,17 +119,6 @@ export const StyledInput = styled.input<SearchBarProps>`
     ${({ isInputFocused }) => (isInputFocused ? 'max-width: 288px; display: block;' : `   `)}
   }
 `;
-// width: 32px;
-//       height: 32px;
-//       padding: 0px;
-//       gap: 0;
-//       border-radius: 50%;
-//       justify-content: center;
-//       align-items: center;
-
-//       ::placeholder {
-//           color: transparent;
-//       }
 
 export const SvgWrapper = styled.span<SearchBarProps>`
   ${({ isInputFocused }) => (isInputFocused ? ' ' : 'display: none;')}
@@ -139,6 +129,12 @@ export const BookSort = styled.div<SearchBarProps>`
   @media (max-width: 600px) {
     ${({ isInputFocused }) => (isInputFocused ? 'display: none;' : '')}
   }
+  ${({ isDESC }) =>
+    !isDESC
+      ? `img {
+    transform: rotate(180deg);
+  }`
+      : ``}
 
   display: flex;
   flex-direction: row;
