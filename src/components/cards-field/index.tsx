@@ -80,7 +80,7 @@ export const CardsField = ({ isList, inputValue }: CardsFieldProps) => {
   const requiredBooks = sortedBooks.filter((book) => book.title.toLowerCase().includes(inputValue.toLocaleLowerCase()));
 
   const allBooks = requiredBooks
-    ? requiredBooks.map((book) => <Card book={book} isList={isList} key={book.id} />)
+    ? requiredBooks.map((book) => <Card inputValue={inputValue} book={book} isList={isList} key={book.id} />)
     : null;
 
   const outlinedSortedBooks =
