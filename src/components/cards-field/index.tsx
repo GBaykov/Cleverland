@@ -15,9 +15,10 @@ interface CardsFieldProps {
 }
 
 export const CardsField = ({ isList, inputValue }: CardsFieldProps) => {
-  // const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
-  const { filteredBooks, books, activeName, isDESC } = useAppSelector((state) => state.AllBooksReducer);
   const dispatch = useAppDispatch();
+  const { filteredBooks, books, activeName, isDESC } = useAppSelector((state) => state.AllBooksReducer);
+  const { categories, categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
+
   const { toggleMenu } = menuSlice.actions;
   const [sortedBooks, setSortedBooks] = useState(books);
 
@@ -25,7 +26,6 @@ export const CardsField = ({ isList, inputValue }: CardsFieldProps) => {
     let ignore = false;
     function startFetching() {
       if (!ignore) {
-        dispatch(fetchCategories());
         dispatch(fetchAllBooks());
       }
     }
@@ -34,6 +34,22 @@ export const CardsField = ({ isList, inputValue }: CardsFieldProps) => {
       ignore = true;
     };
   }, [dispatch, activeName]);
+  const catLenght = categories.length;
+  useEffect(() => {
+    let ignore = false;
+    function startFetching() {
+      if (!ignore) {
+        dispatch(fetchCategories());
+      }
+    }
+    if (catLenght < 1) {
+      startFetching();
+    }
+
+    return () => {
+      ignore = true;
+    };
+  }, [dispatch, activeName, catLenght]);
 
   const booksSet = activeName === '' ? books : filteredBooks;
 

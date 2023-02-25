@@ -63,6 +63,7 @@ export const BookPageAddress = styled.p`
     }
   }
 `;
+export const AdsressCategory = styled.span``;
 
 export const BookPageContent = styled.section`
   display: flex;

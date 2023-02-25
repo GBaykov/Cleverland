@@ -10,7 +10,6 @@ import {
   BurgerMenyContent,
   BurgerStyledLink,
 } from './styled';
-import { categories } from '../../../constants/constants';
 import { menuSlice } from '../../../store/reducers/menu-reducer';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { arrow } from '../../../constants/svg';
@@ -23,11 +22,10 @@ export const BurgerMenu: FC = () => {
   const { setActiveCategory, setActiveName } = allBooksSlice.actions;
   const [isRolled, setIsRolled] = useState(false);
   const [activeLink, setActiveLink] = useState('books');
-  // const [activeCategory, setActiveCategory] = useState('');
 
   const { categories, categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
   const { currentBook, currentBookStatus } = useAppSelector((state) => state.BookReducer);
-  const { booksStatus, activeCategory } = useAppSelector((state) => state.AllBooksReducer);
+  const { books, booksStatus, activeCategory } = useAppSelector((state) => state.AllBooksReducer);
 
   const onArrowRolledClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
@@ -78,21 +76,24 @@ export const BurgerMenu: FC = () => {
             booksStatus === 'idle' &&
             currentBookStatus === 'idle' &&
             categories &&
-            categories.map((category) => (
-              <BurgerBooksLink
-                onClick={() => onBookCategoryClick(category.path, category.name)}
-                key={category.id}
-                className={isRolled ? 'rolled' : ''}
-              >
-                <Link
-                  to={`/books/${category.path}`}
-                  className={activeCategory === category.path && activeLink === 'books' ? 'activeCat' : ''}
+            categories.map((category) => {
+              const booksInCategory = books.filter((item, index) => item.categories.includes(category.name)).length;
+
+              return (
+                <BurgerBooksLink
+                  onClick={() => onBookCategoryClick(category.path, category.name)}
+                  key={category.id}
+                  className={isRolled ? 'rolled' : ''}
                 >
-                  {category.name}
-                  {/* <span>{category.count}</span> */}
-                </Link>
-              </BurgerBooksLink>
-            ))}
+                  <Link
+                    to={`/books/${category.path}`}
+                    className={activeCategory === category.path && activeLink === 'books' ? 'activeCat' : ''}
+                  >
+                    {category.name} <span>{booksInCategory}</span>
+                  </Link>
+                </BurgerBooksLink>
+              );
+            })}
         </BurgerBooklist>
       </BurgerBooksContent>
 

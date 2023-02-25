@@ -84,11 +84,8 @@ export const Meny: FC = () => {
               currentBookStatus === 'idle' &&
               categories &&
               categories.map((category) => {
-                // const a = books.reduce(function(accumulator, item) {
-                //   // ...
-                // }, [0])
                 const booksInCategory = books.filter((item, index) => item.categories.includes(category.name)).length;
-                // const booksInCategory = filterd.length;
+
                 return (
                   <BooksLink
                     onClick={() => onBookCategoryClick(category.path, category.name)}

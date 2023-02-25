@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../../components/button';
 import { Stars } from '../../components/stars';
 import { EmptyStars } from '../../components/stars/empty-stars';
 import { MockBook2, MockBooks } from '../../constants/constants';
 import {
+  AdsressCategory,
   BookAuthor,
   BookDetailsContainer,
   BookDetailsInfo,
@@ -39,13 +40,15 @@ import { NotificationError } from '../../components/utils/notification-error';
 export const BookPage = () => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
   const { currentBook, currentBookStatus } = useAppSelector((state) => state.BookReducer);
-  const { booksStatus } = useAppSelector((state) => state.AllBooksReducer);
+  const { booksStatus, activeCategory, activeName } = useAppSelector((state) => state.AllBooksReducer);
   const { categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
   const { toggleMenu } = menuSlice.actions;
   const dispatch = useAppDispatch();
   const [isRolled, setIsRolled] = useState(false);
   const location = useLocation();
   const bookId = +location.pathname.split('/').reverse()[0];
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchOneBook(bookId));
@@ -56,7 +59,11 @@ export const BookPage = () => {
       <BurgerMenu />
       <BookPageContainer onClick={() => dispatch(toggleMenu(false))}>
         <BookPageAddress>
-          <span>Бизнес книги / {currentBook?.title} </span>
+          <AdsressCategory onClick={() => navigate(`/books/${activeCategory}`)}>
+            {activeName !== '' ? activeName : 'Все книги'}
+          </AdsressCategory>
+          &nbsp;
+          <span> / {currentBook?.title}</span>
         </BookPageAddress>
         {currentBookStatus === 'loading' && <Loader />}
 
