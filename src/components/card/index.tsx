@@ -21,8 +21,9 @@ import { menuSlice } from '../../store/reducers/menu-reducer';
 import { HOST } from '../../constants';
 import { getTitleWithHighlight } from '../utils/functions';
 
-export const Card = ({ book, isList, inputValue }: CardProps) => {
+export const Card = ({ book, isList }: CardProps) => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
+  const { inputValue } = useAppSelector((state) => state.AllBooksReducer);
 
   const dispatch = useAppDispatch();
   const { toggleMenu } = menuSlice.actions;

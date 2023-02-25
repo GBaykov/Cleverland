@@ -11,12 +11,11 @@ import { CardsContainer, Emptymessage } from './styled';
 
 interface CardsFieldProps {
   isList: boolean;
-  inputValue: string;
 }
 
-export const CardsField = ({ isList, inputValue }: CardsFieldProps) => {
+export const CardsField = ({ isList }: CardsFieldProps) => {
   const dispatch = useAppDispatch();
-  const { filteredBooks, books, activeName, isDESC } = useAppSelector((state) => state.AllBooksReducer);
+  const { filteredBooks, books, activeName, isDESC, inputValue } = useAppSelector((state) => state.AllBooksReducer);
   const { categories, categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
 
   const { toggleMenu } = menuSlice.actions;
@@ -80,16 +79,21 @@ export const CardsField = ({ isList, inputValue }: CardsFieldProps) => {
   const requiredBooks = sortedBooks.filter((book) => book.title.toLowerCase().includes(inputValue.toLocaleLowerCase()));
 
   const allBooks = requiredBooks
-    ? requiredBooks.map((book) => <Card inputValue={inputValue} book={book} isList={isList} key={book.id} />)
+    ? requiredBooks.map((book) => <Card book={book} isList={isList} key={book.id} />)
     : null;
 
-  const outlinedSortedBooks =
-    (filteredBooks.length === 0 && activeName !== '') || requiredBooks.length < 1 ? (
-      <Emptymessage>
-        <p>По запросу ничего не найдено</p>
-      </Emptymessage>
+  const booksInCategory =
+    filteredBooks.length === 0 && activeName !== '' && inputValue === '' ? (
+      <Emptymessage data-test-id='empty-category'>В этой категории книг еще нет</Emptymessage>
     ) : (
       allBooks
+    );
+
+  const outlinedSortedBooks =
+    requiredBooks.length < 1 ? (
+      <Emptymessage data-test-id='search-result-not-found'>По запросу ничего не найдено</Emptymessage>
+    ) : (
+      booksInCategory
     );
 
   return (

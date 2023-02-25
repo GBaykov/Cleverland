@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '../../components/button';
 import { CardsField } from '../../components/cards-field';
 import search from '../../assets/icons/search.svg';
@@ -24,27 +24,37 @@ import { allBooksSlice, fetchAllBooks } from '../../store/reducers/books-reducer
 import { Loader } from '../../components/loader';
 import { NotificationError } from '../../components/utils/notification-error';
 
+// const useFocus = () => {
+//   const htmlElRef = useRef(null)
+//   const setFocus = () => {htmlElRef.current &&  htmlElRef.current.focus()}
+
+//   return [ htmlElRef, setFocus ]
+// }
+
 export const MainPage = () => {
   const [isList, setuseList] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  // const [inputRef, setInputFocus] = useFocus()
   const dispatch = useAppDispatch();
-  const { booksStatus, isDESC } = useAppSelector((store) => store.AllBooksReducer);
+  const { booksStatus, isDESC, inputValue } = useAppSelector((store) => store.AllBooksReducer);
   const { categoryStatus } = useAppSelector((store) => store.CategoriesReducer);
-  const { setIsDESC } = allBooksSlice.actions;
+  const { setIsDESC, setInputValue } = allBooksSlice.actions;
 
   const onInputFocus = () => {
-    setInputFocused(true);
     const input = document.getElementById('input-search');
     if (input) {
+      setInputFocused(true);
+      console.log(input);
       input.focus();
+      console.log(isInputFocused);
     }
   };
   const onCrossClick = () => {
     setInputFocused(false);
+    console.log('cross click');
   };
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+    dispatch(setInputValue(event.target.value));
   };
 
   const BookSortClick = () => {
@@ -82,12 +92,18 @@ export const MainPage = () => {
                   onChange={(e) => onInputChange(e)}
                   type='search'
                   placeholder='Поиск книги или автора…'
+                  autoFocus={true}
                 />
                 <SvgWrapper isInputFocused={isInputFocused} onClick={() => onCrossClick()}>
                   <img data-test-id='button-search-close' src={cross} alt='cross' />
                 </SvgWrapper>
               </SearchBar>
-              <BookSort isDESC={isDESC} onClick={BookSortClick} isInputFocused={isInputFocused}>
+              <BookSort
+                data-test-id='sort-rating-button'
+                isDESC={isDESC}
+                onClick={BookSortClick}
+                isInputFocused={isInputFocused}
+              >
                 <img src={sort} alt='sort' />
                 <span>По рейтингу</span>
               </BookSort>
@@ -110,7 +126,7 @@ export const MainPage = () => {
             </ViewButtonsContainer>
           </MainPageHeader>
 
-          <CardsField inputValue={inputValue} isList={isList} />
+          <CardsField isList={isList} />
         </MainPageContainer>
       )}
     </>

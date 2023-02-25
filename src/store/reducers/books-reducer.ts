@@ -10,6 +10,7 @@ interface BooksState {
   activeCategory: string;
   activeName: string;
   isDESC: boolean;
+  inputValue: string;
 }
 
 const initialState: BooksState = {
@@ -19,6 +20,7 @@ const initialState: BooksState = {
   activeCategory: 'all',
   activeName: '',
   isDESC: true,
+  inputValue: '',
 };
 
 export const fetchAllBooks = createAsyncThunk(
@@ -59,6 +61,9 @@ export const allBooksSlice = createSlice({
     },
     setIsDESC(state, action) {
       state.isDESC = action.payload;
+    },
+    setInputValue(state, action) {
+      state.inputValue = action.payload;
     },
   },
   extraReducers(builder) {

@@ -59,7 +59,7 @@ export const BookPage = () => {
       <BurgerMenu />
       <BookPageContainer onClick={() => dispatch(toggleMenu(false))}>
         <BookPageAddress>
-          <AdsressCategory onClick={() => navigate(`/books/${activeCategory}`)}>
+          <AdsressCategory data-test-id='breadcrumbs-link' onClick={() => navigate(`/books/${activeCategory}`)}>
             {activeName !== '' ? activeName : 'Все книги'}
           </AdsressCategory>
           &nbsp;
@@ -74,7 +74,7 @@ export const BookPage = () => {
             <BookMainBlock>
               <Slider images={currentBook?.images} />
               <BookMainInfo>
-                <BookTitle>{currentBook?.title}</BookTitle>
+                <BookTitle data-test-id='book-title'>{currentBook?.title}</BookTitle>
                 <BookAuthor>{currentBook?.authors}</BookAuthor>
                 <BookMainButton>
                   <Button isPrimary={true} height={40} text='Забронировать' />

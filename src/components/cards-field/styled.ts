@@ -38,26 +38,21 @@ export const CardsContainer = styled.section<CardsContainerProps>`
 
 export const Emptymessage = styled.div`
   width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  // align-items: center;
+
   margin: 0 auto;
-  p {
-    width: 100%;
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 40px;
-    text-align: center;
-    letter-spacing: 0.1px;
-    color: ${BLACK40};
-    margin-top: 200px;
-    @media (max-width: 600px) {
-      font-size: 18px;
-      line-height: 28px;
-      padding: 0 50px;
-    }
+
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  text-align: center;
+  letter-spacing: 0.1px;
+  color: ${BLACK40};
+  margin-top: 200px;
+  @media (max-width: 600px) {
+    font-size: 18px;
+    line-height: 28px;
+    // padding: 0 50px;
   }
 `;

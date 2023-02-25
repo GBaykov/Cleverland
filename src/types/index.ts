@@ -33,5 +33,4 @@ export interface IBook {
 export interface CardProps {
   book: BookAmongAllBooks;
   isList: boolean;
-  inputValue: string;
 }

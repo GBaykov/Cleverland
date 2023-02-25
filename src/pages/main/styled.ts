@@ -106,6 +106,9 @@ height: 16px;
 `;
 
 export const StyledInput = styled.input<SearchBarProps>`
+  :focus {
+    outline: #ffffff;
+  }
   @media (max-width: 800px) {
     max-width: 274px;
   }
@@ -116,7 +119,7 @@ export const StyledInput = styled.input<SearchBarProps>`
   }
 
   @media (max-width: 600px) {
-    ${({ isInputFocused }) => (isInputFocused ? 'max-width: 288px; display: block;' : `   `)}
+    ${({ isInputFocused }) => (isInputFocused ? 'max-width: 288px; display: block; outline: #ffffff;' : `   `)}
   }
 `;
 
