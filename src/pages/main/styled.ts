@@ -34,8 +34,9 @@ export const SeacrSortContainer = styled.div`
 `;
 
 interface SearchBarProps {
-  isInputFocused: boolean;
+  isInputOpened: boolean;
   isDESC?: boolean;
+  isInputFocused?: boolean;
 }
 
 export const SearchBar = styled.div<SearchBarProps>`
@@ -84,9 +85,9 @@ height: 16px;
   }
 @media (max-width: 600px) {
    
-      ${({ isInputFocused }) =>
-        isInputFocused
-          ? 'max-width: 288px;'
+      ${({ isInputOpened }) =>
+        isInputOpened
+          ? 'max-width: 288px; :focus {outline: #ffffff;} '
           : `   width: 32px;
       height: 32px;
       padding: 0px;
@@ -104,8 +105,16 @@ height: 16px;
       }`}
     }
 `;
+export const SvgWrapper = styled.span<SearchBarProps>`
+  // svg {
+  //   fill: #a7a7a7;
+  // }
+  ${({ isInputFocused }) => (isInputFocused ? 'svg {fill: #f83600;}' : 'svg {fill: #a7a7a7;}')}
+  ${({ isInputOpened }) => (isInputOpened ? ' ' : 'display: none;')}
+`;
 
 export const StyledInput = styled.input<SearchBarProps>`
+  caret-color: #f83600;
   :focus {
     outline: #ffffff;
   }
@@ -119,18 +128,21 @@ export const StyledInput = styled.input<SearchBarProps>`
   }
 
   @media (max-width: 600px) {
-    ${({ isInputFocused }) => (isInputFocused ? 'max-width: 288px; display: block; outline: #ffffff;' : `   `)}
+    ${({ isInputOpened }) => (isInputOpened ? 'max-width: 288px; display: block;  outline: #ffffff; ' : `   `)};
   }
 `;
 
-export const SvgWrapper = styled.span<SearchBarProps>`
-  ${({ isInputFocused }) => (isInputFocused ? ' ' : 'display: none;')}
+export const CrossWrapper = styled.span<SearchBarProps>`
+  svg {
+    fill: #f83600;
+  }
+  ${({ isInputOpened }) => (isInputOpened ? ' ' : 'display: none;')}
 `;
 
 export const BookSort = styled.div<SearchBarProps>`
   cursor: pointer;
   @media (max-width: 600px) {
-    ${({ isInputFocused }) => (isInputFocused ? 'display: none;' : '')}
+    ${({ isInputOpened }) => (isInputOpened ? 'display: none;' : '')}
   }
   ${({ isDESC }) =>
     !isDESC
@@ -172,16 +184,12 @@ export const BookSort = styled.div<SearchBarProps>`
   }
 `;
 
-// interface ViewButtonProps {
-//   svg: string;
-// }
-
 export const ViewButtonsContainer = styled.div<SearchBarProps>`
   display: flex;
   flex-direction: row;
   gap: 8px;
   @media (max-width: 600px) {
-    ${({ isInputFocused }) => (isInputFocused ? 'display: none;' : '')}
+    ${({ isInputOpened }) => (isInputOpened ? 'display: none;' : '')}
   }
 `;
 

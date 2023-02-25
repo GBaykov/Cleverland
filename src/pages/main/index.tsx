@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '../../components/button';
 import { CardsField } from '../../components/cards-field';
-import search from '../../assets/icons/search.svg';
+// import search from '../../assets/icons/search.svg';
 import sort from '../../assets/icons/sort.svg';
-import cross from '../../assets/icons/cross.svg';
-import { tableIconSvg, listIconSvg } from '../../constants/svg';
+// import cross from '../../assets/icons/cross.svg';
+import { tableIconSvg, listIconSvg, cross, search } from '../../constants/svg';
 
 import {
   BookSort,
@@ -16,6 +16,7 @@ import {
   ViewButton,
   ViewButtonsContainer,
   StyledInput,
+  CrossWrapper,
 } from './styled';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { menuSlice } from '../../store/reducers/menu-reducer';
@@ -24,33 +25,36 @@ import { allBooksSlice, fetchAllBooks } from '../../store/reducers/books-reducer
 import { Loader } from '../../components/loader';
 import { NotificationError } from '../../components/utils/notification-error';
 
-// const useFocus = () => {
-//   const htmlElRef = useRef(null)
-//   const setFocus = () => {htmlElRef.current &&  htmlElRef.current.focus()}
-
-//   return [ htmlElRef, setFocus ]
-// }
-
 export const MainPage = () => {
   const [isList, setuseList] = useState(false);
+  const [isInputOpened, setInputOpened] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
-  // const [inputRef, setInputFocus] = useFocus()
+
   const dispatch = useAppDispatch();
   const { booksStatus, isDESC, inputValue } = useAppSelector((store) => store.AllBooksReducer);
   const { categoryStatus } = useAppSelector((store) => store.CategoriesReducer);
   const { setIsDESC, setInputValue } = allBooksSlice.actions;
 
-  const onInputFocus = () => {
+  const [size, setSize] = useState([window.innerWidth]);
+  const useWindowSize = () => size;
+  const [width] = useWindowSize();
+
+  useEffect(() => {
+    if (width > 600) {
+      setInputOpened(false);
+    }
+  }, [width]);
+
+  const onInputOpened = () => {
     const input = document.getElementById('input-search');
     if (input) {
-      setInputFocused(true);
+      setInputOpened(true);
       console.log(input);
       input.focus();
-      console.log(isInputFocused);
     }
   };
   const onCrossClick = () => {
-    setInputFocused(false);
+    setInputOpened(false);
     console.log('cross click');
   };
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +63,11 @@ export const MainPage = () => {
 
   const BookSortClick = () => {
     dispatch(setIsDESC(!isDESC));
+  };
+
+  const onInputFocus = (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+    event.stopPropagation();
+    setInputFocused(true);
   };
 
   return (
@@ -71,44 +80,49 @@ export const MainPage = () => {
       (categoryStatus !== 'loading' || booksStatus !== 'loading') ? (
         <NotificationError text='Что-то пошло не так. Обновите страницу через некоторое время.' />
       ) : (
-        <MainPageContainer>
+        <MainPageContainer onClick={() => setInputFocused(false)}>
           <MainPageHeader>
             <SeacrSortContainer>
-              <SearchBar isInputFocused={isInputFocused}>
+              <SearchBar isInputOpened={isInputOpened}>
                 <SvgWrapper
                   data-test-id='button-search-open'
                   onClick={() => {
-                    onInputFocus();
+                    onInputOpened();
                   }}
-                  isInputFocused={!isInputFocused}
+                  isInputOpened={!isInputOpened}
+                  isInputFocused={isInputFocused}
                 >
-                  <img src={search} alt='search' />
+                  {/* <img src={search} alt='search' /> */}
+                  {search}
                 </SvgWrapper>
                 <StyledInput
-                  isInputFocused={isInputFocused}
+                  className=''
+                  isInputOpened={isInputOpened}
                   id='input-search'
                   data-test-id='input-search'
                   value={inputValue}
                   onChange={(e) => onInputChange(e)}
+                  onClick={(e) => onInputFocus(e)}
                   type='search'
                   placeholder='Поиск книги или автора…'
                   autoFocus={true}
                 />
-                <SvgWrapper isInputFocused={isInputFocused} onClick={() => onCrossClick()}>
-                  <img data-test-id='button-search-close' src={cross} alt='cross' />
-                </SvgWrapper>
+                <CrossWrapper isInputOpened={isInputOpened} onClick={() => onCrossClick()}>
+                  {cross}
+                  {/* <img data-test-id='button-search-close' src={cross} alt='cross' /> */}
+                </CrossWrapper>
               </SearchBar>
               <BookSort
                 data-test-id='sort-rating-button'
                 isDESC={isDESC}
                 onClick={BookSortClick}
-                isInputFocused={isInputFocused}
+                isInputOpened={isInputOpened}
               >
                 <img src={sort} alt='sort' />
                 <span>По рейтингу</span>
               </BookSort>
             </SeacrSortContainer>
-            <ViewButtonsContainer isInputFocused={isInputFocused}>
+            <ViewButtonsContainer isInputOpened={isInputOpened}>
               <ViewButton
                 data-test-id='button-menu-view-window'
                 onClick={() => setuseList(false)}
