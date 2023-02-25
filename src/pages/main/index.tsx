@@ -42,7 +42,6 @@ export const MainPage = () => {
   };
   const onCrossClick = () => {
     setInputFocused(false);
-    setInputValue('');
   };
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
