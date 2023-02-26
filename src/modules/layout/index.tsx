@@ -2,12 +2,11 @@ import { FC, ReactNode, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
-import { Loader } from '../../components/loader';
-import { NotificationError } from '../../components/utils/notification-error';
+
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchAllBooks } from '../../store/reducers/books-reducer';
 import { fetchCategories } from '../../store/reducers/categories-reducer';
-import { menuSlice } from '../../store/reducers/menu-reducer';
+
 import { App } from './styled';
 
 type LayoutProps = {
@@ -15,15 +14,13 @@ type LayoutProps = {
 };
 
 export const Layout: FC<LayoutProps> = ({ children }) => {
-  const dispatch = useAppDispatch();
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
-  const { toggleMenu } = menuSlice.actions;
-
+  const dispatch = useAppDispatch();
+  const { activeName } = useAppSelector((state) => state.AllBooksReducer);
   useEffect(() => {
     let ignore = false;
     function startFetching() {
       if (!ignore) {
-        dispatch(fetchCategories());
         dispatch(fetchAllBooks());
       }
     }
@@ -31,7 +28,22 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
     return () => {
       ignore = true;
     };
-  }, [dispatch]);
+  }, [dispatch, activeName]);
+
+  useEffect(() => {
+    let ignore = false;
+    function startFetching() {
+      if (!ignore) {
+        dispatch(fetchCategories());
+      }
+    }
+
+    startFetching();
+
+    return () => {
+      ignore = true;
+    };
+  }, [dispatch, activeName]);
 
   return (
     <App className={isMenuOpen ? 'menuOpen' : ''}>

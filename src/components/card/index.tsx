@@ -19,9 +19,11 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { bookSlice } from '../../store/reducers/book-reducer';
 import { menuSlice } from '../../store/reducers/menu-reducer';
 import { HOST } from '../../constants';
+import { getTitleWithHighlight } from '../utils/functions';
 
 export const Card = ({ book, isList }: CardProps) => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
+  const { inputValue } = useAppSelector((state) => state.AllBooksReducer);
 
   const dispatch = useAppDispatch();
   const { toggleMenu } = menuSlice.actions;
@@ -43,6 +45,13 @@ export const Card = ({ book, isList }: CardProps) => {
     dispatch(toggleMenu(false));
   };
 
+  const bookTitle = () =>
+    inputValue === '' ? (
+      <CardTitle isList={isList}>{book.title}</CardTitle>
+    ) : (
+      <CardTitle isList={isList} dangerouslySetInnerHTML={{ __html: getTitleWithHighlight(inputValue, book.title) }} />
+    );
+
   if (book) {
     const bookphoto = `${HOST}${book?.image?.url}`;
     return (
@@ -51,7 +60,8 @@ export const Card = ({ book, isList }: CardProps) => {
 
         <CardItem isList={isList}>
           {isList ? null : <CardRating>{ratingStars(book.rating)}</CardRating>}
-          <CardTitle isList={isList}>{book.title}</CardTitle>
+          {/* <CardTitle isList={isList}>{book.title}</CardTitle> */}
+          {bookTitle()}
           <CardAuthor isList={isList}>{book.authors}</CardAuthor>
           <CardButtonWrapper isList={isList}>
             {isList ? <CardRating>{ratingStars(book.rating)}</CardRating> : null}

@@ -10,31 +10,32 @@ import {
   BurgerMenyContent,
   BurgerStyledLink,
 } from './styled';
-import { categories } from '../../../constants/constants';
 import { menuSlice } from '../../../store/reducers/menu-reducer';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { arrow } from '../../../constants/svg';
+import { allBooksSlice } from '../../../store/reducers/books-reducer';
 
 export const BurgerMenu: FC = () => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
   const dispatch = useAppDispatch();
   const { toggleMenu } = menuSlice.actions;
+  const { setActiveCategory, setActiveName } = allBooksSlice.actions;
   const [isRolled, setIsRolled] = useState(false);
   const [activeLink, setActiveLink] = useState('books');
-  const [activeCategory, setActiveCategory] = useState('');
 
   const { categories, categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
   const { currentBook, currentBookStatus } = useAppSelector((state) => state.BookReducer);
-  const { booksStatus } = useAppSelector((state) => state.AllBooksReducer);
+  const { books, booksStatus, activeCategory } = useAppSelector((state) => state.AllBooksReducer);
 
   const onArrowRolledClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
     setIsRolled(!isRolled);
     setActiveLink('books');
   };
-  const onBookCategoryClick = (category: string) => {
+  const onBookCategoryClick = (category: string, categoryname: string) => {
     setActiveLink('books');
-    setActiveCategory(category);
+    dispatch(setActiveCategory(category));
+    dispatch(setActiveName(categoryname));
   };
   const onLinckClick = (str: string) => {
     setActiveLink(str);
@@ -60,12 +61,16 @@ export const BurgerMenu: FC = () => {
           </BurgerBookListHead>
           {categoryStatus === 'idle' && booksStatus === 'idle' && currentBookStatus === 'idle' && (
             <BurgerBooksLink
-              data-test-id='burger-books'
-              onClick={() => onBookCategoryClick('all')}
+              // data-test-id='burger-books'
+              onClick={() => onBookCategoryClick('all', '')}
               key={0}
               className={isRolled ? 'rolled' : ''}
             >
-              <Link to='/books/all' className={activeCategory === 'all' && activeLink === 'books' ? 'activeCat' : ''}>
+              <Link
+                data-test-id='burger-books'
+                to='/books/all'
+                className={activeCategory === 'all' && activeLink === 'books' ? 'activeCat' : ''}
+              >
                 Все книги
               </Link>
             </BurgerBooksLink>
@@ -75,21 +80,26 @@ export const BurgerMenu: FC = () => {
             booksStatus === 'idle' &&
             currentBookStatus === 'idle' &&
             categories &&
-            categories.map((category) => (
-              <BurgerBooksLink
-                onClick={() => onBookCategoryClick(category.path)}
-                key={category.id}
-                className={isRolled ? 'rolled' : ''}
-              >
-                <Link
-                  to={`/books/${category.path}`}
-                  className={activeCategory === category.path && activeLink === 'books' ? 'activeCat' : ''}
+            categories.map((category) => {
+              const booksInCategory = books.filter((item, index) => item.categories.includes(category.name)).length;
+
+              return (
+                <BurgerBooksLink
+                  onClick={() => onBookCategoryClick(category.path, category.name)}
+                  key={category.id}
+                  className={isRolled ? 'rolled' : ''}
                 >
-                  {category.name}
-                  {/* <span>{category.count}</span> */}
-                </Link>
-              </BurgerBooksLink>
-            ))}
+                  <Link
+                    data-test-id={`burger-${category.path}`}
+                    to={`/books/${category.path}`}
+                    className={activeCategory === category.path && activeLink === 'books' ? 'activeCat' : ''}
+                  >
+                    {category.name}
+                  </Link>
+                  <span data-test-id={`burger-book-count-for-${category.path}`}> {booksInCategory}</span>
+                </BurgerBooksLink>
+              );
+            })}
         </BurgerBooklist>
       </BurgerBooksContent>
 
