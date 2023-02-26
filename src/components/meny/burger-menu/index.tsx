@@ -61,7 +61,7 @@ export const BurgerMenu: FC = () => {
           </BurgerBookListHead>
           {categoryStatus === 'idle' && booksStatus === 'idle' && currentBookStatus === 'idle' && (
             <BurgerBooksLink
-              data-test-id='burger-books'
+              // data-test-id='burger-books'
               onClick={() => onBookCategoryClick('all', '')}
               key={0}
               className={isRolled ? 'rolled' : ''}
@@ -85,18 +85,18 @@ export const BurgerMenu: FC = () => {
 
               return (
                 <BurgerBooksLink
-                  data-test-id={`burger-${category.path}`}
                   onClick={() => onBookCategoryClick(category.path, category.name)}
                   key={category.id}
                   className={isRolled ? 'rolled' : ''}
                 >
                   <Link
+                    data-test-id={`burger-${category.path}`}
                     to={`/books/${category.path}`}
                     className={activeCategory === category.path && activeLink === 'books' ? 'activeCat' : ''}
                   >
-                    {category.name}{' '}
-                    <span data-test-id={`burger-book-count-for-${category.path}`}>{booksInCategory}</span>
+                    {category.name}
                   </Link>
+                  <span data-test-id={`burger-book-count-for-${category.path}`}> {booksInCategory}</span>
                 </BurgerBooksLink>
               );
             })}

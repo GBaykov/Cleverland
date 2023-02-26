@@ -84,7 +84,7 @@ export const CardsField = ({ isList }: CardsFieldProps) => {
 
   const booksInCategory =
     filteredBooks.length === 0 && activeName !== '' && inputValue === '' ? (
-      <Emptymessage data-test-id='empty-category'>В этой категории книг еще нет</Emptymessage>
+      <Emptymessage data-test-id='empty-category'>В этой категории книг ещё нет</Emptymessage>
     ) : (
       allBooks
     );

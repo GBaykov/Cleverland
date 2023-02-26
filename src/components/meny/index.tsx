@@ -68,7 +68,7 @@ export const Meny: FC = () => {
             </BookListHead>
             {categoryStatus === 'idle' && booksStatus === 'idle' && currentBookStatus === 'idle' && (
               <BooksLink
-                data-test-id='navigation-books'
+                // data-test-id='navigation-books'
                 onClick={() => onBookCategoryClick('all', '')}
                 key={0}
                 className={isRolled ? 'rolled' : ''}
@@ -92,18 +92,18 @@ export const Meny: FC = () => {
 
                 return (
                   <BooksLink
-                    data-test-id={`navigation-${category.path}`}
                     onClick={() => onBookCategoryClick(category.path, category.name)}
                     key={category.id}
                     className={isRolled ? 'rolled' : ''}
                   >
                     <Link
+                      data-test-id={`navigation-${category.path}`}
                       to={`/books/${category.path}`}
                       className={activeCategory === category.path && activeLink === 'books' ? 'activeCat' : ''}
                     >
-                      {category.name}{' '}
-                      <span data-test-id={`navigation-book-count-for-${category.path}`}>{booksInCategory}</span>
+                      {category.name}
                     </Link>
+                    <span data-test-id={`navigation-book-count-for-${category.path}`}> {booksInCategory}</span>
                   </BooksLink>
                 );
               })}

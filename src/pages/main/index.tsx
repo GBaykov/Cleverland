@@ -107,7 +107,11 @@ export const MainPage = () => {
                   placeholder='Поиск книги или автора…'
                   autoFocus={true}
                 />
-                <CrossWrapper isInputOpened={isInputOpened} onClick={() => onCrossClick()}>
+                <CrossWrapper
+                  data-test-id='button-search-close'
+                  isInputOpened={isInputOpened}
+                  onClick={() => onCrossClick()}
+                >
                   {cross}
                   {/* <img data-test-id='button-search-close' src={cross} alt='cross' /> */}
                 </CrossWrapper>

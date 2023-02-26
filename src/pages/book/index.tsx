@@ -62,8 +62,8 @@ export const BookPage = () => {
           <AdsressCategory data-test-id='breadcrumbs-link' onClick={() => navigate(`/books/${activeCategory}`)}>
             {activeName !== '' ? activeName : 'Все книги'}
           </AdsressCategory>
-          &nbsp;
-          <span> / {currentBook?.title}</span>
+          <span>&nbsp;/&nbsp;</span>
+          <span data-test-id='book-name'>{currentBook?.title}</span>
         </BookPageAddress>
         {currentBookStatus === 'loading' && <Loader />}
 
