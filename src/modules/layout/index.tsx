@@ -17,6 +17,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
   const dispatch = useAppDispatch();
   const { activeName } = useAppSelector((state) => state.AllBooksReducer);
+
   useEffect(() => {
     let ignore = false;
     function startFetching() {

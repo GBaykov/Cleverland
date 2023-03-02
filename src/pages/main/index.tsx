@@ -29,6 +29,7 @@ export const MainPage = () => {
   const [isList, setuseList] = useState(false);
   const [isInputOpened, setInputOpened] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
+  const inputRef: React.RefObject<HTMLInputElement> = useRef(null);
 
   const dispatch = useAppDispatch();
   const { booksStatus, isDESC, inputValue } = useAppSelector((store) => store.AllBooksReducer);
@@ -39,6 +40,14 @@ export const MainPage = () => {
   const useWindowSize = () => size;
   const [width] = useWindowSize();
 
+  const focus = () => {
+    inputRef.current?.select();
+    inputRef.current?.focus();
+  };
+  useEffect(() => {
+    focus();
+  });
+
   useEffect(() => {
     if (width > 600) {
       setInputOpened(false);
@@ -46,12 +55,9 @@ export const MainPage = () => {
   }, [width]);
 
   const onInputOpened = () => {
-    const input = document.getElementById('input-search');
-    if (input) {
-      setInputOpened(true);
-      console.log(input);
-      input.focus();
-    }
+    setInputOpened(true);
+    focus();
+    console.log('iput open-focus');
   };
   const onCrossClick = () => {
     setInputOpened(false);
@@ -86,9 +92,7 @@ export const MainPage = () => {
               <SearchBar isInputOpened={isInputOpened}>
                 <SvgWrapper
                   data-test-id='button-search-open'
-                  onClick={() => {
-                    onInputOpened();
-                  }}
+                  onClick={onInputOpened}
                   isInputOpened={!isInputOpened}
                   isInputFocused={isInputFocused}
                 >
@@ -96,6 +100,7 @@ export const MainPage = () => {
                   {search}
                 </SvgWrapper>
                 <StyledInput
+                  ref={inputRef}
                   className=''
                   isInputOpened={isInputOpened}
                   id='input-search'

@@ -15,7 +15,9 @@ interface CardsFieldProps {
 
 export const CardsField = ({ isList }: CardsFieldProps) => {
   const dispatch = useAppDispatch();
-  const { filteredBooks, books, activeName, isDESC, inputValue } = useAppSelector((state) => state.AllBooksReducer);
+  const { filteredBooks, books, activeName, isDESC, inputValue, booksStatus } = useAppSelector(
+    (state) => state.AllBooksReducer
+  );
   const { categories, categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
 
   const { toggleMenu } = menuSlice.actions;
