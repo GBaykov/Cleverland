@@ -1,8 +1,11 @@
 import React, { ReactNode } from 'react';
+import { FormAuth } from '../../components/form/form-auth';
 import { FormPageWrapper } from './styled';
 
 export type FormPageProps = {
-  children: ReactNode;
+  formType: 'auth' | 'registration' | 'recovery';
 };
 
-export const FormPage = ({ children }: FormPageProps) => <FormPageWrapper>{children}</FormPageWrapper>;
+export const FormPage = ({ formType }: FormPageProps) => (
+  <FormPageWrapper>{formType === 'auth' && <FormAuth />}</FormPageWrapper>
+);

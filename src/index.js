@@ -34,7 +34,7 @@ root.render(
             </Route>
             <Route path='/books/:category/:bookId' element={<BookPage />} />
             <Route path='/' element={<Navigate to='/auth' />} />
-            <Route path='/auth' element={<FormPage />} />
+            <Route path='/auth' element={<FormPage formType='auth' />} />
           </Route>
         </Routes>
       </HashRouter>

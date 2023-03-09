@@ -11,6 +11,6 @@ export const FormPageWrapper = styled.main`
   width: 100%;
   background: ${HOVER};
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 `;

@@ -12,13 +12,3 @@ border-radius: 16px;
     padding: 24px 16px;
 }
 `;
-
-export const FormTitle = styled.p`
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 30px;
-  color: ${DARK};
-`;
-
-export const RecoveryBackHeader = styled.div``;

@@ -1,8 +1,8 @@
-import React from 'react';
-import { FormLayout, FormTitle } from './styled';
+import React, { ReactNode } from 'react';
+import { FormLayout } from './styled';
 
-export const Form = () => (
-  <FormLayout>
-    <FormTitle>Регистрация</FormTitle>
-  </FormLayout>
-);
+export type FormProps = {
+  children: ReactNode;
+};
+
+export const Form = ({ children }: FormProps) => <FormLayout>{children}</FormLayout>;
