@@ -13,6 +13,7 @@ import { setupStore } from './store/store';
 import { Slider } from './components/slider';
 import { MockBook2 } from './constants/constants';
 import { Loader } from './components/loader';
+import { FormPage } from './pages/form-page';
 
 const store = setupStore();
 
@@ -24,7 +25,7 @@ root.render(
         <Routes>
           <Route path='/' element={<Layout />}>
             <Route element={<LayoutMainPage />}>
-              <Route path='/' element={<Navigate to='/books/all' />} />
+              {/* <Route path='/' element={<Navigate to='/books/all' />} /> */}
               <Route path='/books/all' element={<MainPage />} />
               <Route path='/books/:category' element={<MainPage />} />
               <Route path='/terms' element={<Terms contentView='terms' />} />
@@ -32,6 +33,8 @@ root.render(
               <Route path='/profile' element={<Loader />} />
             </Route>
             <Route path='/books/:category/:bookId' element={<BookPage />} />
+            <Route path='/' element={<Navigate to='/auth' />} />
+            <Route path='/auth' element={<FormPage />} />
           </Route>
         </Routes>
       </HashRouter>
