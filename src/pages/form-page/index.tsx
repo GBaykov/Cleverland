@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { FormAuth } from '../../components/form/form-auth';
+import { AuthForm } from '../../components/form/form-auth';
 import { FormPageWrapper } from './styled';
 
 export type FormPageProps = {
@@ -7,5 +7,5 @@ export type FormPageProps = {
 };
 
 export const FormPage = ({ formType }: FormPageProps) => (
-  <FormPageWrapper>{formType === 'auth' && <FormAuth />}</FormPageWrapper>
+  <FormPageWrapper>{formType === 'auth' && <AuthForm />}</FormPageWrapper>
 );

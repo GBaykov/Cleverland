@@ -22,12 +22,14 @@ export const AuthTitle = styled.p`
   line-height: 30px;
   letter-spacing: 0.1px;
   color: ${DARK};
+  margin-bottom: 32px;
 `;
 
 export const StyledAuthForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-bottom: 32px;
 `;
 export const HaveNoRecord = styled.p`
   font-weight: 400;
