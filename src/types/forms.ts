@@ -6,6 +6,14 @@ export type AuthFormValues = {
   identifier: string;
   password: string;
 };
+export type RegistrationFormValues = {
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+};
 
 export type InputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 

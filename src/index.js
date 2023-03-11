@@ -33,8 +33,9 @@ root.render(
               <Route path='/profile' element={<Loader />} />
             </Route>
             <Route path='/books/:category/:bookId' element={<BookPage />} />
-            <Route path='/' element={<Navigate to='/auth' />} />
+            <Route path='/' element={<Navigate to='/registration' />} />
             <Route path='/auth' element={<FormPage formType='auth' />} />
+            <Route path='/registration' element={<FormPage formType='registration' />} />
           </Route>
         </Routes>
       </HashRouter>
