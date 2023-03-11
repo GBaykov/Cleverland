@@ -30,8 +30,9 @@ export const FormsInput = forwardRef<
           name={name}
           required={true}
           type={typeInputValue}
-          onFocus={() => clearErrors && clearErrors()}
+          onFocus={() => clearErrors && clearErrors(name)}
           onBlur={onBlur}
+          title=' '
         />
         <InputLabel>{label}</InputLabel>
         {isChecked && isInputpassword && (

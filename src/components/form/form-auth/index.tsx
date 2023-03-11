@@ -22,8 +22,8 @@ import { BtnType } from '../../button/styled';
 export const authSchema = object({
   identifier: string().required('Поле не может быть пустым'),
   password: string().required('Поле не может быть пустым'),
-  // identifier: string().required().min(4, 'identifier must contain at least 4 characters'),
-  // password: string().required().min(4, 'Password must contain at least 4 characters'),
+  // identifier: string().min(1, 'Поле не может быть пустым'),
+  // password: string().min(1, 'Поле не может быть пустым'),
 });
 
 export const AuthForm = () => {
@@ -35,7 +35,7 @@ export const AuthForm = () => {
     clearErrors,
     formState: { errors },
   } = useForm<AuthFormValues>({
-    mode: 'onBlur',
+    mode: 'all',
     resolver: yupResolver(authSchema),
     criteriaMode: 'all',
   });
@@ -50,7 +50,7 @@ export const AuthForm = () => {
   return (
     <AuthFormModal>
       <AuthTitle>Вход в личный кабинет</AuthTitle>
-      <StyledAuthForm onSubmit={handleSubmit(onSubmit)}>
+      <StyledAuthForm onSubmit={handleSubmit(onSubmit)} noValidate={true}>
         <FormsInput
           {...register('identifier')}
           name='identifier'

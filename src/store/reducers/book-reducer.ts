@@ -3,12 +3,13 @@ import axios from 'axios';
 
 import { HOST } from '../../constants';
 import { ChosenBookSuccess } from '../../types/books';
+import { axiosInstance } from '../api';
 
-interface CurrenBookState {
+type CurrenBookState = {
   bookId: number | null;
   currentBook: ChosenBookSuccess | null;
   currentBookStatus: 'loading' | 'idle' | 'faild';
-}
+};
 
 const initialState: CurrenBookState = {
   bookId: null,
@@ -20,7 +21,7 @@ export const fetchOneBook = createAsyncThunk(
   'books/fetchOneBook',
   async (bookId: CurrenBookState['bookId'], thunkAPI) => {
     try {
-      const response = await axios.get<ChosenBookSuccess>(`${HOST}/api/books/${bookId}`);
+      const response = await axiosInstance.get<ChosenBookSuccess>(`${HOST}/api/books/${bookId}`);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
