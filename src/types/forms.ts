@@ -1,4 +1,6 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from 'react';
+import { FieldError, UseFormWatch } from 'react-hook-form';
+import { UseFormClearErrors } from 'react-hook-form/dist/types';
 
 export type AuthFormValues = {
   identifier: string;
@@ -17,4 +19,8 @@ export type FormInputType = InputPropsType & {
   isChecked?: boolean;
   onFocus?: () => void;
   type: InputType;
+  error?: FieldError;
+  watchName: string;
+  clearErrors?: UseFormClearErrors<AuthFormValues>;
+  name: 'password' | 'identifier';
 };

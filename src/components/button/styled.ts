@@ -1,15 +1,28 @@
 import styled from 'styled-components';
 import { BLACK10, BLACK5, BLACK20, DARK, HOVER, WHITE } from '../../constants/styles';
 
-export interface IButton {
+export enum BtnType {
+  button = 'button',
+  submit = 'submit',
+}
+
+export type ButtonProps = {
   height?: number;
   width?: number;
   isPrimary: boolean;
   text: string;
   disabled?: boolean;
-}
+  type?: BtnType;
+  onClick?: () => void;
+};
+export type StyledButtomProp = {
+  height?: number;
+  width?: number;
+  isPrimary: boolean;
+  text: string;
+};
 
-export const StyledButton = styled.button<IButton>`
+export const StyledButton = styled.button<StyledButtomProp>`
   height: ${({ height }) => (height ? `${height}px` : '40px')};
   width: ${({ width }) => (width ? `${width}px` : '100%')};
   cursor: pointer;

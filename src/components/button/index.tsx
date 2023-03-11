@@ -1,7 +1,7 @@
-import { IButton, StyledButton } from './styled';
+import { ButtonProps, StyledButton } from './styled';
 
-export const Button = ({ width, isPrimary, height, text }: IButton) => (
-  <StyledButton isPrimary={isPrimary} width={width} height={height} text={text}>
+export const Button = ({ width, isPrimary, height, text, type }: ButtonProps) => (
+  <StyledButton type={type} isPrimary={isPrimary} width={width} height={height} text={text}>
     {' '}
     {text}
   </StyledButton>

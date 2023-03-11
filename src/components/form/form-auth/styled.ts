@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { BLACK70, DARK, WHITE } from '../../../constants/styles';
+import { BLACK40, BLACK70, DARK, NEGATIVE, WHITE } from '../../../constants/styles';
 
 export const AuthFormModal = styled.section`
   width: 100%;
@@ -29,7 +29,8 @@ export const StyledAuthForm = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 32px;
+  gap: 32px;
+  margin-bottom: 16px;
 `;
 export const HaveNoRecord = styled.p`
   font-weight: 400;
@@ -61,4 +62,23 @@ export const LinkToRegistration = styled(Link)`
   img {
     margin-left: 12px;
   }
+`;
+export const LinkToForgot = styled(Link)`
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  margin-left: 12px;
+  color: ${BLACK40};
+  margin-top: -16px;
+  &.short {
+    margin-top: -32px;
+  }
+`;
+
+export const FormErrorMessage = styled.p`
+  color: ${NEGATIVE};
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  margin-left: 12px;
 `;
