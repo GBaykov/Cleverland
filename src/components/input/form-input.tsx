@@ -1,20 +1,14 @@
-import React, { forwardRef, ReactNode, useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { FieldError, UseFormClearErrors, UseFormRegister } from 'react-hook-form/dist/types';
-import {
-  AllPossiblerFields,
-  AuthFormValues,
-  ClearErrors,
-  FormInputType,
-  InputType,
-  RegistrationFormValues,
-} from '../../types/forms';
-import { InputIcon, InputLabel, InputWrapper, StyledInput } from './styled';
+import { AllPossiblerFields, FormInputType, InputType } from '../../types/forms';
+import { InputIcon, InputLabel, InputWrapper, StyledInput, StyledMask } from './styled';
 import check from '../../assets/icons/check.svg';
 import eyeClosed from '../../assets/icons/EyeClosed.svg';
 import eyeOpen from '../../assets/icons/eyeOpen.svg';
+import { HintError } from '../form/hint';
+import { StyledHint } from '../form/hint/styled';
 
 type InputreturnType = ReturnType<UseFormRegister<UseFormClearErrors<AllPossiblerFields>>>;
-// type ClearErrors = UseFormClearErrors<RegistrationFormValues > | UseFormClearErrors< AuthFormValues>
 export const FormsInput = forwardRef<
   HTMLInputElement,
   {
@@ -24,27 +18,83 @@ export const FormsInput = forwardRef<
     watchName: string;
     clearErrors: UseFormClearErrors<AllPossiblerFields>;
   } & InputreturnType
->(({ name, disabled, label, onBlur, onChange, isChecked, type, error, watchName, clearErrors }: FormInputType, ref) => {
-  const [isEyeOpen, setIsEyeOpen] = useState(false);
-  const isInputpassword = name === 'password';
+>(
+  (
+    {
+      name,
+      disabled,
+      label,
+      onBlur,
+      onChange,
+      isChecked,
+      type,
+      error,
+      watchName,
+      clearErrors,
+      isFullError,
+      errors,
+      isInputAuth,
+      mask,
+    }: FormInputType,
+    ref
+  ) => {
+    const [isEyeOpen, setIsEyeOpen] = useState(false);
+    const isInputpassword = name === 'password';
+    const isInputPhone = name === 'phone';
+    const isRegularError =
+      (!errors && error?.message && !isInputPhone) ||
+      (errors && error?.message && error.type === 'required' && !isInputPhone);
 
-  const typeInputValue = isInputpassword && isEyeOpen ? 'text' : isInputpassword ? 'password' : 'text';
-  console.log(error?.message as string);
+    const typeInputValue = isInputpassword && isEyeOpen ? 'text' : isInputpassword ? 'password' : 'text';
 
-  return (
-    <>
+    const errorNotDisplayed = () => {
+      if (!isInputAuth) {
+        return 'notDisplayed';
+      }
+      return '';
+    };
+
+    const bordeError = error?.message ? 'borderError' : '';
+    return (
       <InputWrapper>
-        <StyledInput
-          ref={ref}
-          name={name}
-          required={true}
-          type={typeInputValue}
-          onFocus={() => clearErrors && clearErrors(name)}
-          onBlur={onBlur}
-          title=' '
-        />
+        {mask ? (
+          <StyledMask
+            className={bordeError}
+            type={isEyeOpen ? 'text' : type}
+            maskChar='x'
+            mask={mask}
+            // {...register}
+            alwaysShowMask={!error?.message && !watchName && !isInputPhone}
+            onFocus={() => clearErrors && clearErrors()}
+          />
+        ) : (
+          <StyledInput
+            className={bordeError}
+            ref={ref}
+            name={name}
+            required={true}
+            type={typeInputValue}
+            onFocus={() => clearErrors && clearErrors(name)}
+            onBlur={onBlur}
+            title=' '
+          />
+        )}
+
         <InputLabel>{label}</InputLabel>
-        {isChecked && isInputpassword && (
+
+        {errors && error?.type !== 'required' && (
+          <HintError shouldShowError={!!watchName} errors={errors} hintType={name} isFullError={isFullError} />
+        )}
+
+        {isRegularError && <StyledHint className={errorNotDisplayed()}>{error.message}</StyledHint>}
+
+        {isInputPhone && (
+          <StyledHint className={errorNotDisplayed()}>
+            {error?.message ? error.message : 'В формате +375 (xx) xxx-xx-xx'}
+          </StyledHint>
+        )}
+
+        {isInputpassword && isChecked && (
           <InputIcon className='checkicon' src={check} alt='iconCheck' data-test-id='checkmark' />
         )}
         {!!isInputpassword && isEyeOpen && (
@@ -54,7 +104,6 @@ export const FormsInput = forwardRef<
           <InputIcon src={eyeClosed} alt='eyeClosed' onClick={() => setIsEyeOpen(true)} />
         )}
       </InputWrapper>
-      {error && <p>{error?.message as string}</p>}
-    </>
-  );
-});
+    );
+  }
+);

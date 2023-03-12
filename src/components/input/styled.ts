@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import { BLACK20, BLACK40, BLACK5, DARK } from '../../constants/styles';
+
+import InputMask from 'react-input-mask';
+import { BLACK20, BLACK40, BLACK5, DARK, NEGATIVE } from '../../constants/styles';
 
 export const InputWrapper = styled.div`
   position: relative;
@@ -28,7 +30,48 @@ export const StyledInput = styled.input<{ disable?: boolean }>`
   box-sizing: border-box;
   padding: 26px 12px 12px 12px;
   background: ${BLACK5};
-  border-bottom: 1px solid ${BLACK40};
+  border-bottom: 1px solid ${BLACK20};
+  &.borderError {
+    border-bottom: 1px solid ${NEGATIVE};
+  }
+
+  &:valid {
+    ~ span {
+      top: 0;
+      margin-top: 6px;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+      color: ${BLACK40};
+    }
+  }
+
+  &:focus {
+    outline: none;
+    color: ${DARK};
+    ~ span {
+      top: 0;
+      margin-top: 6px;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+      color: ${BLACK20};
+    }
+  }
+`;
+
+export const StyledMask = styled(InputMask)`
+  border-radius: 4px;
+  width: 100%;
+  height: 100%;
+  border: none;
+  box-sizing: border-box;
+  padding: 26px 12px 12px 12px;
+  background: ${BLACK5};
+  border-bottom: 1px solid ${BLACK20};
+  &.borderError {
+    border-bottom: 1px solid ${NEGATIVE};
+  }
 
   &:valid {
     ~ span {

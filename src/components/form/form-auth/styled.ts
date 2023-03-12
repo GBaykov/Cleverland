@@ -32,37 +32,7 @@ import { BLACK40, BLACK70, DARK, NEGATIVE, WHITE } from '../../../constants/styl
 //   gap: 32px;
 //   margin-bottom: 16px;
 // `;
-export const HaveNoRecord = styled.p`
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  margin-top: 16px;
-  letter-spacing: 0.1px;
-  color: ${BLACK70};
-  display: flex;
-  gap: 16px;
-  @media (max-width: 600px) {
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 20px;
-    flex-direction: column;
-    gap: 4px;
-  }
-`;
-export const LinkToRegistration = styled(Link)`
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 18px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  letter-spacing: 0.2px;
-  text-transform: uppercase;
-  color: ${DARK};
-  img {
-    margin-left: 12px;
-  }
-`;
+
 export const LinkToForgot = styled(Link)`
   font-size: 12px;
   line-height: 16px;

@@ -5,7 +5,7 @@ export enum ErrorMessages {
   wrongLoginOrPassword = 'Неверный логин или пароль!',
   smthError = 'Что-то пошло не так. Попробуйте еще раз',
   required = 'Поле не может быть пустым',
-  atLeastEightChars = 'не менее 8 символов',
+  minEightChars = 'не менее 8 символов',
   withNumber = 'цифрой',
   withUpperLater = 'с заглавной буквой',
 }

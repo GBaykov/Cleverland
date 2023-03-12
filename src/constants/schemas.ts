@@ -22,7 +22,7 @@ export const usernameSchema = object({
 export const passwordSchema = object({
   password: string()
     .required(ErrorMessages.required)
-    .matches(minEightSymbolRegex, ErrorMessages.atLeastEightChars)
+    .matches(minEightSymbolRegex, ErrorMessages.minEightChars)
     .matches(passwordUpperLetterRegex, { message: ErrorMessages.withUpperLater })
     .matches(passwordMinOneNumRegex, { message: ErrorMessages.withNumber }),
 });
@@ -40,7 +40,7 @@ export const registrationSchemas = [
       .matches(loginNumberRegex, 'цифры'),
     password: string()
       .required(ErrorMessages.required)
-      .matches(minEightSymbolRegex, ErrorMessages.atLeastEightChars)
+      .matches(minEightSymbolRegex, ErrorMessages.minEightChars)
       .matches(passwordUpperLetterRegex, { message: ErrorMessages.withUpperLater })
       .matches(passwordMinOneNumRegex, { message: ErrorMessages.withNumber }),
   }),
