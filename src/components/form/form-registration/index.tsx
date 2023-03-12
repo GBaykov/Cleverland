@@ -10,6 +10,7 @@ import {
   passwordMinOneNumRegex,
   passwordUpperLetterRegex,
 } from '../../../constants/regexp';
+import { passwordSchema, registrationSchemas, usernameSchema } from '../../../constants/schemas';
 import { usePasswordErrors, useUsernameErrors } from '../../../hooks/errors';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { signUp } from '../../../store/reducers/auth-reducer';
@@ -21,22 +22,8 @@ import { FormsInput } from '../../input/form-input';
 import { RegAuthFormModal, RegAuthTitle, StyledRegAuthForm } from '../styled';
 import { RegistrationSteps } from './styled';
 
-const usernameSchema = object({
-  username: string()
-    .required(ErrorMessages.required)
-    .matches(loginLetterRegex, 'латинский алфавит')
-    .matches(loginNumberRegex, 'цифры'),
-});
-
-const passwordSchema = object({
-  password: string()
-    .required(ErrorMessages.required)
-    .matches(minEightSymbolRegex, ErrorMessages.atLeastEightChars)
-    .matches(passwordUpperLetterRegex, { message: ErrorMessages.withUpperLater })
-    .matches(passwordMinOneNumRegex, { message: ErrorMessages.withNumber }),
-});
-
 export const RegistrationForm = () => {
+  const [step, setStep] = useState(1);
   const {
     register,
     handleSubmit,
@@ -46,11 +33,10 @@ export const RegistrationForm = () => {
     formState: { errors },
   } = useForm<RegistrationFormValues>({
     mode: 'all',
-    // resolver: yupResolver(),
+    resolver: yupResolver(registrationSchemas[step - 1]),
     criteriaMode: 'all',
   });
 
-  const [step, setStep] = useState(1);
   const { isLoading, isSuccess, isError, error } = useAppSelector((state) => state.AuthReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

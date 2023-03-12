@@ -12,13 +12,7 @@ import { AuthFormValues } from '../../../types/forms';
 import { BtnType } from '../../button/styled';
 import { RegAuthFormModal, RegAuthTitle, StyledRegAuthForm } from '../styled';
 import { ErrorMessages } from '../../../types/messages';
-
-export const authSchema = object({
-  identifier: string().required(ErrorMessages.required),
-  password: string().required(ErrorMessages.required),
-  // identifier: string().min(1, 'Поле не может быть пустым'),
-  // password: string().min(1, 'Поле не может быть пустым'),
-});
+import { authSchema } from '../../../constants/schemas';
 
 export const AuthForm = () => {
   const {
