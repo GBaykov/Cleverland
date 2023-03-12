@@ -1,12 +1,7 @@
 import axios from 'axios';
 import { HOST } from '../../constants';
-import { LoginParams, RegistrationParams, User } from '../../types/user';
+import { LoginParams, RegistrationParams, SignUpInResponse, User } from '../../types/user';
 import { removeFromStorage, setToStorage } from '../../utils/localstorage';
-
-type SignUpInResponse = {
-  user: User;
-  jwt: string;
-};
 
 const signIn = async (data: LoginParams) => {
   const response = await axios.post<SignUpInResponse>(`${HOST}/api/auth/local`, data);

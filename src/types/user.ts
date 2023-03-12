@@ -29,3 +29,8 @@ export type AuthResponseType = {
   jwt: string;
   user: User;
 };
+
+export type SignUpInResponse = {
+  user: User;
+  jwt: string;
+};

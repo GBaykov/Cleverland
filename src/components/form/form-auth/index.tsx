@@ -11,10 +11,11 @@ import backArrow from '../../../assets/icons/backArrow.svg';
 import { AuthFormValues } from '../../../types/forms';
 import { BtnType } from '../../button/styled';
 import { RegAuthFormModal, RegAuthTitle, StyledRegAuthForm } from '../styled';
+import { ErrorMessages } from '../../../types/messages';
 
 export const authSchema = object({
-  identifier: string().required('Поле не может быть пустым'),
-  password: string().required('Поле не может быть пустым'),
+  identifier: string().required(ErrorMessages.required),
+  password: string().required(ErrorMessages.required),
   // identifier: string().min(1, 'Поле не может быть пустым'),
   // password: string().min(1, 'Поле не может быть пустым'),
 });
@@ -38,6 +39,7 @@ export const AuthForm = () => {
   };
   const errorMessageIdentifier = errors?.identifier?.message as string;
   const errorMessagePassword = errors?.password?.message as string;
+  console.log('render auth');
 
   return (
     <RegAuthFormModal>

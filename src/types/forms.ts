@@ -14,10 +14,20 @@ export type RegistrationFormValues = {
   phone: string;
   email: string;
 };
+export type AllPossiblerFields = {
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  identifier: string;
+};
 
 export type InputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
-export type InputType = 'password' | 'tel' | 'text';
+export type InputType = 'password' | 'tel' | 'text' | 'email';
+export type ClearErrors = UseFormClearErrors<AllPossiblerFields>;
 
 export type FormInputType = InputPropsType & {
   isError?: boolean;
@@ -29,6 +39,6 @@ export type FormInputType = InputPropsType & {
   type: InputType;
   error?: FieldError;
   watchName: string;
-  clearErrors?: UseFormClearErrors<AuthFormValues>;
-  name: 'password' | 'identifier';
+  clearErrors?: UseFormClearErrors<AllPossiblerFields>;
+  name: 'password' | 'identifier' | 'firstName' | 'lastName' | 'email' | 'phone' | 'username';
 };

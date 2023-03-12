@@ -1,11 +1,20 @@
 import React, { forwardRef, ReactNode, useState } from 'react';
 import { FieldError, UseFormClearErrors, UseFormRegister } from 'react-hook-form/dist/types';
-import { AuthFormValues, FormInputType, InputType } from '../../types/forms';
+import {
+  AllPossiblerFields,
+  AuthFormValues,
+  ClearErrors,
+  FormInputType,
+  InputType,
+  RegistrationFormValues,
+} from '../../types/forms';
 import { InputIcon, InputLabel, InputWrapper, StyledInput } from './styled';
 import check from '../../assets/icons/check.svg';
 import eyeClosed from '../../assets/icons/EyeClosed.svg';
 import eyeOpen from '../../assets/icons/eyeOpen.svg';
 
+type InputreturnType = ReturnType<UseFormRegister<UseFormClearErrors<AllPossiblerFields>>>;
+// type ClearErrors = UseFormClearErrors<RegistrationFormValues > | UseFormClearErrors< AuthFormValues>
 export const FormsInput = forwardRef<
   HTMLInputElement,
   {
@@ -13,8 +22,8 @@ export const FormsInput = forwardRef<
     type: InputType;
     error?: FieldError;
     watchName: string;
-    clearErrors: UseFormClearErrors<AuthFormValues>;
-  } & ReturnType<UseFormRegister<AuthFormValues>>
+    clearErrors: UseFormClearErrors<AllPossiblerFields>;
+  } & InputreturnType
 >(({ name, disabled, label, onBlur, onChange, isChecked, type, error, watchName, clearErrors }: FormInputType, ref) => {
   const [isEyeOpen, setIsEyeOpen] = useState(false);
   const isInputpassword = name === 'password';

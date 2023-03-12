@@ -1,13 +1,13 @@
 import { BookAmongAllBooks } from './books';
 
-export interface BookReviews {
+export type BookReviews = {
   username: string;
   date: string;
   comment?: string;
   rating: number;
-}
+};
 
-export interface BookDetails {
+export type BookDetails = {
   publishing: string;
   binding: string;
   format: string;
@@ -17,9 +17,9 @@ export interface BookDetails {
   pages: number;
   year: number;
   weight: number;
-}
+};
 
-export interface IBook {
+export type IBook = {
   id: number;
   name: string;
   author: string;
@@ -28,9 +28,9 @@ export interface IBook {
   details: BookDetails;
   photo?: string[];
   description: string;
-}
+};
 
-export interface CardProps {
+export type CardProps = {
   book: BookAmongAllBooks;
   isList: boolean;
-}
+};

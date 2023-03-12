@@ -1,4 +1,6 @@
-export interface BookAmongAllBooks {
+import { ResponseError } from './others';
+
+export type BookAmongAllBooks = {
   issueYear: string;
   rating: number;
   title: string;
@@ -31,11 +33,11 @@ export interface BookAmongAllBooks {
       userId: number;
     }
   ];
-}
+};
 
 export type AllBooksSuccess = BookAmongAllBooks[];
 
-export interface ChosenBookSuccess {
+export type ChosenBookSuccess = {
   id: number;
   title: string;
   rating: number;
@@ -92,19 +94,8 @@ export interface ChosenBookSuccess {
       userId: number;
     }
   ];
-}
-export interface BookError {
-  error: {
-    data: null;
-    error: {
-      status: number;
-      name: string;
-      message: string;
-      details: {};
-    };
-  };
-}
+};
 
 export interface GetAllBooksRequest {
-  books: AllBooksSuccess | BookError;
+  books: AllBooksSuccess | ResponseError;
 }

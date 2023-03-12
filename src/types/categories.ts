@@ -3,10 +3,10 @@ export type Category = {
   path: string;
   id: number;
 };
-export interface ICategories {
+export type ICategories = {
   categories: Category[];
-}
-export interface CategoryError {
+};
+export type CategoryError = {
   error: {
     data: null;
     error: {
@@ -16,4 +16,4 @@ export interface CategoryError {
       details: {};
     };
   };
-}
+};

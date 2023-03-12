@@ -9,7 +9,17 @@ export type FormPageProps = {
 
 export const FormPage = ({ formType }: FormPageProps) => (
   <>
+    {formType === 'auth' && (
+      <FormPageWrapper>
+        <AuthForm />
+      </FormPageWrapper>
+    )}
+    {formType === 'registration' && (
+      <FormPageWrapper>
+        <RegistrationForm />
+      </FormPageWrapper>
+    )}
     {/* <FormPageWrapper>{formType === 'auth' && <AuthForm />}</FormPageWrapper> */}
-    <FormPageWrapper>{formType === 'registration' && <RegistrationForm />}</FormPageWrapper>
+    {/* <FormPageWrapper>{formType === 'registration' && <RegistrationForm />}</FormPageWrapper> */}
   </>
 );
