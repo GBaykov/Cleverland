@@ -5,6 +5,7 @@ import { BookReducer } from './reducers/book-reducer';
 import { AllBooksReducer } from './reducers/books-reducer';
 import { CategoriesReducer } from './reducers/categories-reducer';
 import { AuthReducer } from './reducers/auth-reducer';
+import { RecoveryReducer } from './reducers/recovery-reducer';
 
 export const rootReducer = combineReducers({
   MenuReducer,
@@ -12,6 +13,7 @@ export const rootReducer = combineReducers({
   AllBooksReducer,
   CategoriesReducer,
   AuthReducer,
+  RecoveryReducer,
 });
 
 export const setupStore = () =>

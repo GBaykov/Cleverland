@@ -23,6 +23,7 @@ export type AllPossiblerFields = {
   phone: string;
   email: string;
   identifier: string;
+  passwordConfirmation: string;
 };
 
 export type InputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
@@ -43,7 +44,7 @@ export type FormInputType = InputPropsType & {
   isFullError: boolean;
   watchName: string;
   clearErrors?: UseFormClearErrors<AllPossiblerFields>;
-  name: 'password' | 'identifier' | 'firstName' | 'lastName' | 'email' | 'phone' | 'username';
+  name: 'password' | 'identifier' | 'firstName' | 'lastName' | 'email' | 'phone' | 'username' | 'passwordConfirmation';
   isInputAuth: boolean;
   shouldShowError: boolean;
   mask?: string;

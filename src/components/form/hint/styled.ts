@@ -15,6 +15,9 @@ export const StyledHint = styled.p`
   &.notDisplayed {
     display: none;
   }
+  &.margined {
+    margin-top: 32px;
+  }
 `;
 export const ErrorPart = styled.span`
   &.highlight {

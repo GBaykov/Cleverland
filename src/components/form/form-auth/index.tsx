@@ -96,10 +96,10 @@ export const AuthForm = () => {
       )}
 
       {error === ErrorMessages.smthError && (
-        <StyledRegAuthForm>
-          <RegAuthTitle>Вход не выполнен</RegAuthTitle>
-          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)}>
-            <StyledErrText>{ErrorMessages.smthError}</StyledErrText>
+        <StyledRegAuthForm className='centred'>
+          <RegAuthTitle className='centred'>Вход не выполнен</RegAuthTitle>
+          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} className='centred'>
+            <StyledErrText className='centred'>{ErrorMessages.smthError}</StyledErrText>
             <Button isPrimary={true} onClick={() => onSubmit} text='Повторить' height={52} type={BtnType.submit} />
           </StyledRegAuthForm>
         </StyledRegAuthForm>

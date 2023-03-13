@@ -34,3 +34,13 @@ export type SignUpInResponse = {
   user: User;
   jwt: string;
 };
+
+type Password = {
+  password: string;
+  passwordConfirmation: string;
+};
+export type ResetPassword = Password & { code: string };
+
+export type RecoveryField = Password & { email: string };
+
+export type ForgotPassword = Pick<RecoveryField, 'email'>;

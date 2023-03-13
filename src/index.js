@@ -17,6 +17,7 @@ import { FormPage } from './pages/form-page';
 import { AuthForm } from './components/form/form-auth';
 import { RegistrationForm } from './components/form/form-registration';
 import { PrivateRouter } from './router/private-rout';
+import { RecoveryForm } from './components/form/form-recovery';
 
 const store = setupStore();
 
@@ -29,6 +30,7 @@ root.render(
           <Route element={<FormPage />}>
             <Route path='/auth' element={<AuthForm />} />
             <Route path='/registration' element={<RegistrationForm />} />
+            <Route path='/forgot-pass' element={<RecoveryForm />} />
           </Route>
           <Route element={<PrivateRouter />}>
             <Route path='/' element={<Layout />}>

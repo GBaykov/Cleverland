@@ -8,10 +8,7 @@ export const LinkToForgot = styled(Link)`
   font-weight: 500;
   margin-left: 12px;
   color: ${BLACK40};
-  margin-top: -16px;
-  &.short {
-    margin-top: -32px;
-  }
+  margin-top: 16px;
 `;
 
 export const FormErrorMessage = styled.p`

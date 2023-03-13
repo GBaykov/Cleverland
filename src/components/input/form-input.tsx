@@ -43,12 +43,18 @@ export const FormsInput = forwardRef<
   ) => {
     const [isEyeOpen, setIsEyeOpen] = useState(false);
     const isInputpassword = name === 'password';
+    const isConfirmPassword = name === 'passwordConfirmation';
     const isInputPhone = name === 'phone';
     const isRegularError =
       (!errors && error?.message && !isInputPhone) ||
       (errors && error?.message && error.type === 'required' && !isInputPhone);
 
-    const typeInputValue = isInputpassword && isEyeOpen ? 'text' : isInputpassword ? 'password' : 'text';
+    const typeInputValue =
+      (isInputpassword || isConfirmPassword) && isEyeOpen
+        ? 'text'
+        : isInputpassword || isConfirmPassword
+        ? 'password'
+        : 'text';
 
     const errorNotDisplayed = () => {
       if (isInputAuth) {
@@ -127,10 +133,10 @@ export const FormsInput = forwardRef<
         {isInputpassword && !error?.message && !errors?.length && watchName && !isInputAuth && (
           <InputIcon className='checkicon' src={check} alt='iconCheck' data-test-id='checkmark' />
         )}
-        {!!isInputpassword && isEyeOpen && (
+        {(!!isInputpassword || !!isConfirmPassword) && isEyeOpen && (
           <InputIcon src={eyeOpen} alt='eyeOpen' onClick={() => setIsEyeOpen(false)} />
         )}
-        {!!isInputpassword && !isEyeOpen && (
+        {(!!isInputpassword || !!isConfirmPassword) && !isEyeOpen && (
           <InputIcon src={eyeClosed} alt='eyeClosed' onClick={() => setIsEyeOpen(true)} />
         )}
       </InputWrapper>

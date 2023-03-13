@@ -181,10 +181,10 @@ export const RegistrationForm = () => {
         </RegAuthFormModal>
       )}
       {error && (
-        <RegAuthFormModal>
-          <RegAuthTitle>Данные не сохранились</RegAuthTitle>
-          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)}>
-            <StyledErrText>
+        <RegAuthFormModal className='centred'>
+          <RegAuthTitle className='centred'>Данные не сохранились</RegAuthTitle>
+          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} className='centred'>
+            <StyledErrText className='centred'>
               {error === ErrorMessages.registrationFail ? ErrorMessages.registrationFail : ErrorMessages.notUnique}
             </StyledErrText>
             <Button
@@ -198,10 +198,10 @@ export const RegistrationForm = () => {
         </RegAuthFormModal>
       )}
       {isSuccess && (
-        <RegAuthFormModal>
-          <RegAuthTitle>Регистрация успешна</RegAuthTitle>
-          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)}>
-            <StyledErrText>
+        <RegAuthFormModal className='centred'>
+          <RegAuthTitle className='centred'>Регистрация успешна</RegAuthTitle>
+          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} className='centred'>
+            <StyledErrText className='centred'>
               Регистрация прошла успешно. Зайдите в личный кабинет, используя свои логин и пароль
             </StyledErrText>
             <Button onClick={() => onSubmit} isPrimary={true} text='Вход' height={52} type={BtnType.submit} />

@@ -9,6 +9,7 @@ export type StyledButtomProp = {
 };
 
 export const StyledButton = styled.button<StyledButtomProp>`
+text-transform: uppercase;
   height: ${({ height }) => (height ? `${height}px` : '40px')};
   width: ${({ width }) => (width ? `${width}px` : '100%')};
   cursor: pointer;

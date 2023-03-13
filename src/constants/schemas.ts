@@ -53,24 +53,20 @@ export const registrationSchemas = [
     email: string().required(ErrorMessages.required).matches(emailRegex, 'Введите корректный e-mail'),
   }),
 ];
-// {
-//   1: object({
-//     username: string()
-//       .required(ErrorMessages.required)
-//       .matches(loginLetterRegex, 'латинский алфавит')
-//       .matches(loginNumberRegex, 'цифры'),
-//     password: string()
-//       .required(ErrorMessages.required)
-//       .matches(minEightSymbolRegex, ErrorMessages.atLeastEightChars)
-//       .matches(passwordUpperLetterRegex, { message: ErrorMessages.withUpperLater })
-//       .matches(passwordMinOneNumRegex, { message: ErrorMessages.withNumber }),
-//   }),
-//   2: object({
-//    firstName: string().required(ErrorMessages.required),
-//     lastName: string().required(ErrorMessages.required),
-//   }),
-//   3: object({
-//     phone: string().required(ErrorMessages.required).matches(phoneRegex, { message: 'В формате +375 (xx) xxx-xx-xx' }),
-//     email: string().required(ErrorMessages.required).matches(emailRegex, 'Введите корректный e-mail'),
-//   }),
-// };
+
+export const forgotPasswordSchema = object({
+  email: string().required(ErrorMessages.required).matches(emailRegex, 'Введите корректный e-mail'),
+});
+
+export const resetPasswordSchema = object({
+  password: string()
+    .required(ErrorMessages.required)
+    .matches(minEightSymbolRegex, ErrorMessages.minEightChars)
+    .matches(passwordUpperLetterRegex, { message: ErrorMessages.withUpperLater })
+    .matches(passwordMinOneNumRegex, { message: ErrorMessages.withNumber }),
+  passwordConfirmation: lazy((value) =>
+    string().when('passwordConfirmation', (_, schema) =>
+      value === '' ? schema.required(ErrorMessages.required) : schema.oneOf([ref('password')], 'Пароли не совпадают')
+    )
+  ),
+});

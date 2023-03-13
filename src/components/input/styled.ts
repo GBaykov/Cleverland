@@ -7,6 +7,7 @@ export const InputWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 56px;
+  margin-top: 32px;
 `;
 export const InputLabel = styled.span<{ disable?: boolean }>`
   position: absolute;
