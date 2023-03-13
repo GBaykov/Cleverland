@@ -25,6 +25,7 @@ import { RegistrationSteps } from './styled';
 import backArrow from '../../../assets/icons/backArrow.svg';
 import { Loader } from '../../loader';
 import { ErrorMessages } from '../../../types/messages';
+import { DataTestId } from '../../../constants/data-test-ids';
 
 export const RegistrationForm = () => {
   const [step, setStep] = useState(1);
@@ -83,7 +84,7 @@ export const RegistrationForm = () => {
         <RegAuthFormModal>
           <RegAuthTitle>Регистрация</RegAuthTitle>
           <RegistrationSteps>{step} шаг из 3</RegistrationSteps>
-          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} noValidate={true}>
+          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} noValidate={true} data-test-id={DataTestId.RegisterForm}>
             {step === 1 && (
               <>
                 <FormsInput

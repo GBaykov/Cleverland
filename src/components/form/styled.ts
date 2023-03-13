@@ -8,7 +8,7 @@ width: 100%;
 max-width: 528px;
 background: ${WHITE}
 border-radius: 16px;
-@media(max-width: 600px){
+@media(max-width: 700px){
     max-width: 288px;
     padding: 24px 16px;
 }
@@ -22,7 +22,8 @@ export const RegAuthFormModal = styled.section`
   background: ${WHITE};
   border-radius: 16px;
 
-  className='recov' @media (max-width: 600px) {
+  className='recov';
+   @media (max-width: 700px) {
     max-width: 288px;
     padding: 24px 16px;
   }
@@ -70,6 +71,11 @@ export const StyledRegAuthForm = styled.form`
     align-items: center;
     justify-content: center;
   }
+  @media (max-width: 700px) {
+    button {
+      margin-top: 62px;
+    }
+  }
 `;
 
 export const HaveRecord = styled.p`
@@ -81,7 +87,7 @@ export const HaveRecord = styled.p`
   color: ${BLACK70};
   display: flex;
   gap: 16px;
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
@@ -117,7 +123,7 @@ export const StyledErrText = styled.p`
   margin-top: 16px;
   letter-spacing: 0.1px;
   color: ${DARK};
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;

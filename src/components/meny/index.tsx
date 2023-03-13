@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   AdditionalLinks,
   ArrowRolled,
@@ -16,7 +16,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { arrow } from '../../constants/svg';
 import { BurgerMenu } from './burger-menu';
 import { allBooksSlice } from '../../store/reducers/books-reducer';
-import { BookAmongAllBooks } from '../../types/books';
+
+import { authSlice } from '../../store/reducers/auth-reducer';
 
 export const Meny: FC = () => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
@@ -30,6 +31,8 @@ export const Meny: FC = () => {
   const { categories, categoryStatus } = useAppSelector((state) => state.CategoriesReducer);
   const { currentBook, currentBookStatus } = useAppSelector((state) => state.BookReducer);
   const { books, booksStatus, activeCategory } = useAppSelector((state) => state.AllBooksReducer);
+  const { logOut } = authSlice.actions;
+  const navigate = useNavigate();
 
   const onArrowRolledClick = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
@@ -49,6 +52,11 @@ export const Meny: FC = () => {
   const onMenuClick = () => {
     dispatch(toggleMenu(!isMenuOpen));
     console.log(bookId);
+  };
+  const hendleExitClick = () => {
+    navigate('/auth');
+    dispatch(logOut());
+    setActiveLink('auth');
   };
 
   return (
@@ -137,8 +145,8 @@ export const Meny: FC = () => {
           </StyledLink>
 
           <StyledLink
-            onClick={() => setActiveLink('exit')}
-            to='/exit'
+            onClick={() => hendleExitClick()}
+            to='/auth'
             className={activeLink === 'exit' ? 'activeLink' : ''}
           >
             Выход

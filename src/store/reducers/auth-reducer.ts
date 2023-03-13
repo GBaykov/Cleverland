@@ -50,10 +50,6 @@ export const signUp = createAsyncThunk('auth/signUp', async (data: RegistrationP
   }
 });
 
-export const logOut = createAsyncThunk('auth/logout', () => {
-  authService.logOut();
-});
-
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -64,6 +60,11 @@ export const authSlice = createSlice({
     clearData: (state) => {
       state.error = null;
       state.isSuccess = false;
+    },
+    logOut: (state) => {
+      state.token = '';
+      authService.logOut();
+      state.user = null;
     },
   },
   extraReducers(builder) {
@@ -84,6 +85,7 @@ export const authSlice = createSlice({
       .addCase(signIn.rejected, (state, action) => {
         state.token = '';
         state.isError = true;
+        state.isLoading = false;
 
         const errResponse = action.payload as ResponseError;
         console.log(errResponse?.error.status);

@@ -8,6 +8,12 @@ export const InputWrapper = styled.div`
   width: 100%;
   height: 56px;
   margin-top: 32px;
+  @media (max-width: 700px) {
+    margin-top: 52px;
+    &:first-child {
+      margin-top: 16px;
+    }
+  }
 `;
 export const InputLabel = styled.span<{ disable?: boolean }>`
   position: absolute;

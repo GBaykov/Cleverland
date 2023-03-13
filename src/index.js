@@ -28,12 +28,13 @@ root.render(
       <HashRouter>
         <Routes>
           <Route element={<FormPage />}>
+            <Route path='/' element={<Navigate to='auth' />} />
             <Route path='/auth' element={<AuthForm />} />
             <Route path='/registration' element={<RegistrationForm />} />
             <Route path='/forgot-pass' element={<RecoveryForm />} />
           </Route>
           <Route element={<PrivateRouter />}>
-            <Route path='/' element={<Layout />}>
+            <Route element={<Layout />}>
               <Route element={<LayoutMainPage />}>
                 <Route path='/books/all' element={<MainPage />} />
                 <Route path='/books/:category' element={<MainPage />} />

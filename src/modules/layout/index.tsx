@@ -1,5 +1,5 @@
 import { FC, ReactNode, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
 
@@ -17,6 +17,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
   const dispatch = useAppDispatch();
   const { activeName } = useAppSelector((state) => state.AllBooksReducer);
+  const { user, token } = useAppSelector((state) => state.AuthReducer);
 
   useEffect(() => {
     let ignore = false;
@@ -46,12 +47,14 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
     };
   }, [dispatch, activeName]);
 
-  return (
+  return user || token ? (
     <App className={isMenuOpen ? 'menuOpen' : ''}>
       <Header />
       <Outlet />
       {children}
       <Footer />
     </App>
+  ) : (
+    <Navigate to='/auth' />
   );
 };

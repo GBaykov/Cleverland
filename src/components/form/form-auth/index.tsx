@@ -24,6 +24,7 @@ import { BtnType } from '../../../types/button';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { Loader } from '../../loader';
 import { authSlice, signIn, signUp } from '../../../store/reducers/auth-reducer';
+import { DataTestId } from '../../../constants/data-test-ids';
 
 export const AuthForm = () => {
   const {
@@ -53,7 +54,7 @@ export const AuthForm = () => {
       {error !== ErrorMessages.smthError && !user && (
         <RegAuthFormModal>
           <RegAuthTitle>Вход в личный кабинет</RegAuthTitle>
-          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} noValidate={true}>
+          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} noValidate={true} data-test-id={DataTestId.AuthForm}>
             <FormsInput
               {...register('identifier')}
               name='identifier'
@@ -76,7 +77,7 @@ export const AuthForm = () => {
             />
 
             {error === ErrorMessages.wrongLoginOrPassword && (
-              <FormErrorMessage>Неверный логин или пароль!</FormErrorMessage>
+              <FormErrorMessage data-test-id={DataTestId.Hint}>Неверный логин или пароль!</FormErrorMessage>
             )}
 
             <LinkToForgot to='/forgot-pass'>

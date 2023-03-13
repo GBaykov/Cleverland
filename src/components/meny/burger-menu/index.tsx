@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   AdditionalLinks,
   ArrowRolled,
@@ -14,6 +14,7 @@ import { menuSlice } from '../../../store/reducers/menu-reducer';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { arrow } from '../../../constants/svg';
 import { allBooksSlice } from '../../../store/reducers/books-reducer';
+import { authSlice } from '../../../store/reducers/auth-reducer';
 
 export const BurgerMenu: FC = () => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
@@ -41,6 +42,14 @@ export const BurgerMenu: FC = () => {
     setActiveLink(str);
     setIsRolled(true);
   };
+  const { logOut } = authSlice.actions;
+  const navigate = useNavigate();
+  const hendleExitClick = () => {
+    navigate('/auth');
+    dispatch(logOut());
+    setActiveLink('auth');
+  };
+
   return (
     <BurgerMenyContent
       onClick={() => dispatch(toggleMenu(false))}
@@ -130,8 +139,8 @@ export const BurgerMenu: FC = () => {
         </BurgerStyledLink>
 
         <BurgerStyledLink
-          onClick={() => setActiveLink('exit')}
-          to='/exit'
+          onClick={() => hendleExitClick()}
+          to='/auth'
           className={activeLink === 'exit' ? 'activeLink' : ''}
         >
           Выход

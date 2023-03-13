@@ -9,6 +9,7 @@ import { HintError } from '../form/hint';
 import { StyledHint } from '../form/hint/styled';
 import { FormsInputPhone } from './input-phone';
 import { ErrorMessages } from '../../types/messages';
+import { DataTestId } from '../../constants/data-test-ids';
 
 type InputreturnType = ReturnType<UseFormRegister<UseFormClearErrors<AllPossiblerFields>>>;
 export const FormsInput = forwardRef<
@@ -119,25 +120,45 @@ export const FormsInput = forwardRef<
         <InputLabel>{label}</InputLabel>
 
         {errors && error?.type !== 'required' && (
-          <HintError shouldShowError={!!watchName} errors={errors} hintType={name} isFullError={isFullError} />
+          <HintError
+            shouldShowError={!!watchName}
+            errors={errors}
+            hintType={name}
+            isFullError={isFullError}
+            data-test-id={DataTestId.Hint}
+          />
         )}
 
-        {isRegularError && <StyledHint className={emptyErr()}>{error.message}</StyledHint>}
+        {isRegularError && (
+          <StyledHint className={emptyErr()} data-test-id={DataTestId.Hint}>
+            {error.message}
+          </StyledHint>
+        )}
 
         {isInputPhone && (
-          <StyledHint className={phoneclass()}>
+          <StyledHint className={phoneclass()} data-test-id={DataTestId.Hint}>
             {error?.message === ErrorMessages.required ? error.message : 'В формате +375 (xx) xxx-xx-xx'}
           </StyledHint>
         )}
 
         {isInputpassword && !error?.message && !errors?.length && watchName && !isInputAuth && (
-          <InputIcon className='checkicon' src={check} alt='iconCheck' data-test-id='checkmark' />
+          <InputIcon className='checkicon' src={check} alt='iconCheck' data-test-id={DataTestId.CheckMark} />
         )}
         {(!!isInputpassword || !!isConfirmPassword) && isEyeOpen && (
-          <InputIcon src={eyeOpen} alt='eyeOpen' onClick={() => setIsEyeOpen(false)} />
+          <InputIcon
+            src={eyeOpen}
+            alt='eyeOpen'
+            onClick={() => setIsEyeOpen(false)}
+            data-test-id={DataTestId.EyeOpened}
+          />
         )}
         {(!!isInputpassword || !!isConfirmPassword) && !isEyeOpen && (
-          <InputIcon src={eyeClosed} alt='eyeClosed' onClick={() => setIsEyeOpen(true)} />
+          <InputIcon
+            src={eyeClosed}
+            alt='eyeClosed'
+            onClick={() => setIsEyeOpen(true)}
+            data-test-id={DataTestId.EyeClosed}
+          />
         )}
       </InputWrapper>
     );

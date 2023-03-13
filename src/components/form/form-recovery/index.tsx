@@ -34,6 +34,7 @@ import { ErrorMessages } from '../../../types/messages';
 import { getForgotPassword, getResetPassword, recoverySlice } from '../../../store/reducers/recovery-reducer';
 import { RecoveryField } from '../../../types/user';
 import { StyledHint } from '../hint/styled';
+import { DataTestId } from '../../../constants/data-test-ids';
 
 export const RecoveryForm = () => {
   const { search } = useLocation();
@@ -102,7 +103,11 @@ export const RecoveryForm = () => {
       {code && !isResetSuccess && !error && (
         <RegAuthFormModal>
           <RegAuthTitle>Восстановление пароля</RegAuthTitle>
-          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} noValidate={true}>
+          <StyledRegAuthForm
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate={true}
+            data-test-id={DataTestId.ResetPasswordForm}
+          >
             <FormsInput
               {...register('password')}
               error={errors.password}
@@ -145,7 +150,11 @@ export const RecoveryForm = () => {
             Вход в личный кабинет
           </TopRecoveryNavigate>
           <RegAuthTitle className='recov'>Восстановление пароля</RegAuthTitle>
-          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} noValidate={true}>
+          <StyledRegAuthForm
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate={true}
+            data-test-id={DataTestId.SendEmailForm}
+          >
             <FormsInput
               label='E-mail'
               {...register('email')}
@@ -155,7 +164,11 @@ export const RecoveryForm = () => {
               clearErrors={clearErrors}
               name='email'
             />
-            {error && <StyledHint className='fullColored'>{error}</StyledHint>}
+            {error && (
+              <StyledHint className='fullColored' data-test-id={DataTestId.Hint}>
+                {error}
+              </StyledHint>
+            )}
             <StyledHint className='margined'>
               На это email будет отправлено письмо с инструкциями по восстановлению пароля
             </StyledHint>
