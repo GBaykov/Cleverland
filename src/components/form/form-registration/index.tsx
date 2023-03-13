@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { passwordSchema, registrationSchemas, usernameSchema } from '../../../constants/schemas';
 import { usePasswordErrors, useUsernameErrors } from '../../../hooks/errors';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { signUp } from '../../../store/reducers/auth-reducer';
+import { authSlice, signUp } from '../../../store/reducers/auth-reducer';
 import { BtnType } from '../../../types/button';
 import { RegistrationFormValues } from '../../../types/forms';
 
@@ -36,15 +36,15 @@ export const RegistrationForm = () => {
     clearErrors,
     formState: { errors },
   } = useForm<RegistrationFormValues>({
-    mode: 'onChange',
+    mode: 'onBlur',
     reValidateMode: 'onBlur',
-
+    criteriaMode: 'all',
     shouldFocusError: false,
     resolver: yupResolver(registrationSchemas[step - 1]),
-    criteriaMode: 'all',
   });
 
   const { isLoading, isSuccess, isError, error } = useAppSelector((state) => state.AuthReducer);
+  const { clearData } = authSlice.actions;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   console.log(errors);
@@ -58,17 +58,24 @@ export const RegistrationForm = () => {
       dispatch(signUp(data));
     }
     if (isSuccess) {
+      dispatch(clearData());
       navigate('/auth');
     }
     if (error) {
+      dispatch(clearData());
       reset();
       setStep(1);
+      console.log(step);
     }
   };
+  console.log(error);
 
   const errorsPassword = usePasswordErrors(passwordSchema, watch('password'));
 
   const errorsUsername = useUsernameErrors(usernameSchema, watch('username'));
+  console.log('isSucces----', isSuccess);
+  console.log('isLoading----', isLoading);
+  console.log('error---', error);
 
   return (
     <>
@@ -107,8 +114,8 @@ export const RegistrationForm = () => {
               <>
                 <FormsInput
                   label='Имя'
-                  register={register('firstName')}
-                  // error={errors.firstName}
+                  {...register('firstName')}
+                  error={errors.firstName}
                   watchName={watch('firstName')}
                   type='text'
                   name='firstName'
@@ -116,8 +123,8 @@ export const RegistrationForm = () => {
                 />
                 <FormsInput
                   label='Фамилия'
-                  register={register('lastName')}
-                  // error={errors.lastName}
+                  {...register('lastName')}
+                  error={errors.lastName}
                   watchName={watch('lastName')}
                   type='text'
                   name='lastName'
@@ -139,7 +146,7 @@ export const RegistrationForm = () => {
                 />
                 <FormsInput
                   label='E-mail'
-                  register={register('email')}
+                  {...register('email')}
                   error={errors.email}
                   watchName={watch('email')}
                   type='email'
@@ -147,37 +154,6 @@ export const RegistrationForm = () => {
                   name='email'
                 />
               </>
-            )}
-
-            {error && (
-              <RegAuthFormModal>
-                <RegAuthTitle>Данные не сохранились</RegAuthTitle>
-                <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)}>
-                  <StyledErrText>
-                    {error === ErrorMessages.registrationFail
-                      ? ErrorMessages.registrationFail
-                      : ErrorMessages.notUnique}
-                  </StyledErrText>
-                  <Button
-                    isPrimary={true}
-                    onClick={() => onSubmit}
-                    text={error === ErrorMessages.registrationFail ? 'Повторить' : 'Назад к регистрации'}
-                    height={52}
-                    type={BtnType.submit}
-                  />
-                </StyledRegAuthForm>
-              </RegAuthFormModal>
-            )}
-            {isSuccess && (
-              <RegAuthFormModal>
-                <RegAuthTitle>Регистрация успешна</RegAuthTitle>
-                <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)}>
-                  <StyledErrText>
-                    Регистрация прошла успешно. Зайдите в личный кабинет, используя свои логин и пароль
-                  </StyledErrText>
-                  <Button onClick={() => onSubmit} isPrimary={true} text='Вход' height={52} type={BtnType.submit} />
-                </StyledRegAuthForm>
-              </RegAuthFormModal>
             )}
 
             <Button
@@ -198,10 +174,38 @@ export const RegistrationForm = () => {
           </StyledRegAuthForm>
           <HaveRecord>
             Есть учетная запись?
-            <LinkToAuthRegistration to='/registration'>
+            <LinkToAuthRegistration to='/auth'>
               Войти <img src={backArrow} alt='backArrow' />
             </LinkToAuthRegistration>
           </HaveRecord>
+        </RegAuthFormModal>
+      )}
+      {error && (
+        <RegAuthFormModal>
+          <RegAuthTitle>Данные не сохранились</RegAuthTitle>
+          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)}>
+            <StyledErrText>
+              {error === ErrorMessages.registrationFail ? ErrorMessages.registrationFail : ErrorMessages.notUnique}
+            </StyledErrText>
+            <Button
+              isPrimary={true}
+              onClick={() => onSubmit}
+              text={error === ErrorMessages.registrationFail ? 'Повторить' : 'Назад к регистрации'}
+              height={52}
+              type={BtnType.submit}
+            />
+          </StyledRegAuthForm>
+        </RegAuthFormModal>
+      )}
+      {isSuccess && (
+        <RegAuthFormModal>
+          <RegAuthTitle>Регистрация успешна</RegAuthTitle>
+          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)}>
+            <StyledErrText>
+              Регистрация прошла успешно. Зайдите в личный кабинет, используя свои логин и пароль
+            </StyledErrText>
+            <Button onClick={() => onSubmit} isPrimary={true} text='Вход' height={52} type={BtnType.submit} />
+          </StyledRegAuthForm>
         </RegAuthFormModal>
       )}
       {isLoading && <Loader />}

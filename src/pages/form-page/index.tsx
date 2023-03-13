@@ -1,25 +1,15 @@
-import React, { ReactNode } from 'react';
-import { AuthForm } from '../../components/form/form-auth';
-import { RegistrationForm } from '../../components/form/form-registration';
-import { FormPageWrapper } from './styled';
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 
-export type FormPageProps = {
-  formType: 'auth' | 'registration' | 'recovery';
+import { useAppSelector } from '../../hooks/redux';
+import { FormPageTitle, FormPageWrapper } from './styled';
+
+export const FormPage = () => {
+  const { user } = useAppSelector((state) => state.AuthReducer);
+  return (
+    <FormPageWrapper>
+      <FormPageTitle>Cleverland</FormPageTitle>
+      {user ? <Navigate to='/books/all' /> : <Outlet />}
+    </FormPageWrapper>
+  );
 };
-
-export const FormPage = ({ formType }: FormPageProps) => (
-  <>
-    {formType === 'auth' && (
-      <FormPageWrapper>
-        <AuthForm />
-      </FormPageWrapper>
-    )}
-    {formType === 'registration' && (
-      <FormPageWrapper>
-        <RegistrationForm />
-      </FormPageWrapper>
-    )}
-    {/* <FormPageWrapper>{formType === 'auth' && <AuthForm />}</FormPageWrapper> */}
-    {/* <FormPageWrapper>{formType === 'registration' && <RegistrationForm />}</FormPageWrapper> */}
-  </>
-);

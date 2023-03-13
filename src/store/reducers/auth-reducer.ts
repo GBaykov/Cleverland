@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { HOST } from '../../constants';
 import { authService } from '../../services/auth';
 import { ErrorMessages } from '../../types/messages';
@@ -12,7 +12,7 @@ type AuthState = {
   user: User | null;
   isSuccess: boolean;
   isError: boolean;
-  error: string;
+  error: any;
 };
 
 const initialState: AuthState = {
@@ -21,7 +21,7 @@ const initialState: AuthState = {
   user: null,
   isSuccess: false,
   isError: false,
-  error: '',
+  error: null,
 };
 
 export const signIn = createAsyncThunk('auth/signIn', async (data: LoginParams, thunkAPI) => {
@@ -29,15 +29,11 @@ export const signIn = createAsyncThunk('auth/signIn', async (data: LoginParams, 
     const response = await authService.signIn(data);
     return response;
   } catch (error) {
-    const e = error as ResponseError;
-    if (e.error.status === 400) {
-      return ErrorMessages.wrongLoginOrPassword;
+    if (axios.isAxiosError(error) && error.response) {
+      const message = (error.response && error.response.data) || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
-    return ErrorMessages.smthError;
-    // if (axios.isAxiosError(error) && error.response) {
-    //   const message = (error.response && error.response.data) || error.message || error.toString();
-    //   return thunkAPI.rejectWithValue(message);
-    // }
+    return error;
   }
 });
 
@@ -46,17 +42,11 @@ export const signUp = createAsyncThunk('auth/signUp', async (data: RegistrationP
     const response = await authService.signUp(data);
     return response;
   } catch (error: unknown) {
-    const e = error as ResponseError;
-    if (e.error.status === 400) {
-      return ErrorMessages.notUnique;
+    if (axios.isAxiosError(error) && error.response) {
+      const message = (error.response && error.response.data) || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
-    return ErrorMessages.registrationFail;
-
-    // if (axios.isAxiosError(error) && error.response) {
-
-    //   const message: string = (error.response && error.response.data) || error.message || error.toString();
-    //   return thunkAPI.rejectWithValue(message);
-    // }
+    return error;
   }
 });
 
@@ -71,6 +61,10 @@ export const authSlice = createSlice({
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
+    clearData: (state) => {
+      state.error = null;
+      state.isSuccess = false;
+    },
   },
   extraReducers(builder) {
     builder
@@ -80,18 +74,22 @@ export const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(signIn.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const response = action.payload as SignUpInResponse;
-        state.token = response.jwt;
-        state.user = response.user;
         state.isSuccess = true;
         state.isLoading = false;
         state.isError = false;
+        const response = action.payload as SignUpInResponse;
+        state.token = response.jwt;
+        state.user = response.user;
       })
       .addCase(signIn.rejected, (state, action) => {
         state.token = '';
         state.isError = true;
-        state.error = action.payload as string;
+
+        const errResponse = action.payload as ResponseError;
+        console.log(errResponse?.error.status);
+        if (errResponse?.error.status === 400) {
+          state.error = ErrorMessages.wrongLoginOrPassword;
+        } else state.error = ErrorMessages.smthError;
       })
 
       .addCase(signUp.pending, (state, action) => {
@@ -108,7 +106,13 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
-        state.error = action.payload as string;
+        console.log(action.payload);
+
+        const errResponse = action.payload as ResponseError;
+        console.log(errResponse?.error.status);
+        if (errResponse?.error.status === 400) {
+          state.error = ErrorMessages.notUnique;
+        } else state.error = ErrorMessages.registrationFail;
       });
   },
 });

@@ -14,3 +14,18 @@ export const FormPageWrapper = styled.main`
   justify-content: center;
   align-items: center;
 `;
+export const FormPageTitle = styled.div`
+color: white;
+position: absolute;
+font-weight: 700;
+font-size: 32px;
+line-height: 40px;
+top: 10%;
+left: 50%;
+transform: translateX(-50%);
+
+@media (max-width: 500px) {
+  top: 30px;
+}
+}
+`;

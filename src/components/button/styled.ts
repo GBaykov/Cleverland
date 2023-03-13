@@ -52,7 +52,7 @@ export const StyledButton = styled.button<StyledButtomProp>`
     background:${BLACK5};
 }`};
 
-${({ disabled }) => (disabled ? `cursor: none; background:${BLACK10}` : `cursor: none; background:${BLACK5};`)}
-
+ ${({ disabled, isPrimary }) => (disabled && isPrimary ? `cursor: none; background:${BLACK10}` : ``)}
+ ${({ disabled, isPrimary }) => (disabled && !isPrimary ? `cursor: none; background:${BLACK5}` : ``)}
 
 `;

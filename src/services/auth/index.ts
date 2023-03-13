@@ -6,7 +6,7 @@ import { removeFromStorage, setToStorage } from '../../utils/localstorage';
 const signIn = async (data: LoginParams) => {
   const response = await axios.post<SignUpInResponse>(`${HOST}/api/auth/local`, data);
   if (response.data.jwt) {
-    setToStorage('token', JSON.stringify(response.data.jwt));
+    setToStorage('token', response.data.jwt);
   }
   return response.data;
 };

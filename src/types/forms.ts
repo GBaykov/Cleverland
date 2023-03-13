@@ -1,6 +1,7 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from 'react';
 import { FieldError, UseFormWatch } from 'react-hook-form';
 import { UseFormClearErrors } from 'react-hook-form/dist/types';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 export type AuthFormValues = {
   identifier: string;
@@ -46,4 +47,5 @@ export type FormInputType = InputPropsType & {
   isInputAuth: boolean;
   shouldShowError: boolean;
   mask?: string;
+  register?: UseFormRegisterReturn;
 };

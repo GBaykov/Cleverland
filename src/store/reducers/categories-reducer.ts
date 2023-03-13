@@ -17,8 +17,11 @@ export const initialState: CategoriesState = {
 export const fetchCategories = createAsyncThunk(
   'categories/fetchCategories',
   async () => {
-    const head = authHeader();
-    const response = await axiosInstance.get<ICategories>(`${HOST}/api/categories`);
+    const response = await axiosInstance.get<ICategories>(`${HOST}/api/categories`, {
+      headers: {
+        Authorization: authHeader(),
+      },
+    });
     return response.data;
   },
   {

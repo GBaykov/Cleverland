@@ -7,6 +7,8 @@ import eyeClosed from '../../assets/icons/EyeClosed.svg';
 import eyeOpen from '../../assets/icons/eyeOpen.svg';
 import { HintError } from '../form/hint';
 import { StyledHint } from '../form/hint/styled';
+import { FormsInputPhone } from './input-phone';
+import { ErrorMessages } from '../../types/messages';
 
 type InputreturnType = ReturnType<UseFormRegister<UseFormClearErrors<AllPossiblerFields>>>;
 export const FormsInput = forwardRef<
@@ -35,6 +37,7 @@ export const FormsInput = forwardRef<
       errors,
       isInputAuth,
       mask,
+      register,
     }: FormInputType,
     ref
   ) => {
@@ -48,24 +51,51 @@ export const FormsInput = forwardRef<
     const typeInputValue = isInputpassword && isEyeOpen ? 'text' : isInputpassword ? 'password' : 'text';
 
     const errorNotDisplayed = () => {
-      if (!isInputAuth) {
+      if (isInputAuth) {
         return 'notDisplayed';
       }
       return '';
+    };
+    const emptyErr = () => {
+      if (isInputAuth) {
+        return 'notDisplayed';
+      }
+      return 'fullColored';
+    };
+    const phoneclass = () => {
+      let classN = '';
+
+      if (error?.message) {
+        classN += ' fullColored';
+      }
+      return classN;
     };
 
     const bordeError = error?.message ? 'borderError' : '';
     return (
       <InputWrapper>
         {mask ? (
+          // <FormsInputPhone
+          //   className={bordeError}
+          //   type={isEyeOpen ? 'text' : type}
+          //   maskChar='x'
+          //   mask={mask}
+          //   ref={ref}
+          //   name={name}
+          //   onBlur={onBlur}
+          //   required={true}
+          //   //  {...register}
+          //   alwaysShowMask={!error?.message && !watchName && !isInputPhone}
+          //   onFocus={() => clearErrors && clearErrors()}
+          // />
           <StyledMask
             className={bordeError}
             type={isEyeOpen ? 'text' : type}
             maskChar='x'
             mask={mask}
-            // {...register}
-            alwaysShowMask={!error?.message && !watchName && !isInputPhone}
-            onFocus={() => clearErrors && clearErrors()}
+            {...register}
+            alwaysShowMask={!error?.message && !watchName}
+            onFocus={() => clearErrors && clearErrors(name)}
           />
         ) : (
           <StyledInput
@@ -86,15 +116,15 @@ export const FormsInput = forwardRef<
           <HintError shouldShowError={!!watchName} errors={errors} hintType={name} isFullError={isFullError} />
         )}
 
-        {isRegularError && <StyledHint className={errorNotDisplayed()}>{error.message}</StyledHint>}
+        {isRegularError && <StyledHint className={emptyErr()}>{error.message}</StyledHint>}
 
         {isInputPhone && (
-          <StyledHint className={errorNotDisplayed()}>
-            {error?.message ? error.message : 'В формате +375 (xx) xxx-xx-xx'}
+          <StyledHint className={phoneclass()}>
+            {error?.message === ErrorMessages.required ? error.message : 'В формате +375 (xx) xxx-xx-xx'}
           </StyledHint>
         )}
 
-        {isInputpassword && isChecked && (
+        {isInputpassword && !error?.message && !errors?.length && watchName && !isInputAuth && (
           <InputIcon className='checkicon' src={check} alt='iconCheck' data-test-id='checkmark' />
         )}
         {!!isInputpassword && isEyeOpen && (

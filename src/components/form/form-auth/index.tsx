@@ -40,7 +40,6 @@ export const AuthForm = () => {
   });
   const { isLoading, isSuccess, isError, error, user } = useAppSelector((state) => state.AuthReducer);
   const dispatch = useAppDispatch();
-  const {} = authSlice.actions;
 
   const onSubmit: SubmitHandler<AuthFormValues> = (data) => {
     console.log(data);
@@ -80,8 +79,7 @@ export const AuthForm = () => {
               <FormErrorMessage>Неверный логин или пароль!</FormErrorMessage>
             )}
 
-            <LinkToForgot to='/forgot-pass'>Забыли логин или пароль?</LinkToForgot>
-            <LinkToForgot className='short' to='/forgot-pass'>
+            <LinkToForgot to='/forgot-pass'>
               {error === ErrorMessages.wrongLoginOrPassword ? 'Восстановить?' : 'Забыли логин или пароль?'}
             </LinkToForgot>
 

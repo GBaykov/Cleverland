@@ -14,6 +14,9 @@ import { Slider } from './components/slider';
 import { MockBook2 } from './constants/constants';
 import { Loader } from './components/loader';
 import { FormPage } from './pages/form-page';
+import { AuthForm } from './components/form/form-auth';
+import { RegistrationForm } from './components/form/form-registration';
+import { PrivateRouter } from './router/private-rout';
 
 const store = setupStore();
 
@@ -23,19 +26,21 @@ root.render(
     <Provider store={store}>
       <HashRouter>
         <Routes>
-          <Route path='/' element={<Layout />}>
-            <Route element={<LayoutMainPage />}>
-              {/* <Route path='/' element={<Navigate to='/books/all' />} /> */}
-              <Route path='/books/all' element={<MainPage />} />
-              <Route path='/books/:category' element={<MainPage />} />
-              <Route path='/terms' element={<Terms contentView='terms' />} />
-              <Route path='/contract' element={<Terms contentView='contract' />} />
-              <Route path='/profile' element={<Loader />} />
+          <Route element={<FormPage />}>
+            <Route path='/auth' element={<AuthForm />} />
+            <Route path='/registration' element={<RegistrationForm />} />
+          </Route>
+          <Route element={<PrivateRouter />}>
+            <Route path='/' element={<Layout />}>
+              <Route element={<LayoutMainPage />}>
+                <Route path='/books/all' element={<MainPage />} />
+                <Route path='/books/:category' element={<MainPage />} />
+                <Route path='/terms' element={<Terms contentView='terms' />} />
+                <Route path='/contract' element={<Terms contentView='contract' />} />
+                <Route path='/profile' element={<Loader />} />
+              </Route>
+              <Route path='/books/:category/:bookId' element={<BookPage />} />
             </Route>
-            <Route path='/books/:category/:bookId' element={<BookPage />} />
-            <Route path='/' element={<Navigate to='/registration' />} />
-            <Route path='/auth' element={<FormPage formType='auth' />} />
-            <Route path='/registration' element={<FormPage formType='registration' />} />
           </Route>
         </Routes>
       </HashRouter>
