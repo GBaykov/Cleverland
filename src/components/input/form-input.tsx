@@ -29,12 +29,13 @@ export const FormsInput = forwardRef<
       label,
       onBlur,
       onChange,
+      onFocus,
       isChecked,
       type,
       error,
       watchName,
       clearErrors,
-      isFullError,
+      shouldFullColorError,
       errors,
       isInputAuth,
       mask,
@@ -44,6 +45,7 @@ export const FormsInput = forwardRef<
   ) => {
     const [isEyeOpen, setIsEyeOpen] = useState(false);
     const [isEyeVisible, setIsEyeVisible] = useState(false);
+    const [isFocus, setIsFocus] = useState(false);
     const isInputpassword = name === 'password';
     const isConfirmPassword = name === 'passwordConfirmation';
     const isInputPhone = name === 'phone';
@@ -61,7 +63,6 @@ export const FormsInput = forwardRef<
 
     const emptyErr = () => {
       if (isInputAuth) {
-        // return 'notDisplayed';
         return 'fullColored';
       }
       return 'fullColored';
@@ -76,15 +77,6 @@ export const FormsInput = forwardRef<
     };
 
     const bordeError = error?.message ? 'borderError' : '';
-
-    const onInputFocus = () => {
-      if (isInputpassword || isConfirmPassword) {
-        setIsEyeVisible(true);
-      }
-      if (clearErrors) {
-        clearErrors(name);
-      }
-    };
 
     const changeIsOpenEye = (e: MouseEvent) => {
       e.preventDefault();
@@ -101,8 +93,21 @@ export const FormsInput = forwardRef<
             mask={mask}
             {...register}
             alwaysShowMask={!error?.message && !watchName}
-            onFocus={() => clearErrors && clearErrors(name)}
-            onBlur={onBlur}
+            onFocus={() => {
+              if (onFocus) {
+                onFocus();
+              }
+
+              if (clearErrors) {
+                clearErrors();
+              }
+            }}
+            onBlur={(e) => {
+              setIsFocus(false);
+              if (onBlur) {
+                onBlur(e);
+              }
+            }}
           />
         ) : (
           <StyledInput
@@ -111,9 +116,26 @@ export const FormsInput = forwardRef<
             name={name}
             required={true}
             type={typeInputValue}
-            onFocus={() => clearErrors && clearErrors(name)}
-            onBlur={onBlur}
-            onChange={() => setIsEyeVisible(true)}
+            onFocus={() => {
+              if (onFocus) {
+                onFocus();
+              }
+              if (clearErrors) {
+                clearErrors();
+              }
+            }}
+            onBlur={(e) => {
+              setIsFocus(false);
+              if (onBlur) {
+                onBlur(e);
+              }
+            }}
+            onChange={(e) => {
+              if (onChange) {
+                onChange(e);
+              }
+              setIsEyeVisible(true);
+            }}
           />
         )}
 
@@ -121,10 +143,10 @@ export const FormsInput = forwardRef<
 
         {errors && error?.type !== 'required' && (
           <HintError
-            shouldShowError={!!watchName}
             errors={errors}
             hintType={name}
-            isFullError={isFullError}
+            shouldShowError={!!watchName}
+            shouldFullColorError={shouldFullColorError}
             data-test-id={DataTestId.Hint}
           />
         )}
@@ -134,24 +156,30 @@ export const FormsInput = forwardRef<
             <span>{error.message}</span>
           </StyledHint>
         )}
-        {/* {isRegularError && (
-          <StyledHint className={emptyErr()} data-test-id={DataTestId.Hint}>
-            {error.message}
-          </StyledHint>
-        )} */}
         {errors && error?.message && error.type === 'required' && name !== 'phone' && (
           <StyledHint className={emptyErr()} data-test-id={DataTestId.Hint}>
             <span>{error.message}</span>
           </StyledHint>
         )}
 
-        {isInputPhone && (
+        {name === 'phone' && (
           <StyledHint className={phoneclass()} data-test-id={DataTestId.Hint}>
             <span>{error?.message === ErrorMessages.required ? error.message : 'В формате +375 (xx) xxx-xx-xx'}</span>
           </StyledHint>
         )}
 
-        {isInputpassword && !error?.message && !errors?.length && watchName && !isInputAuth && (
+        {/* {isRegularError && (
+          <StyledHint className={emptyErr()} data-test-id={DataTestId.Hint}>
+            {error.message}
+          </StyledHint>
+        )} */}
+        {/* {errors && error?.message && error.type === 'required' && name !== 'phone' && (
+          <StyledHint className={emptyErr()} data-test-id={DataTestId.Hint}>
+            <span>{error.message}</span>
+          </StyledHint>
+        )} */}
+
+        {!error?.message && !errors?.length && watchName && name === 'password' && (
           <InputIcon className='checkicon' src={check} alt='iconCheck' data-test-id={DataTestId.CheckMark} />
         )}
         {(!!isInputpassword || !!isConfirmPassword) && isEyeOpen && (

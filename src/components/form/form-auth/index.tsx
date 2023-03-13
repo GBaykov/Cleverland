@@ -25,6 +25,8 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { Loader } from '../../loader';
 import { authSlice, signIn, signUp } from '../../../store/reducers/auth-reducer';
 import { DataTestId } from '../../../constants/data-test-ids';
+import { HintError } from '../hint';
+import { StyledHint } from '../hint/styled';
 
 export const AuthForm = () => {
   const {
@@ -39,16 +41,14 @@ export const AuthForm = () => {
     resolver: yupResolver(authSchema),
     criteriaMode: 'all',
   });
-  const { isLoading, isSuccess, isError, error, user } = useAppSelector((state) => state.AuthReducer);
+  const { isLoading, isSuccess, isError, error, user, errorStatus } = useAppSelector((state) => state.AuthReducer);
   const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<AuthFormValues> = (data) => {
     console.log(data);
     dispatch(signIn(data));
   };
-
-  console.log('render auth');
-
+  console.log(error);
   return (
     <>
       {error !== ErrorMessages.smthError && !user && (
@@ -77,7 +77,9 @@ export const AuthForm = () => {
             />
 
             {error === ErrorMessages.wrongLoginOrPassword && (
-              <FormErrorMessage data-test-id={DataTestId.Hint}>Неверный логин или пароль!</FormErrorMessage>
+              <FormErrorMessage data-test-id={DataTestId.Hint}>
+                <span>{ErrorMessages.wrongLoginOrPassword}</span>
+              </FormErrorMessage>
             )}
 
             <LinkToForgot to='/forgot-pass'>

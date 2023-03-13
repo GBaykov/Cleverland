@@ -41,7 +41,7 @@ export type FormInputType = InputPropsType & {
   type: InputType;
   error?: FieldError;
   errors: string[];
-  isFullError: boolean;
+  shouldFullColorError: boolean;
   watchName: string;
   clearErrors?: UseFormClearErrors<AllPossiblerFields>;
   name: 'password' | 'identifier' | 'firstName' | 'lastName' | 'email' | 'phone' | 'username' | 'passwordConfirmation';

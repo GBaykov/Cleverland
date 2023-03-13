@@ -44,7 +44,7 @@ export const RegistrationForm = () => {
     resolver: yupResolver(registrationSchemas[step - 1]),
   });
 
-  const { isLoading, isSuccess, isError, error } = useAppSelector((state) => state.AuthReducer);
+  const { isLoading, isSuccess, isError, error, errorResponse } = useAppSelector((state) => state.AuthReducer);
   const { clearData } = authSlice.actions;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -66,20 +66,43 @@ export const RegistrationForm = () => {
       dispatch(clearData());
       reset();
       setStep(1);
-      console.log(step);
     }
   };
-  console.log(error);
 
   const errorsPassword = usePasswordErrors(passwordSchema, watch('password'));
 
   const errorsUsername = useUsernameErrors(usernameSchema, watch('username'));
-  console.log('isSucces----', isSuccess);
-  console.log('isLoading----', isLoading);
-  console.log('error---', error);
 
   return (
     <>
+      {error && (
+        <RegAuthFormModal className='centred' data-test-id={DataTestId.StatusBlock}>
+          <RegAuthTitle className='centred'>Данные не сохранились</RegAuthTitle>
+          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} className='centred'>
+            <StyledErrText className='centred'>
+              {error === ErrorMessages.registrationFail ? ErrorMessages.registrationFail : ErrorMessages.notUnique}
+            </StyledErrText>
+            <Button
+              isPrimary={true}
+              onClick={() => onSubmit}
+              text={error === ErrorMessages.registrationFail ? 'Повторить' : 'Назад к регистрации'}
+              height={52}
+              type={BtnType.submit}
+            />
+          </StyledRegAuthForm>
+        </RegAuthFormModal>
+      )}
+      {isSuccess && (
+        <RegAuthFormModal className='centred' data-test-id={DataTestId.StatusBlock}>
+          <RegAuthTitle className='centred'>Регистрация успешна</RegAuthTitle>
+          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} className='centred'>
+            <StyledErrText className='centred'>
+              Регистрация прошла успешно. Зайдите в личный кабинет, используя свои логин и пароль
+            </StyledErrText>
+            <Button onClick={() => onSubmit} isPrimary={true} text='Вход' height={52} type={BtnType.submit} />
+          </StyledRegAuthForm>
+        </RegAuthFormModal>
+      )}
       {!error && !isSuccess && (
         <RegAuthFormModal>
           <RegAuthTitle>Регистрация</RegAuthTitle>
@@ -96,7 +119,7 @@ export const RegistrationForm = () => {
                   errors={errorsUsername}
                   name='username'
                   clearErrors={clearErrors}
-                  isFullError={!!errors.username}
+                  shouldFullColorError={!!errors.username}
                 />
                 <FormsInput
                   label='Пароль'
@@ -107,7 +130,7 @@ export const RegistrationForm = () => {
                   errors={errorsPassword}
                   clearErrors={clearErrors}
                   name='password'
-                  isFullError={!!errors.password}
+                  shouldFullColorError={!!errors.username}
                 />
               </>
             )}
@@ -181,34 +204,7 @@ export const RegistrationForm = () => {
           </HaveRecord>
         </RegAuthFormModal>
       )}
-      {error && (
-        <RegAuthFormModal className='centred' data-test-id={DataTestId.StatusBlock}>
-          <RegAuthTitle className='centred'>Данные не сохранились</RegAuthTitle>
-          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} className='centred'>
-            <StyledErrText className='centred'>
-              {error === ErrorMessages.registrationFail ? ErrorMessages.registrationFail : ErrorMessages.notUnique}
-            </StyledErrText>
-            <Button
-              isPrimary={true}
-              onClick={() => onSubmit}
-              text={error === ErrorMessages.registrationFail ? 'Повторить' : 'Назад к регистрации'}
-              height={52}
-              type={BtnType.submit}
-            />
-          </StyledRegAuthForm>
-        </RegAuthFormModal>
-      )}
-      {isSuccess && (
-        <RegAuthFormModal className='centred' data-test-id={DataTestId.StatusBlock}>
-          <RegAuthTitle className='centred'>Регистрация успешна</RegAuthTitle>
-          <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} className='centred'>
-            <StyledErrText className='centred'>
-              Регистрация прошла успешно. Зайдите в личный кабинет, используя свои логин и пароль
-            </StyledErrText>
-            <Button onClick={() => onSubmit} isPrimary={true} text='Вход' height={52} type={BtnType.submit} />
-          </StyledRegAuthForm>
-        </RegAuthFormModal>
-      )}
+
       {isLoading && <Loader />}
     </>
   );

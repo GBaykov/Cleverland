@@ -5,11 +5,11 @@ import { ErrorPart, StyledHint } from './styled';
 type HintErrorProps = {
   errors: string[];
   hintType: string;
-  isFullError?: boolean;
+  shouldFullColorError?: boolean;
   shouldShowError: boolean;
 };
 
-export const HintError = ({ errors, hintType, isFullError, shouldShowError }: HintErrorProps) => {
+export const HintError = ({ errors, hintType, shouldShowError, shouldFullColorError }: HintErrorProps) => {
   const highlight = (errMessage: string) => {
     if (errors.includes(errMessage) && shouldShowError) {
       return 'highlight';
@@ -17,7 +17,7 @@ export const HintError = ({ errors, hintType, isFullError, shouldShowError }: Hi
     return '';
   };
   const fullColored = () => {
-    if (isFullError) {
+    if (shouldFullColorError) {
       return 'fullColored';
     }
     return '';

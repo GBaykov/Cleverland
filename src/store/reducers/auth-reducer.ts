@@ -13,6 +13,8 @@ type AuthState = {
   isSuccess: boolean;
   isError: boolean;
   error: any;
+  errorResponse: any;
+  errorStatus: number;
 };
 
 const initialState: AuthState = {
@@ -22,6 +24,8 @@ const initialState: AuthState = {
   isSuccess: false,
   isError: false,
   error: null,
+  errorResponse: null,
+  errorStatus: 200,
 };
 
 export const signIn = createAsyncThunk('auth/signIn', async (data: LoginParams, thunkAPI) => {
@@ -29,6 +33,11 @@ export const signIn = createAsyncThunk('auth/signIn', async (data: LoginParams, 
     const response = await authService.signIn(data);
     return response;
   } catch (error) {
+    // const { response } = error as AxiosError;
+    // if (response?.status === 400) {
+    //   state.error = ErrorMessages.wrongLoginOrPassword;
+    //     } else state.error = ErrorMessages.smthError;
+
     if (axios.isAxiosError(error) && error.response) {
       const message = (error.response && error.response.data) || error.message || error.toString();
       return thunkAPI.rejectWithValue(message);
@@ -86,10 +95,11 @@ export const authSlice = createSlice({
         state.token = '';
         state.isError = true;
         state.isLoading = false;
-
-        const errResponse = action.payload as ResponseError;
-        if (errResponse?.error?.status && errResponse?.error?.status === 400) {
-          state.error = ErrorMessages.wrongLoginOrPassword;
+        const response = action.payload as ResponseError;
+        if (response && response.error) {
+          if (Number(response.error.status) === 400) {
+            state.error = ErrorMessages.wrongLoginOrPassword;
+          } else state.error = ErrorMessages.smthError;
         } else state.error = ErrorMessages.smthError;
       })
 
@@ -107,13 +117,16 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
-        console.log(action.payload);
 
-        const errResponse = action.payload as ResponseError;
-        console.log(errResponse?.error.status);
-        if (errResponse?.error?.status && errResponse?.error?.status === 400) {
-          state.error = ErrorMessages.notUnique;
-        } else state.error = ErrorMessages.registrationFail;
+        console.log(action.payload);
+        const response = action.payload as ResponseError;
+        if (response && response.error) {
+          if (Number(response.error.status) === 400) {
+            state.error = ErrorMessages.wrongLoginOrPassword;
+          } else if (Number(response.error.status) === 500) {
+            state.error = ErrorMessages.registrationFail;
+          } else state.error = ErrorMessages.smthError;
+        } else state.error = ErrorMessages.smthError;
       });
   },
 });
