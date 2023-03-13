@@ -185,7 +185,7 @@ export const RecoveryForm = () => {
       )}
 
       {error && code && (
-        <RegAuthFormModal>
+        <RegAuthFormModal data-test-id={DataTestId.StatusBlock}>
           <RegAuthTitle className='centred'>Данные не сохранились</RegAuthTitle>
           <StyledErrText className='centred'>{error}</StyledErrText>
           <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} noValidate={true}>
@@ -195,7 +195,7 @@ export const RecoveryForm = () => {
       )}
 
       {isForgotSuccess && !code && (
-        <RegAuthFormModal className='centred'>
+        <RegAuthFormModal className='centred' data-test-id={DataTestId.StatusBlock}>
           <RegAuthTitle className='centred'>Письмо выслано</RegAuthTitle>
           <StyledErrText className='centred'>
             Перейдите в вашу почту, чтобы воспользоваться подсказками по восстановлению пароля
@@ -203,7 +203,7 @@ export const RecoveryForm = () => {
         </RegAuthFormModal>
       )}
       {isResetSuccess && code && (
-        <RegAuthFormModal className='centred'>
+        <RegAuthFormModal className='centred' data-test-id={DataTestId.StatusBlock}>
           <RegAuthTitle className='centred'>Новые данные сохранены</RegAuthTitle>
           <StyledErrText className='centred'>
             Зайдите в личный кабинет, используя свои логин и новый пароль

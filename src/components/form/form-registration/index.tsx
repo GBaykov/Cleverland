@@ -182,7 +182,7 @@ export const RegistrationForm = () => {
         </RegAuthFormModal>
       )}
       {error && (
-        <RegAuthFormModal className='centred'>
+        <RegAuthFormModal className='centred' data-test-id={DataTestId.StatusBlock}>
           <RegAuthTitle className='centred'>Данные не сохранились</RegAuthTitle>
           <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} className='centred'>
             <StyledErrText className='centred'>
@@ -199,7 +199,7 @@ export const RegistrationForm = () => {
         </RegAuthFormModal>
       )}
       {isSuccess && (
-        <RegAuthFormModal className='centred'>
+        <RegAuthFormModal className='centred' data-test-id={DataTestId.StatusBlock}>
           <RegAuthTitle className='centred'>Регистрация успешна</RegAuthTitle>
           <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} className='centred'>
             <StyledErrText className='centred'>

@@ -88,8 +88,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
 
         const errResponse = action.payload as ResponseError;
-        console.log(errResponse?.error.status);
-        if (errResponse?.error.status === 400) {
+        if (errResponse?.error?.status && errResponse?.error?.status === 400) {
           state.error = ErrorMessages.wrongLoginOrPassword;
         } else state.error = ErrorMessages.smthError;
       })
@@ -112,7 +111,7 @@ export const authSlice = createSlice({
 
         const errResponse = action.payload as ResponseError;
         console.log(errResponse?.error.status);
-        if (errResponse?.error.status === 400) {
+        if (errResponse?.error?.status && errResponse?.error?.status === 400) {
           state.error = ErrorMessages.notUnique;
         } else state.error = ErrorMessages.registrationFail;
       });

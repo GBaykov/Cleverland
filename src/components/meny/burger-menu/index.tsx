@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { arrow } from '../../../constants/svg';
 import { allBooksSlice } from '../../../store/reducers/books-reducer';
 import { authSlice } from '../../../store/reducers/auth-reducer';
+import { DataTestId } from '../../../constants/data-test-ids';
 
 export const BurgerMenu: FC = () => {
   const { isMenuOpen } = useAppSelector((state) => state.MenuReducer);
@@ -139,6 +140,7 @@ export const BurgerMenu: FC = () => {
         </BurgerStyledLink>
 
         <BurgerStyledLink
+          data-test-id={DataTestId.ExitButton}
           onClick={() => hendleExitClick()}
           to='/auth'
           className={activeLink === 'exit' ? 'activeLink' : ''}

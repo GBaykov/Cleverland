@@ -97,13 +97,13 @@ export const AuthForm = () => {
       )}
 
       {error === ErrorMessages.smthError && (
-        <StyledRegAuthForm className='centred'>
+        <RegAuthFormModal className='centred' data-test-id={DataTestId.StatusBlock}>
           <RegAuthTitle className='centred'>Вход не выполнен</RegAuthTitle>
           <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} className='centred'>
             <StyledErrText className='centred'>{ErrorMessages.smthError}</StyledErrText>
             <Button isPrimary={true} onClick={() => onSubmit} text='Повторить' height={52} type={BtnType.submit} />
           </StyledRegAuthForm>
-        </StyledRegAuthForm>
+        </RegAuthFormModal>
       )}
       {isLoading && <Loader />}
     </>

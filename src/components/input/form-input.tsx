@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { FieldError, UseFormClearErrors, UseFormRegister } from 'react-hook-form/dist/types';
 import { AllPossiblerFields, FormInputType, InputType } from '../../types/forms';
 import { InputIcon, InputLabel, InputWrapper, StyledInput, StyledMask } from './styled';
@@ -43,6 +43,7 @@ export const FormsInput = forwardRef<
     ref
   ) => {
     const [isEyeOpen, setIsEyeOpen] = useState(false);
+    const [isEyeVisible, setIsEyeVisible] = useState(false);
     const isInputpassword = name === 'password';
     const isConfirmPassword = name === 'passwordConfirmation';
     const isInputPhone = name === 'phone';
@@ -56,16 +57,12 @@ export const FormsInput = forwardRef<
         : isInputpassword || isConfirmPassword
         ? 'password'
         : 'text';
+    const isPasswordOrConfirmPassword = watchName && (name === 'password' || name === 'passwordConfirmation');
 
-    const errorNotDisplayed = () => {
-      if (isInputAuth) {
-        return 'notDisplayed';
-      }
-      return '';
-    };
     const emptyErr = () => {
       if (isInputAuth) {
-        return 'notDisplayed';
+        // return 'notDisplayed';
+        return 'fullColored';
       }
       return 'fullColored';
     };
@@ -79,22 +76,24 @@ export const FormsInput = forwardRef<
     };
 
     const bordeError = error?.message ? 'borderError' : '';
+
+    const onInputFocus = () => {
+      if (isInputpassword || isConfirmPassword) {
+        setIsEyeVisible(true);
+      }
+      if (clearErrors) {
+        clearErrors(name);
+      }
+    };
+
+    const changeIsOpenEye = (e: MouseEvent) => {
+      e.preventDefault();
+      setIsEyeOpen(!isEyeOpen);
+    };
+
     return (
       <InputWrapper>
         {mask ? (
-          // <FormsInputPhone
-          //   className={bordeError}
-          //   type={isEyeOpen ? 'text' : type}
-          //   maskChar='x'
-          //   mask={mask}
-          //   ref={ref}
-          //   name={name}
-          //   onBlur={onBlur}
-          //   required={true}
-          //   //  {...register}
-          //   alwaysShowMask={!error?.message && !watchName && !isInputPhone}
-          //   onFocus={() => clearErrors && clearErrors()}
-          // />
           <StyledMask
             className={bordeError}
             type={isEyeOpen ? 'text' : type}
@@ -103,6 +102,7 @@ export const FormsInput = forwardRef<
             {...register}
             alwaysShowMask={!error?.message && !watchName}
             onFocus={() => clearErrors && clearErrors(name)}
+            onBlur={onBlur}
           />
         ) : (
           <StyledInput
@@ -113,7 +113,7 @@ export const FormsInput = forwardRef<
             type={typeInputValue}
             onFocus={() => clearErrors && clearErrors(name)}
             onBlur={onBlur}
-            title=' '
+            onChange={() => setIsEyeVisible(true)}
           />
         )}
 
@@ -129,15 +129,25 @@ export const FormsInput = forwardRef<
           />
         )}
 
-        {isRegularError && (
+        {!errors && error?.message && name !== 'phone' && (
+          <StyledHint className={emptyErr()} data-test-id={DataTestId.Hint}>
+            <span>{error.message}</span>
+          </StyledHint>
+        )}
+        {/* {isRegularError && (
           <StyledHint className={emptyErr()} data-test-id={DataTestId.Hint}>
             {error.message}
+          </StyledHint>
+        )} */}
+        {errors && error?.message && error.type === 'required' && name !== 'phone' && (
+          <StyledHint className={emptyErr()} data-test-id={DataTestId.Hint}>
+            <span>{error.message}</span>
           </StyledHint>
         )}
 
         {isInputPhone && (
           <StyledHint className={phoneclass()} data-test-id={DataTestId.Hint}>
-            {error?.message === ErrorMessages.required ? error.message : 'В формате +375 (xx) xxx-xx-xx'}
+            <span>{error?.message === ErrorMessages.required ? error.message : 'В формате +375 (xx) xxx-xx-xx'}</span>
           </StyledHint>
         )}
 
@@ -152,7 +162,7 @@ export const FormsInput = forwardRef<
             data-test-id={DataTestId.EyeOpened}
           />
         )}
-        {(!!isInputpassword || !!isConfirmPassword) && !isEyeOpen && (
+        {(!!isInputpassword || !!isConfirmPassword) && !isEyeOpen && isEyeVisible && (
           <InputIcon
             src={eyeClosed}
             alt='eyeClosed'
@@ -160,6 +170,16 @@ export const FormsInput = forwardRef<
             data-test-id={DataTestId.EyeClosed}
           />
         )}
+
+        {/* {isPasswordOrConfirmPassword && (
+          <InputIcon
+            onClick={() => changeIsOpenEye}
+            src={isEyeOpen ? eyeOpen : eyeClosed}
+            alt='eye'
+            // onClick={() => setIsEyeOpen(!isEyeOpen)}
+            data-test-id={isEyeOpen ? DataTestId.EyeOpened : DataTestId.EyeClosed}
+          />
+        )} */}
       </InputWrapper>
     );
   }
