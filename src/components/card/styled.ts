@@ -92,22 +92,8 @@ export const PhotoContainer = styled.p<PhotoContainerProps>`
     height: 242px;
     `};
 
-  background: ${BLACK5}  no-repeat center url(${cat};;
+  background: ${BLACK5}  no-repeat center url(${cat};;;;
 `;
-// img {
-//   ${({ isList }) =>
-//     isList
-//       ? `  width: 120px;
-//   height: 170px;
-//   @media(max-width: 400px){
-//     width: 70px;
-//   height: 100px;
-//   }
-//   `
-//       : `  width: 174px;
-//   height: 242px;
-//   `};
-// }
 
 export const CardItem = styled.div<CardContentProps>`
   display: flex;
@@ -164,6 +150,11 @@ export const CardTitle = styled.p<CardContentProps>`
         justify-content: center;
       }
       `};
+  span {
+    &.highlight-text {
+      color: #ff5253;
+    }
+  }
 `;
 
 export const CardAuthor = styled.p<CardContentProps>`

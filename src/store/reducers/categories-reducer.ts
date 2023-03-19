@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { HOST } from '../../constants';
+import { authHeader } from '../../services/auth/auth-header';
 import { Category, ICategories } from '../../types/categories';
+import { axiosInstance } from '../api';
 
 export interface CategoriesState {
   categories: Category[] | [];
@@ -15,7 +17,11 @@ export const initialState: CategoriesState = {
 export const fetchCategories = createAsyncThunk(
   'categories/fetchCategories',
   async () => {
-    const response = await axios.get<ICategories>(`${HOST}/api/categories`);
+    const response = await axiosInstance.get<ICategories>(`${HOST}/api/categories`, {
+      headers: {
+        Authorization: authHeader(),
+      },
+    });
     return response.data;
   },
   {

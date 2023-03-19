@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { DARK, HOVER, PRESSED } from '../../constants/styles';
+import { DARK, HOVER, PRESSED, WHITE } from '../../constants/styles';
 
 export const ContainerHeader = styled.header`
   box-sizing: border-box;
@@ -19,6 +20,9 @@ export const ContainerHeader = styled.header`
   @media (max-width: 500px) {
     height: 76px;
     padding: 24px 16px;
+  }
+  &.active {
+    box-shadow: 4px 4px 4px rgba(54, 54, 54, 0.05), -4px 4px 4px rgba(54, 54, 54, 0.05);
   }
 `;
 
@@ -65,6 +69,7 @@ img {
 `;
 
 export const HeaderMain = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
@@ -138,7 +143,7 @@ export const Bar = styled.span`
   background-color: ${DARK};
 `;
 
-export const HeaderAccount = styled.div`
+export const HeaderAccount = styled.a`
   display: flex;
   align-items: center;
   p {
@@ -152,12 +157,41 @@ export const HeaderAccount = styled.div`
     margin-right: 16px;
   }
 
-  a img {
+  span img {
     width: 58px;
     height: 58px;
     border-radius: 50%;
   }
   @media (max-width: 1100px) {
     display: none;
+  }
+  cursor: pointer;
+`;
+
+export const UserMeny = styled.div`
+  position: absolute;
+  width: 270px;
+  display: flex;
+  justify-content: end;
+  top: 80px;
+  right: 0;
+  padding: 32px 24px;
+  background-color: ${WHITE};
+  z-index: 13;
+  box-shadow: var(--box-shadow);
+  border-radius: 0 0 10px 10px;
+`;
+export const UserList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+`;
+export const UserItem = styled.li`
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 18px;
+  margin-top: 42px;
+  &:first-child {
+    margin-top: 0;
   }
 `;

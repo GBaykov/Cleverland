@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 import { BLACK10, BLACK5, BLACK20, DARK, HOVER, WHITE } from '../../constants/styles';
 
-export interface IButton {
+export type StyledButtomProp = {
   height?: number;
   width?: number;
   isPrimary: boolean;
   text: string;
-  disabled?: boolean;
-}
+};
 
-export const StyledButton = styled.button<IButton>`
+export const StyledButton = styled.button<StyledButtomProp>`
+text-transform: uppercase;
   height: ${({ height }) => (height ? `${height}px` : '40px')};
   width: ${({ width }) => (width ? `${width}px` : '100%')};
   cursor: pointer;
@@ -18,7 +18,9 @@ export const StyledButton = styled.button<IButton>`
   color: ${({ isPrimary }) => (isPrimary ? `${WHITE}` : `${DARK}`)};
   background: ${({ isPrimary }) => (isPrimary ? `${HOVER}` : `${WHITE}`)};
 
-  :hover${({ isPrimary }) =>
+  
+
+  &:hover${({ isPrimary }) =>
     isPrimary
       ? `{
     border: 1px solid #FF740F;
@@ -29,7 +31,7 @@ export const StyledButton = styled.button<IButton>`
     box-shadow: 0px 2px 5px rgba(54, 54, 54, 0.1);
 }`} ;
 
-  :active${({ isPrimary }) =>
+  &:active${({ isPrimary }) =>
     isPrimary
       ? `{
     border: 1px solid #BFC4C9;
@@ -40,7 +42,7 @@ export const StyledButton = styled.button<IButton>`
     box-shadow: 0px 3px 4px rgba(222, 125, 11, 0.2), 0px 1px 10px rgba(249, 89, 8, 0.2);
 }`} ;
 
-  // ${({ disabled }) => (disabled ? `cursor: none; background:${BLACK10}` : `cursor: none; background:${BLACK5};`)}
+   
 
   &[aria-disabled="true"], &:disabled, :disabled: ${({ isPrimary }) =>
     isPrimary
@@ -50,4 +52,8 @@ export const StyledButton = styled.button<IButton>`
       : `{
     background:${BLACK5};
 }`};
+
+ ${({ disabled, isPrimary }) => (disabled && isPrimary ? `cursor: none; background:${BLACK10}` : ``)}
+ ${({ disabled, isPrimary }) => (disabled && !isPrimary ? `cursor: none; background:${BLACK5}` : ``)}
+
 `;

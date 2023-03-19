@@ -1,22 +1,38 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { HOST } from '../../constants';
+import { authHeader } from '../../services/auth/auth-header';
 import { AllBooksSuccess, GetAllBooksRequest } from '../../types/books';
+import { axiosInstance } from '../api';
 
 interface BooksState {
   books: AllBooksSuccess | [];
+  filteredBooks: AllBooksSuccess | [];
   booksStatus: 'loading' | 'idle' | 'faild';
+  activeCategory: string;
+  activeName: string;
+  isDESC: boolean;
+  inputValue: string;
 }
 
 const initialState: BooksState = {
   books: [],
+  filteredBooks: [],
   booksStatus: 'idle',
+  activeCategory: 'all',
+  activeName: '',
+  isDESC: true,
+  inputValue: '',
 };
 
 export const fetchAllBooks = createAsyncThunk(
   'books/fetchAllBooks',
   async (obj, { dispatch, getState }) => {
-    const response = await axios.get<GetAllBooksRequest>(`${HOST}/api/books`);
+    const response = await axiosInstance.get<AllBooksSuccess>(`${HOST}/api/books`, {
+      headers: {
+        Authorization: authHeader(),
+      },
+    });
     return response.data;
   },
   {
@@ -43,18 +59,36 @@ export const allBooksSlice = createSlice({
     cleanBooksError(state) {
       state.booksStatus = 'idle';
     },
+    setActiveCategory(state, action) {
+      state.activeCategory = action.payload;
+    },
+    setActiveName(state, action) {
+      state.activeName = action.payload;
+    },
+    setIsDESC(state, action) {
+      state.isDESC = action.payload;
+    },
+    setInputValue(state, action) {
+      state.inputValue = action.payload;
+    },
   },
-  extraReducers: {
-    [fetchAllBooks.pending.toString()]: (state) => {
-      state.booksStatus = 'loading';
-    },
-    [fetchAllBooks.fulfilled.toString()]: (state, action) => {
-      state.booksStatus = 'idle';
-      state.books = action.payload;
-    },
-    [fetchAllBooks.rejected.toString()]: (state, action) => {
-      state.booksStatus = 'faild';
-    },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchAllBooks.pending, (state) => {
+        state.booksStatus = 'loading';
+      })
+      .addCase(fetchAllBooks.fulfilled, (state, action) => {
+        state.booksStatus = 'idle';
+        const actionsBooks = action.payload as AllBooksSuccess;
+        state.books = actionsBooks;
+
+        state.books = actionsBooks;
+
+        state.filteredBooks = actionsBooks.filter((item, index) => item.categories.includes(state.activeName));
+      })
+      .addCase(fetchAllBooks.rejected, (state, action) => {
+        state.booksStatus = 'faild';
+      });
   },
 });
 

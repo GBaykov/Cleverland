@@ -13,6 +13,11 @@ import { setupStore } from './store/store';
 import { Slider } from './components/slider';
 import { MockBook2 } from './constants/constants';
 import { Loader } from './components/loader';
+import { FormPage } from './pages/form-page';
+import { AuthForm } from './components/form/form-auth';
+import { RegistrationForm } from './components/form/form-registration';
+import { PrivateRouter } from './router/private-rout';
+import { RecoveryForm } from './components/form/form-recovery';
 
 const store = setupStore();
 
@@ -22,16 +27,23 @@ root.render(
     <Provider store={store}>
       <HashRouter>
         <Routes>
-          <Route path='/' element={<Layout />}>
-            <Route element={<LayoutMainPage />}>
-              <Route path='/' element={<Navigate to='/books/all' />} />
-              <Route path='/books/all' element={<MainPage />} />
-              <Route path='/books/:category' element={<MainPage />} />
-              <Route path='/terms' element={<Terms contentView='terms' />} />
-              <Route path='/contract' element={<Terms contentView='contract' />} />
-              <Route path='/profile' element={<Loader />} />
+          <Route element={<FormPage />}>
+            <Route path='/' element={<Navigate to='auth' />} />
+            <Route path='/auth' element={<AuthForm />} />
+            <Route path='/registration' element={<RegistrationForm />} />
+            <Route path='/forgot-pass' element={<RecoveryForm />} />
+          </Route>
+          <Route element={<PrivateRouter />}>
+            <Route element={<Layout />}>
+              <Route element={<LayoutMainPage />}>
+                <Route path='/books/all' element={<MainPage />} />
+                <Route path='/books/:category' element={<MainPage />} />
+                <Route path='/terms' element={<Terms contentView='terms' />} />
+                <Route path='/contract' element={<Terms contentView='contract' />} />
+                <Route path='/profile' element={<Loader />} />
+              </Route>
+              <Route path='/books/:category/:bookId' element={<BookPage />} />
             </Route>
-            <Route path='/books/:category/:bookId' element={<BookPage />} />
           </Route>
         </Routes>
       </HashRouter>
