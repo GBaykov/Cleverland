@@ -40,6 +40,7 @@ export const AuthForm = () => {
     mode: 'all',
     resolver: yupResolver(authSchema),
     criteriaMode: 'all',
+    shouldFocusError: false,
   });
   const { isLoading, isSuccess, isError, error, user, errorStatus } = useAppSelector((state) => state.AuthReducer);
   const dispatch = useAppDispatch();

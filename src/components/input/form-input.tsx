@@ -99,7 +99,7 @@ export const FormsInput = forwardRef<
               }
 
               if (clearErrors) {
-                clearErrors();
+                clearErrors(name);
               }
             }}
             onBlur={(e) => {
@@ -121,7 +121,7 @@ export const FormsInput = forwardRef<
                 onFocus();
               }
               if (clearErrors) {
-                clearErrors();
+                clearErrors(name);
               }
             }}
             onBlur={(e) => {

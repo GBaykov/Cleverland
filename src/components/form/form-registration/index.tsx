@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { passwordSchema, registrationSchemas, usernameSchema } from '../../../constants/schemas';
-import { usePasswordErrors, useUsernameErrors } from '../../../hooks/errors';
+import { useErrors } from '../../../hooks/errors';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { authSlice, signUp } from '../../../store/reducers/auth-reducer';
 import { BtnType } from '../../../types/button';
@@ -41,6 +41,7 @@ export const RegistrationForm = () => {
     reValidateMode: 'onBlur',
     criteriaMode: 'all',
     shouldFocusError: false,
+
     resolver: yupResolver(registrationSchemas[step - 1]),
   });
 
@@ -69,9 +70,12 @@ export const RegistrationForm = () => {
     }
   };
 
-  const errorsPassword = usePasswordErrors(passwordSchema, watch('password'));
+  // const errorsPassword = usePasswordErrors(passwordSchema, watch('password'));
 
-  const errorsUsername = useUsernameErrors(usernameSchema, watch('username'));
+  // const errorsUsername = useUsernameErrors(usernameSchema, watch('username'));
+  const { errorsArr: errorsPassword } = useErrors(passwordSchema, watch('password'), 'password');
+
+  const { errorsArr: errorsUsername } = useErrors(usernameSchema, watch('username'), 'username');
 
   return (
     <>
@@ -130,7 +134,7 @@ export const RegistrationForm = () => {
                   errors={errorsPassword}
                   clearErrors={clearErrors}
                   name='password'
-                  shouldFullColorError={!!errors.username}
+                  shouldFullColorError={!!errors.password}
                 />
               </>
             )}
@@ -161,6 +165,7 @@ export const RegistrationForm = () => {
                 <FormsInput
                   label='Номер телефона'
                   register={register('phone')}
+                  {...register('phone')}
                   error={errors.phone}
                   watchName={watch('phone')}
                   type='text'

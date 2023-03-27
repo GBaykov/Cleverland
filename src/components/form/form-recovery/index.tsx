@@ -10,7 +10,7 @@ import {
   resetPasswordSchema,
   usernameSchema,
 } from '../../../constants/schemas';
-import { usePasswordErrors, useUsernameErrors } from '../../../hooks/errors';
+import { useErrors } from '../../../hooks/errors';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { authSlice, signUp } from '../../../store/reducers/auth-reducer';
 import { BtnType } from '../../../types/button';
@@ -96,7 +96,7 @@ export const RecoveryForm = () => {
 
   //   };
 
-  const errorsPassword = usePasswordErrors(resetPasswordSchema, watch('password'));
+  const { errorsArr: errorsPassword } = useErrors(passwordSchema, watch('password'), 'password');
 
   return (
     <>

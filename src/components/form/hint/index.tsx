@@ -18,9 +18,9 @@ export const HintError = ({ errors, hintType, shouldShowError, shouldFullColorEr
   };
   const fullColored = () => {
     if (shouldFullColorError) {
-      return 'fullColored';
+      return `${hintType} fullColored`;
     }
-    return '';
+    return `${hintType}`;
   };
 
   return (
