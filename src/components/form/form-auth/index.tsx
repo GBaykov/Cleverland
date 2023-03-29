@@ -1,6 +1,6 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-
+import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
 
@@ -23,7 +23,7 @@ import { authSchema } from '../../../constants/schemas';
 import { BtnType } from '../../../types/button';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { Loader } from '../../loader';
-import { authSlice, signIn, signUp } from '../../../store/reducers/auth-reducer';
+import { authSlice, signIn } from '../../../store/reducers/auth-reducer';
 import { DataTestId } from '../../../constants/data-test-ids';
 import { HintError } from '../hint';
 import { StyledHint } from '../hint/styled';
@@ -42,17 +42,18 @@ export const AuthForm = () => {
     criteriaMode: 'all',
     shouldFocusError: false,
   });
-  const { isLoading, isSuccess, isError, error, user, errorStatus } = useAppSelector((state) => state.AuthReducer);
+  const { isLoading, isSuccess, isError, error, user } = useAppSelector((state) => state.AuthReducer);
   const dispatch = useAppDispatch();
+  const { clearData } = authSlice.actions;
+  const navigate = useNavigate();
+  console.log('error in auth =====', error);
 
   const onSubmit: SubmitHandler<AuthFormValues> = (data) => {
-    console.log(data);
     dispatch(signIn(data));
   };
-  console.log(error);
   return (
     <>
-      {error !== ErrorMessages.smthError && !user && (
+      {((error === ErrorMessages.wrongLoginOrPassword && !user) || (!error && !user)) && (
         <RegAuthFormModal>
           <RegAuthTitle>Вход в личный кабинет</RegAuthTitle>
           <StyledRegAuthForm onSubmit={handleSubmit(onSubmit)} noValidate={true} data-test-id={DataTestId.AuthForm}>
@@ -76,7 +77,6 @@ export const AuthForm = () => {
               clearErrors={clearErrors}
               isInputAuth={true}
             />
-
             {error === ErrorMessages.wrongLoginOrPassword && (
               <FormErrorMessage data-test-id={DataTestId.Hint}>
                 <span>{ErrorMessages.wrongLoginOrPassword}</span>
@@ -92,7 +92,7 @@ export const AuthForm = () => {
 
           <HaveRecord>
             Нет учётной записи?
-            <LinkToAuthRegistration to='/registration'>
+            <LinkToAuthRegistration to='/registration' onClick={() => clearData()}>
               Регистрация <img src={backArrow} alt='backArrow' />
             </LinkToAuthRegistration>
           </HaveRecord>

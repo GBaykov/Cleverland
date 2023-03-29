@@ -6,11 +6,11 @@ import { useAppSelector } from '../../hooks/redux';
 import { FormPageTitle, FormPageWrapper } from './styled';
 
 export const FormPage = () => {
-  const { user } = useAppSelector((state) => state.AuthReducer);
+  const { user, token } = useAppSelector((state) => state.AuthReducer);
   return (
     <FormPageWrapper data-test-id={DataTestId.Auth}>
       <FormPageTitle>Cleverland</FormPageTitle>
-      {user ? <Navigate to='/books/all' /> : <Outlet />}
+      {token || user ? <Navigate to='/books/all' /> : <Outlet />}
     </FormPageWrapper>
   );
 };

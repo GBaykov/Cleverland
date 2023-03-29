@@ -3,20 +3,13 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import {
-  forgotPasswordSchema,
-  passwordSchema,
-  registrationSchemas,
-  resetPasswordSchema,
-  usernameSchema,
-} from '../../../constants/schemas';
+import { forgotPasswordSchema, passwordSchema, resetPasswordSchema } from '../../../constants/schemas';
 import { useErrors } from '../../../hooks/errors';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { authSlice, signUp } from '../../../store/reducers/auth-reducer';
-import { BtnType } from '../../../types/button';
-import { RegistrationFormValues } from '../../../types/forms';
 
-import { Button, registrationBtns } from '../../button';
+import { BtnType } from '../../../types/button';
+
+import { Button } from '../../button';
 
 import { FormsInput } from '../../input/form-input';
 import {
@@ -61,7 +54,6 @@ export const RecoveryForm = () => {
   const { clearData } = recoverySlice.actions;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  console.log(errors);
 
   const onSubmit: SubmitHandler<RecoveryField> = (data) => {
     if (code) {
@@ -86,15 +78,11 @@ export const RecoveryForm = () => {
       );
     }
     if (isResetSuccess && code) {
-      console.log('btn click');
       dispatch(clearData());
       reset();
       navigate('/auth');
     }
   };
-  //   const onBtnClick = () => {
-
-  //   };
 
   const { errorsArr: errorsPassword } = useErrors(passwordSchema, watch('password'), 'password');
 
@@ -117,6 +105,7 @@ export const RecoveryForm = () => {
               errors={errorsPassword}
               clearErrors={clearErrors}
               name='password'
+              shouldFullColorError={!!errors.password}
             />
             <FormsInput
               {...register('passwordConfirmation')}

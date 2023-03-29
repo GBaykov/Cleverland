@@ -157,8 +157,8 @@ export const FormsInput = forwardRef<
           </StyledHint>
         )}
         {errors && error?.message && error.type === 'required' && name !== 'phone' && (
-          <StyledHint className={emptyErr()} data-test-id={DataTestId.Hint}>
-            <span>{error.message}</span>
+          <StyledHint className={emptyErr()}>
+            <span data-test-id={DataTestId.Hint}>{error.message}</span>
           </StyledHint>
         )}
 

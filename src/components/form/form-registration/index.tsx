@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { passwordSchema, registrationSchemas, usernameSchema } from '../../../constants/schemas';
 import { useErrors } from '../../../hooks/errors';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { authSlice, signUp } from '../../../store/reducers/auth-reducer';
+import { registerSlice, signUp } from '../../../store/reducers/registration-reducer';
 import { BtnType } from '../../../types/button';
 import { RegistrationFormValues } from '../../../types/forms';
 
@@ -45,14 +45,12 @@ export const RegistrationForm = () => {
     resolver: yupResolver(registrationSchemas[step - 1]),
   });
 
-  const { isLoading, isSuccess, isError, error, errorResponse } = useAppSelector((state) => state.AuthReducer);
-  const { clearData } = authSlice.actions;
+  const { isLoading, isSuccess, isError, error } = useAppSelector((state) => state.RegisterReducer);
+  const { clearData } = registerSlice.actions;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  console.log(errors);
 
   const onSubmit: SubmitHandler<RegistrationFormValues> = (data) => {
-    console.log(data);
     if (step < 3) {
       setStep((prevStep) => prevStep + 1);
     }
@@ -203,7 +201,7 @@ export const RegistrationForm = () => {
           </StyledRegAuthForm>
           <HaveRecord>
             Есть учетная запись?
-            <LinkToAuthRegistration to='/auth'>
+            <LinkToAuthRegistration to='/auth' onClick={() => clearData()}>
               Войти <img src={backArrow} alt='backArrow' />
             </LinkToAuthRegistration>
           </HaveRecord>
