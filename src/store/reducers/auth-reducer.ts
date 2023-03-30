@@ -5,6 +5,7 @@ import { authService } from '../../services/auth';
 import { ErrorMessages } from '../../types/messages';
 import { ResponseError } from '../../types/others';
 import { LoginParams, RegistrationParams, SignUpInResponse, User } from '../../types/user';
+import { getFromStorage } from '../../utils/localstorage';
 
 type AuthState = {
   token: string;
@@ -15,10 +16,19 @@ type AuthState = {
   error: string;
 };
 
+function userFromStorage() {
+  const storageUserData: string | null = getFromStorage('user');
+  let user: User | null;
+  if (typeof storageUserData === 'string') {
+    user = JSON.parse(storageUserData);
+  } else user = null;
+  return user;
+}
+
 const initialState: AuthState = {
-  token: '',
+  token: getFromStorage('token') || '',
   isLoading: false,
-  user: null,
+  user: userFromStorage(),
   isSuccess: false,
   isError: false,
   error: '',
@@ -85,13 +95,10 @@ export const authSlice = createSlice({
         state.isLoading = false;
         const response = action.payload as ResponseError;
         if (response && response.error) {
-          console.log(response);
           if (response.error.status === 400) {
-            console.log(response.error.status);
             state.error = ErrorMessages.wrongLoginOrPassword;
           } else {
             state.error = ErrorMessages.smthError;
-            console.log(response.error.status);
           }
         } else state.error = ErrorMessages.smthError;
       });

@@ -8,6 +8,9 @@ const signIn = async (data: LoginParams) => {
   if (response.data.jwt) {
     setToStorage('token', response.data.jwt);
   }
+  if (response.data.user) {
+    setToStorage('user', JSON.stringify(response.data.user));
+  }
   return response.data;
 };
 
@@ -18,6 +21,7 @@ const signUp = async (data: RegistrationParams) => {
 
 const logOut = () => {
   removeFromStorage('token');
+  removeFromStorage('user');
 };
 
 export const authService = {

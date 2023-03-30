@@ -116,6 +116,7 @@ export const FormsInput = forwardRef<
             name={name}
             required={true}
             type={typeInputValue}
+            autoComplete='off'
             onFocus={() => {
               if (onFocus) {
                 onFocus();

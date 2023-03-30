@@ -4,5 +4,5 @@ import { useAppSelector } from '../hooks/redux';
 export const PrivateRouter = () => {
   const { user, token } = useAppSelector((state) => state.AuthReducer);
 
-  return user || token ? <Outlet /> : <Navigate to='/' />;
+  return user ? <Outlet /> : <Navigate to='/auth' />;
 };

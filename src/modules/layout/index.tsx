@@ -47,7 +47,7 @@ export const Layout: FC<LayoutProps> = ({ children }) => {
     };
   }, [dispatch, activeName]);
 
-  return user || token ? (
+  return user ? (
     <App className={isMenuOpen ? 'menuOpen' : ''}>
       <Header />
       <Outlet />

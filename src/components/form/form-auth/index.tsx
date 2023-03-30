@@ -46,7 +46,6 @@ export const AuthForm = () => {
   const dispatch = useAppDispatch();
   const { clearData } = authSlice.actions;
   const navigate = useNavigate();
-  console.log('error in auth =====', error);
 
   const onSubmit: SubmitHandler<AuthFormValues> = (data) => {
     dispatch(signIn(data));

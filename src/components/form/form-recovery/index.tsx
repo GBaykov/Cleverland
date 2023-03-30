@@ -155,7 +155,7 @@ export const RecoveryForm = () => {
             />
             {error && (
               <StyledHint className='fullColored' data-test-id={DataTestId.Hint}>
-                {error}
+                {JSON.stringify(error)}
               </StyledHint>
             )}
             <StyledHint className='margined'>

@@ -57,11 +57,9 @@ export const MainPage = () => {
   const onInputOpened = () => {
     setInputOpened(true);
     focus();
-    console.log('iput open-focus');
   };
   const onCrossClick = () => {
     setInputOpened(false);
-    console.log('cross click');
   };
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setInputValue(event.target.value));

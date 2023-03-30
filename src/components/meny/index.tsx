@@ -51,7 +51,6 @@ export const Meny: FC = () => {
 
   const onMenuClick = () => {
     dispatch(toggleMenu(!isMenuOpen));
-    console.log(bookId);
   };
   const hendleExitClick = () => {
     navigate('/auth');
