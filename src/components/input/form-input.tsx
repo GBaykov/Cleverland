@@ -87,6 +87,7 @@ export const FormsInput = forwardRef<
       <InputWrapper>
         {mask ? (
           <StyledMask
+            name={name}
             className={bordeError}
             type={isEyeOpen ? 'text' : type}
             maskChar='x'
@@ -108,6 +109,14 @@ export const FormsInput = forwardRef<
                 onBlur(e);
               }
             }}
+            onClick={() => {
+              if (onFocus) {
+                onFocus();
+              }
+              if (clearErrors) {
+                clearErrors(name);
+              }
+            }}
           />
         ) : (
           <StyledInput
@@ -117,6 +126,14 @@ export const FormsInput = forwardRef<
             required={true}
             type={typeInputValue}
             autoComplete='off'
+            onClick={() => {
+              if (onFocus) {
+                onFocus();
+              }
+              if (clearErrors) {
+                clearErrors(name);
+              }
+            }}
             onFocus={() => {
               if (onFocus) {
                 onFocus();

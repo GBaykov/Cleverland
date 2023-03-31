@@ -45,11 +45,11 @@ export const AuthForm = () => {
   const { isLoading, isSuccess, isError, error, user } = useAppSelector((state) => state.AuthReducer);
   const dispatch = useAppDispatch();
   const { clearData } = authSlice.actions;
-  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<AuthFormValues> = (data) => {
     dispatch(signIn(data));
   };
+  console.log(error);
   return (
     <>
       {((error === ErrorMessages.wrongLoginOrPassword && !user) || (!error && !user)) && (

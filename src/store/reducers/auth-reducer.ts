@@ -22,6 +22,7 @@ function userFromStorage() {
   if (typeof storageUserData === 'string') {
     user = JSON.parse(storageUserData);
   } else user = null;
+
   return user;
 }
 
