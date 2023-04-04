@@ -24,6 +24,7 @@ import { fetchCategories } from '../../store/reducers/categories-reducer';
 import { allBooksSlice, fetchAllBooks } from '../../store/reducers/books-reducer';
 import { Loader } from '../../components/loader';
 import { NotificationError } from '../../components/utils/notification-error';
+import { Modal } from '../../components/modal';
 
 export const MainPage = () => {
   const [isList, setuseList] = useState(false);
@@ -36,12 +37,14 @@ export const MainPage = () => {
   const { categoryStatus } = useAppSelector((store) => store.CategoriesReducer);
   const { setIsDESC, setInputValue } = allBooksSlice.actions;
 
+  const [isBooking, setIsBooking] = useState({ active: false, bookId: null, booking: false });
+
   const [size, setSize] = useState([window.innerWidth]);
   const useWindowSize = () => size;
   const [width] = useWindowSize();
 
   const focus = () => {
-    inputRef.current?.select();
+    // inputRef.current?.select();
     inputRef.current?.focus();
   };
   useEffect(() => {
