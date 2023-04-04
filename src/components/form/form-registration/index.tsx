@@ -68,9 +68,6 @@ export const RegistrationForm = () => {
     }
   };
 
-  // const errorsPassword = usePasswordErrors(passwordSchema, watch('password'));
-
-  // const errorsUsername = useUsernameErrors(usernameSchema, watch('username'));
   const { errorsArr: errorsPassword } = useErrors(passwordSchema, watch('password'), 'password');
 
   const { errorsArr: errorsUsername } = useErrors(usernameSchema, watch('username'), 'username');

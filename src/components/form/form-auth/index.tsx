@@ -1,15 +1,11 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { object, string } from 'yup';
-
 import { Button } from '../../button';
 import { FormsInput } from '../../input/form-input';
 import { FormErrorMessage, LinkToForgot } from './styled';
 import backArrow from '../../../assets/icons/backArrow.svg';
 import { AuthFormValues } from '../../../types/forms';
-
 import {
   HaveRecord,
   LinkToAuthRegistration,
@@ -25,8 +21,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { Loader } from '../../loader';
 import { authSlice, signIn } from '../../../store/reducers/auth-reducer';
 import { DataTestId } from '../../../constants/data-test-ids';
-import { HintError } from '../hint';
-import { StyledHint } from '../hint/styled';
 
 export const AuthForm = () => {
   const {

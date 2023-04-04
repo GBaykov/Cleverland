@@ -49,12 +49,6 @@ export const utilsSlice = createSlice({
     hideToast: (state) => {
       state.toast = null;
     },
-    // setSortType: (state) => {
-    //   state.isDescendingSort = !state.isDescendingSort;
-    // },
-    // setSearchString: (state, action) => {
-    //   state.searchString = action.payload;
-    // },
     // setModal: (state, action) => {
     //   state.modal = action.payload;
     // },
@@ -66,6 +60,5 @@ export const utilsSlice = createSlice({
     // },
   },
 });
-// export const { setToast, hideToast, setSortType, setSearchString, setModal, hideModal, setUserForm } =
-//   utilsSlice.actions;
+
 export const UtilsReducer = utilsSlice.reducer;

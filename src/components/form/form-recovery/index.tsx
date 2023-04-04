@@ -23,7 +23,6 @@ import {
 import { TopRecoveryNavigate } from './styled';
 import backArrow from '../../../assets/icons/backArrow.svg';
 import { Loader } from '../../loader';
-import { ErrorMessages } from '../../../types/messages';
 import { getForgotPassword, getResetPassword, recoverySlice } from '../../../store/reducers/recovery-reducer';
 import { RecoveryField } from '../../../types/user';
 import { StyledHint } from '../hint/styled';
