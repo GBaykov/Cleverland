@@ -43,21 +43,21 @@ export const utilsSlice = createSlice({
   name: 'utils',
   initialState,
   reducers: {
-    // setToast: (state, action) => {
-    //   state.toast = action.payload;
-    // },
+    setToast: (state, action) => {
+      state.toast = action.payload;
+    },
     hideToast: (state) => {
       state.toast = null;
     },
-    // setModal: (state, action) => {
-    //   state.modal = action.payload;
-    // },
-    // hideModal: (state) => {
-    //   state.modal = null;
-    // },
-    // setUserForm: (state, action) => {
-    //   state.userForm = action.payload;
-    // },
+    setModal: (state, action) => {
+      state.modal = action.payload;
+    },
+    hideModal: (state) => {
+      state.modal = null;
+    },
+    setUserForm: (state, action) => {
+      state.userForm = action.payload;
+    },
   },
 });
 
